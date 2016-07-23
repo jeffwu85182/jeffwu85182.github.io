@@ -2,6 +2,7 @@
 menu:
   Home: /
   Archives: /archives
+  Github: https://jeffwu85182.github.io
 rss: /atom.xml
 
 # Content
@@ -16,7 +17,7 @@ widgets:
 - tagcloud
 - archive
 - recent_posts
-
+- recent_comment
 # display widgets at the bottom of index pages (pagination == 2)
 index_widgets:
 # - category
