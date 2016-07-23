@@ -8,7 +8,7 @@ before_install:
 - npm install -g hexo-cli
 before_script:
 - git config --global user.name 'Jeff Wu'
-- git config --global user.email 'crazy.alu@outlook.com'
+- git config --global user.email 'a60985182@hotmail.com'
 - sed -i'' "s~git@github.com:jeffwu85182/jeffwu85182.github.io.git~https://${REPO_TOKEN}:x-oauth-basic@github.com/jeffwu85182/jeffwu85182.github.io.git~"
   _config.yml
 install:
