@@ -67,6 +67,8 @@ theme: landscape
 
 # Disqus
 disqus_shortname: crazyalu
+# Google Analytics
+google_analytics: UA-79727724-2
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
