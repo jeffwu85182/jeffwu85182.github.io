@@ -1,0 +1,23 @@
+language: node_js
+sudo: false
+branches:
+  only:
+  - source
+before_install:
+- export TZ=Asia/Taipei
+- npm install -g hexo-cli
+before_script:
+- git config --global user.name 'Jeff Wu'
+- git config --global user.email 'crazy.alu@outlook.com'
+- sed -i'' "s~git@github.com:jeffwu85182/jeffwu85182.github.io.git~https://${REPO_TOKEN}:x-oauth-basic@github.com/jeffwu85182/jeffwu85182.github.io.git~"
+  _config.yml
+install:
+- npm install
+script:
+- hexo clean
+- hexo generate
+after_success:
+- hexo deploy
+cache:
+  directories:
+  - node_modules
