@@ -4,6 +4,8 @@ branches:
   only:
   - source
 before_install:
+- openssl aes-256-cbc -K $encrypted_eb0f1cf3d18c_key -iv $encrypted_eb0f1cf3d18c_iv
+  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 - export TZ=Asia/Taipei
 - npm install -g hexo-cli
 before_script:

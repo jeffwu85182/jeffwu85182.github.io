@@ -72,5 +72,5 @@ disqus_shortname: crazyalu
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/jeffwu85182/myblog.git
+  repo: https://github.com/jeffwu85182/jeffwu85182.github.io.git
   branch: master
