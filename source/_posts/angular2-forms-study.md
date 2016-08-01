@@ -15,8 +15,8 @@ Angular 2 目前已經來到 RC 4 了，相信再過不久就會即將正式的 
 我們將會從頭開始建立一個範例表單，分成幾個項目並按照逐一實作。實作的項目有：
 
 - 使用 Component 與 Template 建立一個 Angular 表單
-- 使用 `[(ngModel)]`  語法實現雙向資料繫結，提供讀取與寫入控制項的值
-- 結合表單使用 `ngContorl` 可以追蹤狀態的變化與驗證表單的控制項
+- 使用 `[(ngModel)]` 語法實現雙向資料繫結，提供讀取與寫入控制項的值
+- 結合一個表單來使用 `ngModel` ，能讓我們跟蹤狀態的變化並對表單控制項做驗證
 - 特殊的 CSS 類別 ( Class )會用來反應控制項的狀態，並能提供強烈的視覺反饋
 - 向使用者顯示有效性驗證的錯誤提示和啟用/關閉表單控制項
 - 透過 Template 參考變數，在控制項之間共享資訊
@@ -48,13 +48,13 @@ bootstrap(AppComponent, [
 
 建立表單的方法有兩種，樣板驅動表單 ( Template-Driven Forms ) 與模型驅動表單 ( Model-Driven Forms ) ，這兩種有什麼地方不同，之後再寫篇文章做介紹。或是直接參考 [Introduction to Angular 2 Forms - Template Driven, Model Driven or In-Between](http://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/)
 
-### 樣板驅動表單 ( Template-Driven Forms )
+### Template 驅動表單 ( Template-Driven Forms )
 
-利用 Angular 樣板，幾乎所有的表單都可以建構，例如：登錄表單、聯絡表單…… 等大量的各種商務表單。 我們可以自由的擺放各種控制項並把它們繫結到資料、指定驗證規則、顯示驗證錯誤、有條件的禁用 / 啟用特定的控件、觸發內建的視覺反饋等等，不勝枚舉。它的確很簡單，因為 Angular 幫我們處理了大多數重複、單調的任務，讓我們可以不必親自操刀、身陷其中。
+利用 Angular template ，幾乎所有的表單都可以建構，例如：登錄表單、聯絡表單…… 等大量的各種商務表單。 我們可以自由的擺放各種控制項並把它們繫結到資料、指定驗證規則、顯示驗證錯誤、有條件的禁用 / 啟用特定的控制項、觸發內建的視覺反饋等等，不勝枚舉。它的確很簡單，因為 Angular 幫我們處理了大多數重複、單調的任務，讓我們可以不必親自操刀、身陷其中。
 
-我們將討論與學習建構如下的 「樣板驅動」 表單：
+我們將討論與學習建構如下的 「 Template 驅動」 表單：
 
-{% img /angular2-forms-study/hero-form-1.png 400 "'建立樣板驅動表單'" "'建立樣板驅動表單'" %}
+{% img /angular2-forms-study/hero-form-1.png 400 "'建立template 驅動表單'" "'建立template 驅動表單'" %}
 
 這個表單中的三個欄位都是必填的。這些欄位左側會有一個綠色的小標籤色塊，讓它們更容易辨識。如果我們刪除了 Name，表單就會用一種引人注目的樣式把驗證錯誤顯示出來。
 
@@ -64,9 +64,9 @@ bootstrap(AppComponent, [
 
 1. 建立 **Hero** 模型類別 ( Model Class )
 2. 建立控制此表單的元件
-3. 建立具有初始表單佈局的樣板
+3. 建立具有初始表單佈局的template 
 4. 使用 **ngModel** 雙向資料繫結語法把資料屬性繫結到每個表單輸入控制項
-5. 在每個表單輸入控制項中加入 **ngControl** 指令
+5. 在每個表單輸入控制項中加入 **ngControl** directive
 6. 新增自定義 CSS 來提供視覺反饋
 7. 顯示和隱藏有效性驗證的錯誤訊息
 8. 使用 **ngSubmit** 處理表單送出
@@ -95,9 +95,9 @@ export class Hero {
 }
 ```
 
-TypeScript 編譯器為建構式 ( constructor ) 中每個標為 `public` 的參數建立一個公共欄位，並在建立新的英雄實體時，把參數值自動賦給這些公共欄位。注意 `alterEgo` 後面的問號 (?) 代表`alterEgo` 是非必要的，允許省略 。
+TypeScript 編譯器為建構式 ( constructor ) 中每個標為 `public` 的參數建立一個公共欄位，並在建立新的 Hero 實體時，把參數值自動賦給這些公共欄位。注意 `alterEgo` 後面的問號 (?) 代表`alterEgo` 是非必要的，允許省略 。
 
-建立一個新英雄資料：
+建立一個新 Hero 資料：
 
 ``` typescript
 let myHero =  new Hero(42, 'SkyDog', 
@@ -107,7 +107,7 @@ console.log('My hero is called ' + myHero.name); // "My hero is called SkyDog"
 
 ### Step 2. 建立表單元件
 
-每個 Angular 表單分成兩部分：一個基於 HTML 的樣板，和一個基於程式碼的元件，它用來處理資料和使用者互動。我們從元件開始，是因為它能夠簡要說明英雄編輯器能做什麼。
+每個 Angular 表單分成兩部分：一個基於 HTML 的 template ，和一個基於程式碼的元件，它用來處理資料和使用者互動。我們從元件開始，是因為它能夠簡要說明英雄編輯器能做什麼。
 
 使用 Angular Cli 輸入指令  `ng g component hero-form` 建立 hero-form 元件，並在 `hero-form.component.ts` 修改內容如下：
 
@@ -138,9 +138,9 @@ export class HeroFormComponent {
 
 在 hero-form 元件中新增 powers 與 model 建立 Demo 用假資料，並新增一個 submitted 為 false 並在最後增加一個 `diagnostic` 屬性，它回傳這個模型的 JSON 格式。 協助查看開發過程中發生的事，最後做清理時再移除它即可。
 
-### Step 3. 建立一個初始 HTML 表單樣板
+### Step 3. 建立一個初始 HTML 表單 template 
 
-建立一個新的樣板文件，命名為 `hero-form.component.html`並加入內容：
+建立一個新的template 文件，命名為 `hero-form.component.html`並加入內容：
 
 ```html ./app/hero-form/hero-form.component.html
 <div class="container">
@@ -159,7 +159,7 @@ export class HeroFormComponent {
 </div>
 ```
 
-這只是一段普通的 HTML，出現了兩個 `Hero` 的欄位， `name` 和 `alterEgo` ，讓使用者可以輸入與編輯。*Name* `<input>` 控制項加上 `required` 屬性；但 *Alter Ego* `<input>` 控制項就沒有加了，因為`alterEgo` 是選填的欄位。最後底部有一個 *Submit* 按鈕，它有一些 CSS 的 Class。目前這個樣板還沒有任何的 Angular 語法，只是個 Layout。Class 的部分， `container` 、 `form-group` 、 `form-control` 和 `btn` 來自 [Twitter Bootstrap](http://getbootstrap.com/css/) 。純粹是裝飾。 
+這只是一段普通的 HTML，出現了兩個 `Hero` 的欄位， `name` 和 `alterEgo` ，讓使用者可以輸入與編輯。*Name* `<input>` 控制項加上 `required` 屬性；但 *Alter Ego* `<input>` 控制項就沒有加了，因為`alterEgo` 是選填的欄位。最後底部有一個 *Submit* 按鈕，它有一些 CSS 的 Class。目前這個template 還沒有任何的 Angular 語法，只是個 Layout。Class 的部分， `container` 、 `form-group` 、 `form-control` 和 `btn` 來自 [Twitter Bootstrap](http://getbootstrap.com/css/) 。純粹是裝飾。 
 
 使用 Bootstrap 來裝飾表單，在 `index.html` 的 head 中加上 css 來源。
 
@@ -225,7 +225,7 @@ export class AppComponent {
 </div>
 ```
 
-在列表中的每一個選項渲染出一個 `option` 標籤。 樣板輸入變數 `p` 在每個迭代中都代表一個不同的項目，使用雙大括號 的表達式語法來顯示它的值。
+在列表中的每一個選項渲染出一個 `option` 標籤。 template 輸入變數 `p` 在每個迭代中都代表一個不同的項目，使用雙大括號 的表達式語法來顯示它的值。
 
 ### Step 4. 使用 ngModel 雙向資料繫結  
 
@@ -234,8 +234,9 @@ export class AppComponent {
 ``` html
 <div class="form-group">
     <label for="name">Name</label>
-    <input type="text"  class="form-control" required [(ngModel)]="model.name"  (ngModelChange)="model.name = $event">
-    TODO: remove this: {{model.name}}
+    <input type="text"  class="form-control" required
+  [(ngModel)]="model.name" name="name">
+  TODO: remove this: {{model.name}}
 </div>
 ```
 
@@ -256,15 +257,15 @@ export class AppComponent {
     <form>
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text"  class="form-control" required [(ngModel)]="model.name">
+        <input type="text"  class="form-control" required [(ngModel)]="model.name" name="name">
       </div>
       <div class="form-group">
         <label for="alterEgo">Alter Ego</label>
-        <input type="text"  class="form-control" [(ngModel)]="model.alterEgo">
+        <input type="text"  class="form-control" [(ngModel)]="model.alterEgo" name="alterEgo">
       </div>
       <div class="form-group">
         <label for="power">Hero Power</label>
-        <select class="form-control"  required [(ngModel)]="model.power">
+        <select class="form-control"  required [(ngModel)]="model.power" name="power">
           <option *ngFor="let p of powers" [value]="p">{{p}}</option>
         </select>
       </div>
@@ -279,11 +280,15 @@ export class AppComponent {
 
 表單頂部的 `diagnostic` 繫結表達式已經完成了它的使命，可以刪除它了。
 
-### Step 5. 透過 **ngControl** 跟蹤修改狀態與有效性驗證
+### Step 5. 透過 **ngModel** 跟蹤修改狀態與有效性驗證
 
-表單不僅是關於資料繫結的。我們還希望能知道表單中各個控制項的狀態。在表單中使用 `ngControl` 可提供很多訊息，例如：使用者是否碰過此控制項？它的值是否變化？資料是否無效了嗎？
+表單不僅是關於資料繫結的。我們還希望知道表單中各個控制項的狀態。
 
-這個指令不僅僅追蹤狀態，它還會使用下面列出的這些特殊 CSS Class 更新此控制項。 透過定製這些 CSS Class 的樣式來更改控制項的外觀，並且讓訊息顯示或隱藏。等一下就可以看到效果，現在必須從 **name** 輸入欄位開始**這三個表單控制項中加入 ngControl**。
+在表單中使用 `ngModel` 能讓我們比只使用雙向資料繫結獲得更多的控制權。它還會告訴我們很多訊息：User 碰過此控制項嗎？它的值變化了嗎？資料是否有效？
+
+這個 directive 不只是追蹤狀態，它還會使用下面列出的這些特殊 CSS 的 Class 更新此控制項。 我們可以透過自訂這些 CSS 的 Class 來更改控制項的外觀，以及讓訊息顯示或隱藏。
+
+很快就會看到那些效果。在這之前要確保在所有這三個表單控制項中都有 `ngModel` 以及相應的`name` 屬性。那就從 *Name* 輸入框開始吧：
 
 ``` html ./app/hero-form/hero-form.component.html ( 控制項加入 ngControl )
 <input type="text" class="form-control" required
@@ -291,26 +296,26 @@ export class AppComponent {
   ngControl="name" >
 ```
 
-We set this particular `ngControl` to "name" which makes sense for our app. Any unique value will do.
+對本範例來說，把這個 `name` 屬性設定為 "name" 會更容易理解。但也可以設定成任何唯一的值。
 
-設定這個 `ngControl` 為 "name" 對我們的應用是有意義的，任何獨特的值也可以。
+Angular 內部會建立 `FormControls` 並註冊在 `NgForm` directive 中，讓 Angular 附加在 `tag` 上。每個 `FormControl` 會被註冊在我們所設定的 name 屬性下面，關於 `NgForm` 的介紹，我們後面會再提到。
 
 ### Step 6. 新增自定義 CSS 來提供視覺反饋
 
-**NgModel** 指令不僅僅跟蹤狀態。它還使用三個 CSS 類來更新控制項，以便反應目前狀態。
+**NgModel** directive 不僅僅跟蹤狀態。它還使用三個 CSS 的 Class 來更新控制項，以反應目前的狀態。
 
-| 狀態       | 為真時的 CSS Class | 為假時的 CSS Class |
-| -------- | -------------- | -------------- |
-| 控件已經被訪問過 | `ng-touched`   | `ng-untouched` |
-| 控件值已經變化  | `ng-dirty`     | `ng-pristine`  |
-| 控件值是有效的  | `ng-valid`     | `ng-invalid`   |
+| 狀態        | 為真時的 CSS Class | 為假時的 CSS Class |
+| --------- | -------------- | -------------- |
+| 控制項已經被訪問過 | `ng-touched`   | `ng-untouched` |
+| 控制項的值已經變化 | `ng-dirty`     | `ng-pristine`  |
+| 控制項的值是有效的 | `ng-valid`     | `ng-invalid`   |
 
-我們往姓名 `<input>` 標籤上新增一個名叫 **spy** 的臨時 [樣板參考變數](https://angular.cn/docs/ts/latest/guide/template-syntax.html#local-vars)，然後用 spy 來顯示它上面的所有 css Class。
+我們往姓名 `<input>` 標籤上新增一個名叫 **spy** 的臨時 [template 參考變數](https://angular.cn/docs/ts/latest/guide/template-syntax.html#local-vars)，然後用 spy 來顯示它上面的所有 CSS 的 Class。
 
-現在，執行應用，並讓**姓名**輸入框獲得焦點。 然後按照下面四個步驟來做：
+現在，執行應用，並讓**姓名**輸入框在 Focus 的狀態。 然後按照下面四個步驟來做：
 
 1. 查看輸入框，但別碰它
-2. 點擊輸入框，然後點擊輸入框外面
+2. 點擊輸入框，然後點擊輸入框外的空白處
 3. 在名字的末尾新增一個斜線
 4. 刪除名字
 
@@ -346,7 +351,7 @@ We set this particular `ngControl` to "name" which makes sense for our app. An
 
 {% img /angular2-forms-study/name-required-error.png 400 "'錯誤訊息提示'" %}
 
-要實作這樣的效果，需要在樣板做些調整，在控制項新增一個樣板參考變數，並在下方加入一個提示訊息區塊，當驗證失敗的時候才會顯示。
+要實作這樣的效果，需要在template 做些調整，在控制項新增一個template 參考變數，並在下方加入一個提示訊息區塊，當驗證失敗的時候才會顯示。
 
 ``` html ./app/hero-form/hero-form.component.html 控制項新增樣板參考變數
 <label for="name">Name</label>
@@ -356,9 +361,11 @@ We set this particular `ngControl` to "name" which makes sense for our app. An
 </div>
 ```
 
-我們需要一個樣板參考變數來存取樣板中輸入框的 Angular 控制項。 這裡建立了一個名叫`name` 的變數，並且把它賦值為 "ngForm" 。為什麼是 "ngForm"？指令的 [exportAs](https://angular.cn/docs/ts/latest/api/core/index/DirectiveMetadata-class.html#!#exportAs) 屬性告訴 Angular 如何連接參考變數到指令 ( directive )中。 這裡我們把 `name` 設定為 `ngForm` 就是因為 `NgControlName` 指令的 `exportAs` 屬性設定成了 「ngForm」。
+我們需要一個 template 參考變數來存取 template 中輸入框的 Angular 控制項。 這裡建立了一個名叫`name` 的變數 ( #name ) ，並且把它設為 "ngModel" 。
 
-一開始看起來不是很直覺，但 Angular form 包含了所有的表單控制項指令： `NgForm`, `NgModel`, `NgControlName` 及 `NgControlGroup` 等組合而成"ngForm"模組，而且我們只能運用了這些指令的其中一項在一個元素標籤，一致性原則。
+為什麼是 "ngModel"？ 
+
+Directive 的 [exportAs](https://angular.cn/docs/ts/latest/api/core/index/DirectiveMetadata-class.html#!#exportAs) 屬性會告訴 Angular 如何連接參考變數到 directive 中。 這裡我們把 `name` 設定為 `ngModel` 就是因為 `ngModel` 這個 directive 的 `exportAs` 屬性恰好是 「ngModel」。
 
 現在，把 `div` 元素的 `hidden` 屬性繫結到 `name` 控制項的屬性，就可以控制 「姓名」 欄位錯誤訊息的顯示了。
 
@@ -366,11 +373,11 @@ We set this particular `ngControl` to "name" which makes sense for our app. An
 <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
 ```
 
-這個範例中，當控制項是有效或全新 (pristine) 時，我們要隱藏訊息。「全新」 意味著從它被顯示在表單中開始使用者從未修改過它的值。這種使用者體驗取決於開發或設計人員的選擇。有些人會希望任何時候都顯示這條訊息。 如果忽略了`pristine` 狀態，就會只在欄位值有效時隱藏此訊息。
+這個範例中，當控制項是有效或全新 ( pristine ) 時，我們要隱藏訊息。「全新」 意味著從它被顯示在表單中開始使用者從未修改過它的值。這種使用者體驗取決於開發或設計人員的選擇。有些人會希望任何時候都顯示這條訊息。 如果忽略了`pristine` 狀態，就會只在欄位值有效時隱藏此訊息。
 
-#### 新增一筆紀錄，並且重置表單
+#### 加入一個 Hero 並重置表單
 
-我們希望在這個表單中新增一筆新的紀錄。 我們在表單的底部放一個 「新增紀錄」 按鈕，並且把它的點擊事件繫結到一個元件的方法上。
+我們希望在這個表單中加入一個新的 Hero。 先在表單的底部放一個 「 New Hero 」 按鈕，並且把它的點擊事件繫結到一個元件的方法上。
 
 ``` html ./app/hero-form/hero-form.component.html 新增紀錄按鈕
 <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button>
@@ -382,7 +389,7 @@ newHero() {
 }
 ```
 
-再次執行應用，點擊 **New Hero** 按鈕，表單被清空了。 輸入框左側的**必填項**豎條是紅色的，表示 `name` 和 `power` 屬性是無效的。 對三個必填欄位來說，這種方式清晰易懂。 錯誤訊息是隱藏的，這是因為表單還是全新的，我們還沒有修改任何東西。輸入一個名字，並再次點擊 **New Hero** 按鈕。 這次，我們看到了錯誤訊息！為什麼？當我們顯示一個新 (空白) 的英雄時，我們不希望如此。使用瀏覽器工具檢查元素就會發現，這個 **name** 輸入框並不是全新的。 更換了英雄**並不會重置控件的「全新」狀態 **。
+再次執行應用，點擊 **New Hero** 按鈕，表單被清空了。 輸入框左側的**必填欄位**豎條是紅色的，表示 `name` 和 `power` 屬性是無效的。 對必填欄位來說，這樣的方式簡單易懂。 錯誤訊息目前是隱藏的，這是因為表單還是全新的，我們還沒有修改任何東西。輸入一個名字，並再次點擊 **New Hero** 按鈕。 這次，我們看到了錯誤訊息！為什麼？當我們顯示一個新 ( 空白 ) 的 Hero 時，我們不希望如此。使用瀏覽器工具檢查元素就會發現，這個 **name** 輸入框並不是全新的。 更換了 Hero **並不會重置控制項的「全新」狀態 **。
 
 由此可知，在這種實現方式下， Angular 沒辦法區分是替換了整個英雄資料還是用程式單獨清除了 `name` 屬性。 Angular 不能作出假設，因此只好讓控制項保留當前狀態—髒狀態 ( dirty state )。
 
@@ -408,21 +415,25 @@ newHero() {
 
 ### Step 8. 透過 **ngSubmit** 來送出表單
 
-在填表完成之後，使用者要能送出這個表單。 「送出」 按鈕位於表單的底部，它自己不會做任何事，但因為 type 屬性是 **submit**，所以它會觸發表單送出。僅僅觸發 「表單提交」 在目前是沒用的。 還要用另一個 Angular 指令更新`<form>` 標籤，那就是 `NgSubmit` ， 並且透過事件繫結機制把它繫結到 `HeroFormComponent.submit()`方法上。
+在填表完成之後，使用者要能送出這個表單。 「送出」 按鈕位於表單的底部，它自己不會做任何事，但因為 type 屬性是 **submit**，所以它會觸發表單送出。僅僅觸發 「表單提交」 在目前是沒用的。 還要用另一個 Angular directive 更新`<form>` 標籤，那就是 `NgSubmit` ， 並且透過事件繫結機制把它繫結到 `HeroFormComponent.submit()`方法上。
 
 ``` html ./app/hero-form/hero-form.component.html ( 新增 NgSubmit directive )
 <form *ngIf="active" (ngSubmit)="onSubmit()" #heroForm="ngForm">
 ```
 
-最後，我們定義了一個樣板參考變數 **#heroForm** ，並且把它初始化為 "ngForm" 。這個 `heroForm` 變數現在引用的是 `NgForm` 指令，它代表的是表單的整體。
+最後，我們定義了一個template 參考變數 **#heroForm** ，並且把它初始化為 "ngForm" 。這個 `heroForm` 變數現在引用的是 `NgForm` directive，它代表的是表單的整體。
 
-#### NgForm 指令 ( Directive )
+#### NgForm directive
 
-什麼 `NgForm` 指令？ Angular 自動建立了 `NgForm` 指令，並且把它附加到 `<form>` 標籤上。`NgForm` 指令為普通的 `form` 元素擴充了額外的特性。 它持有我們透過 `ngModel` 指令和 `name` 屬性為各個元素建立的那些控制項 class，並且監視它們的屬性變化，包括有效性。 它還有自己的 `valid` 屬性，只有當**每一個被包含的控制項**都有效時，它才有效。
+什麼 `NgForm` directive？ 我們沒有新增過 [NgForm](https://angular.cn/docs/ts/latest/api/common/index/NgForm-directive.html) directive 啊！
+
+其實是 Angular 幫我們做了，它自動建立了 `NgForm` directive，並且把它附加到 `<form>` 標籤上。
+
+`NgForm` directive 為普通的 `form` 元素擴充了額外的特性。 它持有我們透過 `ngModel` directive 和 `name` 屬性為各個元素建立的那些控制項 Class，並且監視它們的屬性變化，包括有效性。 它還有自己的 `valid` 屬性，只有當**每一個被包含的控制項**都有效時，它才有效。
 
 ### Step 9. 禁用此表單的送出按鈕，直到表單變為有效
 
-樣板中後的部分，透過 `heroForm` 變量，把按鈕的 `disabled` 屬性繫結到了表單的全員有效性。
+template 中後的部分，透過 `heroForm` 變量，把按鈕的 `disabled` 屬性繫結到了表單的全員有效性。
 
 ``` html ./app/hero-form/hero-form.component.html ( 新增 disabled 屬性繫結到表單 )
 <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Submit</button>
@@ -436,7 +447,7 @@ newHero() {
 
 有了 Angular ，它就是這麼簡單：
 
-1. 定義一個樣板參考變數，放在 ( 強化過的 ) form 元素上
+1. 定義一個template 參考變數，放在 ( 強化過的 ) form 元素上
 2. 從 50 行之外的按鈕上引用這個變數。
 
 ### 切換兩個表單區域 ( 延伸學習 )
@@ -495,12 +506,11 @@ onSubmit() { this.submitted = true; }
 
 本章討論的 Angular 2 表單利用了下列框架特性來支援資料修改、驗證和更多操作：
 
-- Angular HTML 表單樣板。
+- Angular HTML 表單template 。
 - 帶有 `Component` 裝飾器的元件類別。
-- 用來處理表單提交的 `ngSubmit` 指令。
-- 樣板參考變數，如 `#heroForm` 、 `#name` 、 `#alter-ego` 和 `#power` 。
-- 用於雙向資料繫結的 `[(ngModel)]` 語法
-- 使用 `ngControlName` 指令來進行驗證與表單變更追蹤
+- 用來處理表單提交的 `ngSubmit` directive。
+- template 參考變數，如 `#heroForm` 、 `#name` 、 `#alter-ego` 和 `#power` 。
+- 用於雙向資料繫結、資料驗證和追蹤變更的 `[(ngModel)]` 語法
 - 指向 input 控制項中參考變數上的 `valid` 屬性，可用於檢查控制項是否有效、是否顯示 / 隱藏錯誤訊息。
 - 透過繫結到 `NgForm` 的有效性狀態，控制送出按鈕的禁用狀態。
 - 對無效控制項，自訂 CSS Class 來為使用者提供視覺反饋。
