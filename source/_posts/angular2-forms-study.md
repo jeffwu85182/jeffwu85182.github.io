@@ -64,7 +64,7 @@ bootstrap(AppComponent, [
 
 1. 建立 **Hero** 模型類別 ( Model Class )
 2. 建立控制此表單的元件
-3. 建立具有初始表單佈局的template 
+3. 建立具有初始表單佈局的 template 
 4. 使用 **ngModel** 雙向資料繫結語法把資料屬性繫結到每個表單輸入控制項
 5. 在每個表單輸入控制項中加入 **ngControl** directive
 6. 新增自定義 CSS 來提供視覺反饋
@@ -159,7 +159,7 @@ export class HeroFormComponent {
 </div>
 ```
 
-這只是一段普通的 HTML，出現了兩個 `Hero` 的欄位， `name` 和 `alterEgo` ，讓使用者可以輸入與編輯。*Name* `<input>` 控制項加上 `required` 屬性；但 *Alter Ego* `<input>` 控制項就沒有加了，因為`alterEgo` 是選填的欄位。最後底部有一個 *Submit* 按鈕，它有一些 CSS 的 Class。目前這個template 還沒有任何的 Angular 語法，只是個 Layout。Class 的部分， `container` 、 `form-group` 、 `form-control` 和 `btn` 來自 [Twitter Bootstrap](http://getbootstrap.com/css/) 。純粹是裝飾。 
+這只是一段普通的 HTML，出現了兩個 `Hero` 的欄位， `name` 和 `alterEgo` ，讓使用者可以輸入與編輯。**Name** `<input>` 控制項加上 `required` 屬性；但 **Alter Ego** `<input>` 控制項就沒有加了，因為`alterEgo` 是選填的欄位。最後底部有一個 **Submit** 按鈕，它有一些 CSS 的 Class。目前這個 template 還沒有任何的 Angular 語法，只是個 Layout。Class 的部分， `container` 、 `form-group` 、 `form-control` 和 `btn` 來自 [Twitter Bootstrap](http://getbootstrap.com/css/) 。純粹是裝飾。 
 
 使用 Bootstrap 來裝飾表單，在 `index.html` 的 head 中加上 css 來源。
 
@@ -284,7 +284,7 @@ export class AppComponent {
 
 表單不僅是關於資料繫結的。我們還希望知道表單中各個控制項的狀態。
 
-在表單中使用 `ngModel` 能讓我們比只使用雙向資料繫結獲得更多的控制權。它還會告訴我們很多訊息：User 碰過此控制項嗎？它的值變化了嗎？資料是否有效？
+在表單中使用 `ngModel` 能讓我們比只使用雙向資料繫結獲得更多的控制權。它還會告訴我們很多訊息：User 接觸過此控制項？值是否變更過？資料是否有效？
 
 這個 directive 不只是追蹤狀態，它還會使用下面列出的這些特殊 CSS 的 Class 更新此控制項。 我們可以透過自訂這些 CSS 的 Class 來更改控制項的外觀，以及讓訊息顯示或隱藏。
 
