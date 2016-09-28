@@ -183,9 +183,9 @@ export class AppModule { }
 </div>
 ```
 
-Class errors 的 div 的用途用來顯示錯誤訊息的部分，以上面的 input 為例，Angular 建立實體之後，會有一個 errors 的屬性，當有 Validator 驗證錯誤的時候，會存一個物件到 errors 屬性中。這時候我們做了一個 ngIf 來判斷是哪一個錯誤，然後顯示對應的錯誤訊息。
+Class errors 的 div 的用途用來顯示錯誤訊息的部分，以上面的 input 為例，Angular 建立實體之後，會有一個 errors 的屬性，當有 Validator 驗證錯誤的時候，會存一個物件到 errors 屬性中。這時候我們做了一個 ngIf 來判斷是哪一個錯誤，然後顯示對應的錯誤訊息。另外我們也可以在按鈕設定，當整張表單的驗證狀態為 invalid 的時候，就可以把按鈕 `disabled` 禁止點擊。
 
-是不是很簡單呢？ :)
+到目前的練習，我們的 component 完全沒有任何的驗證或處理，只設定了一個初始值，所有的驗證都在 template 做完了！是不是很簡單呢？ :)
 
 
 
