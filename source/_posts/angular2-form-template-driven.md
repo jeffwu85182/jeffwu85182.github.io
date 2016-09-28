@@ -127,7 +127,7 @@ export class AppModule { }
 
 上面這邊我們主要是在表單中的所有控制項加上 `ngModel` 屬性，加上後，首先 Angular 就會在這個 template 產生一個 ngForm 的實體，每個有 `ngModel` directive 的 input 也會產生實體物件，並且存在於 ngForm 實體中，為了可以看到 model 的值，我們在 `form` 標籤新增一個 template 變數 `myForm` ，然後在下方新增一個 `pre` 標籤區塊並加上 Angular 的 expression 來顯示 `myForm` 的值，執行後的結果如下：
 
-{% img /angular2-form-template-driven/template-driven-1.gif 900 "'初步建立的 template-driven form'" "'初步建立的 template-driven form'" %}
+{% img /angular2-form-template-driven/template-driven-1.gif "'初步建立的 template-driven form'" "'初步建立的 template-driven form'" %}
 
 ## 初始化表單預設值
 
@@ -185,7 +185,7 @@ export class AppModule { }
 
 Class errors 的 div 的用途用來顯示錯誤訊息的部分，以上面的 input 為例，Angular 建立實體之後，會有一個 errors 的屬性，當有 Validator 驗證錯誤的時候，會存一個物件到 errors 屬性中。這時候我們做了一個 ngIf 來判斷是哪一個錯誤，然後顯示對應的錯誤訊息。另外我們也可以在按鈕設定，當整張表單的驗證狀態為 invalid 的時候，就可以把按鈕 `disabled` 禁止點擊。
 
-到目前的練習，我們的 component 完全沒有任何的驗證或處理，只設定了一個初始值，所有的驗證都在 template 做完了！是不是很簡單呢？ :)
+到目前為止的練習，我們的 component 完全沒有任何的邏輯驗證或處理，只設定了一個初始值，所有的驗證都在 template 做完了！Angular 2 Template-Driven Forms 是不是很簡單呢？ :)
 
 
 
