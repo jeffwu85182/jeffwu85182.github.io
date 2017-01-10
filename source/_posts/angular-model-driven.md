@@ -329,13 +329,15 @@ export class AppComponent {
 
 最後一個部分，動態表單，目前我們用了 formControl 、 formGroup，還有一個 `formArray` 可以使用，常見的使用情境例如有些表單的子區塊項目是會重複出現多筆的時候，就很適合用 **formArray**，馬上來看如何使用吧！我們直接將目前的練習改寫成動態的表單。
 
-我們先把 `constructor` 建構式中，用 `formBuilder` 建立表單 Model 的動作寫成 function，然後一樣透過 `formBuilder` 建立 FormArray：
+我們先把 `constructor` 建構式中，用 `formBuilder` 建立表單 Model 的動作寫成 function，然後一樣透過 `formBuilder` 建立 FormGroup，並加入一個 formAr 的欄位，建立 FormArray：
 
 ```typescript part of app.component.ts
   constructor(private _fb: FormBuilder) {
-    this.form = this._fb.array([
-      this.buildGroup()
-    ]);
+    this.form = this._fb.group({
+      formAr: this._fb.array([
+        this.buildGroup()
+      ])
+    });
   }
   
   buildGroup(): FormGroup {
@@ -357,35 +359,36 @@ export class AppComponent {
   }
 ```
 
-然後再回到 Template 的部分，我們將 `profile` Class 的 `div` 標籤加上 *ngFor 並且綁定 FormGroup 為 `i`，`i` 是前面用 *ngFor 時宣告的 index，因為現在我們的 form 是 FormArray，它是個陣列，所以在陣列中要綁定每個 FormGroup 就透過 index 來進行，所以後面還有一個 `formGroupName` 來做綁定。此外，錯誤訊息提示也要改由 form.controls 改為 profile.control ，因為綁定的是 ngFor 的 item，這裡的 item 我命名為 profile。
+然後再回到 Template 的部分，我們在 form 標籤的下一層建立一個 div 並加上 `formArrayName`，接著 `profile` Class 的 `div` 標籤加上 *ngFor 並且綁定 FormGroup 為 `i`，`i` 是前面用 *ngFor 時宣告的 index，因為現在我們的 formAr 是 FormArray，它是個陣列，所以在陣列中要綁定每個 FormGroup 就透過 index 來進行，所以後面還有一個 `formGroupName` 來做綁定。此外，錯誤訊息提示也要改由 form.controls 改為 profile.control ，因為綁定的是 ngFor 的 item，這裡的 item 我命名為 profile。
 
 ```html part of app.component.html
 <div class="container">
   <form [formGroup]="form">
-    <div class="profile" *ngFor="let profile of form.controls; let i=index" [formGroupName]="i">
-      <h2>基本資料</h2>
-      <div class="form-group">
-        <label>請輸入名字</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="請輸入名字">
-        <div *ngIf="profile.controls.firstName.errors">
-          <span *ngIf="profile.controls.firstName.valid">合格</span>
-          <span *ngIf="profile.controls.firstName.errors.required">必填項目</span>
-          <span *ngIf="profile.controls.firstName.errors.minlength">欄位長度不足</span>
+  	<div formArrayName="formAr">
+      <div class="profile" *ngFor="let profile of form.controls.formAr.controls; let i=index" [formGroupName]="i">
+        <h2>基本資料</h2>
+        <div class="form-group">
+          <label>請輸入名字</label>
+          <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="請輸入名字">
+          <div *ngIf="profile.controls.firstName.errors">
+            <span *ngIf="profile.controls.firstName.valid">合格</span>
+            <span *ngIf="profile.controls.firstName.errors.required">必填項目</span>
+            <span *ngIf="profile.controls.firstName.errors.minlength">欄位長度不足</span>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>請輸入英文名</label>
-        <input type="text" class="form-control" id="nickName" formControlName="nickName" placeholder="請輸入英文名">
-      </div>
-      <div class="form-group">
-        <label>請輸入Email</label>
-        <input type="email" class="form-control" id="email" formControlName="email" placeholder="請輸入Email">
-        <div *ngIf="profile.controls.email.errors">
-          <span *ngIf="profile.controls.email.valid">合格</span>
-          <span *ngIf="profile.controls.email.errors.required">必填項目</span>
-          <span *ngIf="profile.controls.email.errors.pattern">請輸入正確的 email</span>
+        <div class="form-group">
+          <label>請輸入英文名</label>
+          <input type="text" class="form-control" id="nickName" formControlName="nickName" placeholder="請輸入英文名">
         </div>
-      </div>
+        <div class="form-group">
+          <label>請輸入Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="請輸入Email">
+          <div *ngIf="profile.controls.email.errors">
+            <span *ngIf="profile.controls.email.valid">合格</span>
+            <span *ngIf="profile.controls.email.errors.required">必填項目</span>
+            <span *ngIf="profile.controls.email.errors.pattern">請輸入正確的 email</span>
+          </div>
+        </div>
       ...
 ```
 
