@@ -359,7 +359,7 @@ export class AppComponent {
   }
 ```
 
-然後再回到 Template 的部分，我們在 form 標籤的下一層建立一個 div 並加上 `formArrayName`，接著 `profile` Class 的 `div` 標籤加上 *ngFor 並且綁定 FormGroup 為 `i`，`i` 是前面用 *ngFor 時宣告的 index，因為現在我們的 formAr 是 FormArray，它是個陣列，所以在陣列中要綁定每個 FormGroup 就透過 index 來進行，所以後面還有一個 `formGroupName` 來做綁定。此外，錯誤訊息提示也要改由 form.controls 改為 profile.control ，因為綁定的是 ngFor 的 item，這裡的 item 我命名為 profile。
+然後再回到 Template 的部分，我們在 form 標籤的下一層建立一個 div 並加上 `formArrayName`，接著 `profile` Class 的 `div` 標籤加上 `*ngFor`  並且綁定 FormGroup 為 `i`，`i` 是前面用 *ngFor 時宣告的 index，因為現在我們的 formAr 是 FormArray，它是個陣列，所以在陣列中要綁定每個 FormGroup 就透過 index 來進行，所以後面還有一個 `formGroupName` 來做綁定。此外，錯誤訊息提示也要改由 form.controls 改為 profile.control ，因為綁定的是 ngFor 的 item，這裡的 item 我命名為 profile。
 
 ```html part of app.component.html
 <div class="container">
