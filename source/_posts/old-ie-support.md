@@ -11,7 +11,7 @@ tags:
 
 西元 2017 年，在網站技術蓬勃發展的情況下，各種技術不斷的推陳出新，目的讓網站的效能變得更好，開發模式的優化，對使用者的使用經驗變得更友善，但，世界不可能是完美的，有個萬惡的根源到現在都還無法根除，它讓許多開發者曾經頭痛不已，每次認為告一段落的時候，它，總是會讓許多網站開發者面臨絕望，它就是 **Internet Explorer** 瀏覽器。
 
-Angular 2 也是一樣，對於舊版的 IE 預設的情況下是沒有支援的，但生命總是會找到屬於自己的出口，在許多熱情的開發者不斷的努力情況下，出現了針對讓舊版瀏覽器支援新程式碼的函式庫，我們稱這些套件為**自動補完函式庫 ( Polyfill )**。
+Angular 2 也是一樣，對於舊版的 IE 預設的情況下是沒有支援的，但生命總是會找到屬於自己的出口，在許多熱情的開發者不斷的努力情況下，出現了針對讓舊版瀏覽器支援新程式碼的函式庫，我們稱這些套件為 **Polyfill**。
 
 <!-- more -->
 
@@ -25,7 +25,7 @@ Angular 2 也是一樣，對於舊版的 IE 預設的情況下是沒有支援的
 
 {% img /angular-browser-support.png "'Angular 2 目前對於各版本瀏覽器的支援度一覽'" %}
 
-Angular 2 是基於最新的 web paltform 標準進行開發的，要能支援多樣的瀏覽器版本著實是一大挑戰，因為這些瀏覽器不一定能支援現代瀏覽器的所有新功能，而我們在專案開發時，若遇到支援 IE 的需求也不得不勇敢的面對，而我們可以藉由在 `index.html` 載入 **Polyfill 自動補完函式**來補足一些舊版瀏覽器不支援的功能，如下：
+Angular 2 是基於最新的 web paltform 標準進行開發的，要能支援多樣的瀏覽器版本著實是一大挑戰，因為這些瀏覽器不一定能支援現代瀏覽器的所有新功能，而我們在專案開發時，若遇到支援 IE 的需求也不得不勇敢的面對，而我們可以藉由在 `index.html` 載入 **Polyfill** 來補足一些舊版瀏覽器不支援的功能，如下：
 
 ```html
 <script src="node_modules/core-js/client/shim.min.js"></script>
@@ -33,7 +33,7 @@ Angular 2 是基於最新的 web paltform 標準進行開發的，要能支援�
 
 除了對特定瀏覽器缺少的功能加入 polyfill 之外，若有使用到其他功能但舊版瀏覽器不支援的情況，也需要再額外加入 polyfill，以下的表格可以協助你了解對於缺少的功能來加入特定的 polyfill 進行讀取，而這些特定的 polyfill 則依據我們設定的瀏覽器相容範圍以及有使用到的功能來進行追加的動作。
 
-這些建議的 polyfill 是官網建議已知能讓 Angular 應用完整執行的項目，也有可能有用到其他功能是不在這清單上的，要知道，這些 **polyfills 是沒有神奇魔力可以讓一個又老又慢的瀏覽器變的跟新的一樣快**。
+這些建議的 polyfill 是官網建議已知能讓 Angular 應用完整執行的項目，也有可能有用到其他功能是不在這清單上的，要知道，這些 **polyfill 是沒有神奇魔力可以讓一個又老又慢的瀏覽器變的跟新的一樣快**。
 
 ### 必裝的 polyfill
 
@@ -80,5 +80,8 @@ Angular 中的一些功能可能會需要額外的 polyfill，例如，`animatio
 
 ### 參考資料
 
+
+
+- [An easier way of using polyfills](https://hacks.mozilla.org/2014/11/an-easier-way-of-using-polyfills/)
 - [Angular-CLI polyfills.ts](https://github.com/angular/angular-cli/blob/137a0dea183d48b28bdec2d1e65b3a9addcd812c/packages/%40angular/cli/blueprints/ng2/files/__path__/polyfills.ts)
 - [Angular.io - Browser Support](https://angular.io/docs/ts/latest/guide/browser-support.html)
