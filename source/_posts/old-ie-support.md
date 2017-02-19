@@ -72,7 +72,7 @@ Angular 中的一些功能可能會需要額外的 polyfill，例如，`animatio
 
 ## 透過 Angular-CLI 設定 Polyfill
 
-若專案是透過 Angular-CLI 進行開發，你或許會覺得奇怪，為什麼我們新增完專案後直接 `ng serve` 後就能馬上在瀏覽器上看到了？原來，在我們使用 `ng new` 建立專案的時候，Angular-CLI 已經在專案目錄下新增了一個名為 [`polyfills.ts`](https://github.com/angular/angular-cli/blob/137a0dea183d48b28bdec2d1e65b3a9addcd812c/packages/%40angular/cli/blueprints/ng2/files/__path__/polyfills.ts) 的檔案，其實這個檔案的內容已經準備好相關的 polyfill 了，而且上面還有很輕切的註解，我們只要針對需要用到的 import 項目解除註解即可 。
+若專案是透過 Angular-CLI 進行開發，你或許會覺得奇怪，為什麼我們新增完專案後直接 `ng serve` 後就能馬上在瀏覽器上看到了？原來，在我們使用 `ng new` 建立專案的時候，Angular-CLI 已經在專案目錄下新增了一個名為 [`polyfills.ts`](https://github.com/angular/angular-cli/blob/137a0dea183d48b28bdec2d1e65b3a9addcd812c/packages/%40angular/cli/blueprints/ng2/files/__path__/polyfills.ts) 的檔案，其實這個檔案的內容已經準備好相關的 polyfill 了，而且上面還有很親切的註解，我們只要針對需要用到的 import 項目解除註解即可 。
 
 ## 小結
 
