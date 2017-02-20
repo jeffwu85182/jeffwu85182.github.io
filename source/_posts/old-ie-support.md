@@ -4,7 +4,7 @@ date: 2017-02-19 09:41:27
 category:
 - Angular 2
 tags:
-- Angular
+- Angular 2
 - Polyfill
 - FuxkIE
 ---
