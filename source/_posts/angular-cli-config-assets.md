@@ -43,3 +43,12 @@ angular-cli.json 中的 assets 屬性存放的是一個陣列，這個陣列會�
 ```
 
 上方的範例指的是，當建置時，要從`node_modules/some-package/` 複製 `images` 資料夾及其內容到輸出的資料夾  `dist/some-package/` 中。
+
+## 小結
+
+透過 angular-cli.json 的 assets 設定，可以讓我們在建置時更有彈性，就不需要自己去尋找檔案做人肉複製貼上了！
+
+### 參考來源
+
+[Angular-CLI - asset-configuration](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/asset-configuration.md)
+
