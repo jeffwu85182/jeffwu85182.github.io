@@ -30,7 +30,7 @@ show_count: false
 
 # Miscellaneous
 google_analytics: UA-79727724-2
-favicon: /favicon.png
+favicon: /favicon.ico
 twitter:
 google_plus:
 fb_admins:
