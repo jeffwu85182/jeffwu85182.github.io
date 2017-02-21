@@ -17,7 +17,7 @@ Angular 2 也是一樣，對於舊版的 IE 預設的情況下是沒有支援的
 
 <!-- more -->
 
-{% img http://i.imgur.com/cdI1K9o.jpg "'你以為你做完了？不，你還有 IE 要處理'" "'你以為你做完了？不，你還有 IE 要處理'" %}
+{% img /cover.jpg "'你以為你做完了？不，你還有 IE 要處理'" "'你以為你做完了？不，你還有 IE 要處理'" %}
 
 ## Angular 2 Polyfill
 
