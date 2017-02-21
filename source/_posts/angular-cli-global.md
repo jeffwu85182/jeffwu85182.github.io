@@ -10,7 +10,7 @@ tags:
 
 ## 介紹 Global 設定
 
-上次介紹了 assets 的設定，讓我們不需要再逐一的人肉複製檔案，這次來介紹一下透過 Angular-CLI 進行開發的專案，在全域上相關的設定，主要有三種：`Global Library Installation`, `Global Scripts`, `Global Styles`。接下來我一樣參考 Github 上的文件來做介紹。藉此讓大家可以更了解 Angular CLI 的設定，以節省時間及方便專案內容的管理。
+上次介紹了 Angular-CLI JSON 設定檔中 assets 的設定，讓我們不需再逐一的手動~~人肉~~複製需要的 assets，這次來介紹在透過 Angular-CLI 進行專案開發時，與全域有關的設定，主要有三種：`Global Library Installation`, `Global Scripts`, `Global Styles`。接下來我一樣參考了 Github 上的文件來做整理與介紹。藉此讓大家可以更了解 Angular CLI 的設定，以節省時間及方便專案內容的管理。
 
 {% img /cover.jpg %}
 
