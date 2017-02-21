@@ -1,5 +1,5 @@
 ---
-title: Angular-CLI global 相關設定介紹
+title: Angular-CLI 設定 Global
 date: 2017-02-21 21:09:57
 category:
 - Angular 2
@@ -8,7 +8,7 @@ tags:
 - Angular-CLI
 ---
 
-## Angular-CLI 設定 - Global 系列
+## 介紹 Global 設定
 
 上次介紹了 assets 的設定，讓我們不需要再逐一的人肉複製檔案，這次來介紹一下透過 Angular-CLI 進行開發的專案，在全域上相關的設定，主要有三種：`Global Library Installation`, `Global Scripts`, `Global Styles`。接下來我一樣參考 Github 上的文件來做介紹。藉此讓大家可以更了解 Angular CLI 的設定，以節省時間及方便專案內容的管理。
 
