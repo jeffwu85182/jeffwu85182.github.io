@@ -3,7 +3,11 @@ layout: post
 title: 'Sass筆記「@extend」介紹：無痛合併CSS樣式'
 date: 2014-08-12 03:51
 comments: true
-categories: [sass, extend]
+categories: 
+- sass
+tags:
+- sass
+- extend
 ---
 在撰寫CSS過程中，為了避免CSS太龐大，當我們有用到相同的樣式時，
 
@@ -60,7 +64,7 @@ categories: [sass, extend]
 ```
 這樣產生的結果會是
 
-```css
+```scss
 /* 第200行位置 */ 
 .all-h1, .header h1, .content h1, .footer h1 {
   font-size: 20px;
@@ -81,11 +85,11 @@ categories: [sass, extend]
 }
 ```
 
-但這樣還不是夠好，因為多出來的 ```.all-h1``` 不一定會用到，是多出來的。
+但這樣還不是夠好，因為多出來的 `.all-h1` 不一定會用到，是多出來的。
 
-因此，我們可以在繼承的類別名稱前面，加上「%」來將它合併起來。
+因此，我們可以在繼承的類別名稱前面，加上「 `%` 」來將它合併起來。
 
-```sass
+```scss
 %all-h1 /*建立繼承用的樣式*/
 	font-size: 20px
 	line-height: 1.8
@@ -101,9 +105,11 @@ categories: [sass, extend]
 	color: pink
 ```
 
+
+
 編譯後的結果也會和最上面的CSS一樣，首先於上方撰寫合併用的程式碼，也就是「%all-h1」。
 
-「```%```」後面加上自己命名要合併樣式的名稱例如：
+「`%`」後面加上自己命名要合併樣式的名稱例如：
 
 ```sass
 %all-class_name
@@ -113,10 +119,11 @@ categories: [sass, extend]
 
 所以往後寫css有樣式需要合併時，直接用@extend的用法就可以輕鬆達成囉！
 
-###問題來了
+### 問題來了
+
 究竟**Mixin**與**extend**的使用時機該如何抉擇？
 
-基本上，
+基本上呢，
 
 **@mixin**是將程式碼帶入到對應的class去，同時可帶入變數。
 
