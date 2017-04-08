@@ -66,7 +66,7 @@ export class HighlightDirective {
 }
 ```
 
-從 `@angular/core` 將 `Directive` import 進來，這樣才能使用 Directive 的 `decorator`，decorator 目前的 metadata 只有 selector 的部分設為 `[appHighlight]` 。`@Directive` 需要一個 CSS selector 來協助辨識在 template 中與這個 directive 有關聯的 HTML，這裡 Attribute 當作 CSS selector 使用的方式為名稱的前後加上中括號例如： `[AttributeName]` 。意思是在 Angular 的專案底下，無論是哪個 component 的 template，若要使用 highlightDirective，必須在 element 中加上 appHighlight 的 attribute 才會有作用。
+從 `@angular/core` 將 `Directive` import 進來，這樣才能使用 Directive 的 `decorator`，目前的 decorator metadata 只有 selector 的部分設為 `[appHighlight]` 。`@Directive` 需要透過 CSS selector 來協助辨識在 template 中與 directive 有關聯的 HTML，這裡 Attribute 當作 CSS selector 使用的方式為名稱的前後加上中括號例如： `[AttributeName]` 。意思是在 Angular 的專案底下，無論是哪個 component 的 template，若要使用 highlightDirective，必須在 element 中加上 appHighlight 的 attribute 才會有作用。
 
 ```html
 <span appHighlight>這樣才會有作用喔！</span>
