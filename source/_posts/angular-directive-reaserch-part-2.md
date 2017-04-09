@@ -93,11 +93,3 @@ this._el.nativeElement.style.backgroundColor = this.backgroundColor;
 
 - [Angular.io Guide - Attribute Directive](https://angular.io/docs/ts/latest/guide/attribute-directives.html#!#pass-values-into-the-directive-with-an-_-input_-data-binding)
 - [練習範例](https://github.com/jeffwu85182/angularDirectiveReaserch)
-
-下一篇
-
-### 嘗試封裝 jQuery datepicker !
-
-#### 挑戰極速傳說，開始收集及使用各種 directive 快速實現功能
-
-… 待續
