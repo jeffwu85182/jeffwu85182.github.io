@@ -4,6 +4,9 @@ dist: trusty
 branches:
   only:
   - source
+  cache:
+    directories:
+    - node_modules
 before_install:
 - export TZ=Asia/Taipei
 - npm install -g hexo-cli
@@ -17,9 +20,7 @@ after_success:
 - git config --global user.email 'a60985182@hotmail.com'
 - sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
 - hexo deploy
-cache:
-  directories:
-  - node_modules
+
 env:
   global:
     secure: ga8PP5pbfAMmQZ6I+U6h8CtxYNHxQomd+NoH+jazVi7AEsB7DlbQStzvhVwFPHs31Wj2RXZNQoLkKif/h+03lEMWtnrdRkYQZQ0UI+evTHhq75BNERGpr04shzIulMND3DV3I6411AvqHzgvh1MvXz8M7gkRdZYlQDUV62msjeyoHgNB4FK53WJhc4d5GI8Q5nn04YVHLcaSkqpyeUmpMHTH4ilTg6alHok2+rs+RhWrEz7OyImUjPCJWTb+/u3h3IO5DIchz1bGfvrrsPq/ZsOkqe7erq+eU11KSj7dvAkKrn6UomuVFfvFv8CGz9+FtoLq3KhlYZHL/p+XWtN9Z3swl12+3tMvUstfEW8TPt7nu0sSSrT3Rt5z6aqTSQrTwUuHTRqE0Scxd51vZMkshszXCUeYFvDKGrM0yqUkF44tTf4iADKjlSjR8nj7hnpIpBF9hR3F111MGcSbZUCph0G2TykzXcj4fguTlIVK6cT9cP7S2t6O7HOfZv6O6ZfAUttHPLe3b/V0e4i0O7VDeSjYqGCpVvM+mvT6XVo7RGCXg7BqknEVGPIVAwQiIdli83L5QI1Pz47EtvDJIDvNXpNdjGBCcQ4gG/fzK5ZDSKacTHuTD3LutV0o0i6JizL0IZWFHURHn3UEdqSEZzyQBk5QX1VKgvsWT+5PWXCWoIw=
