@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '5'
+- '8.5'
 sudo: false
 dist: trusty
 branches:
@@ -8,21 +8,18 @@ branches:
   - source
 before_install:
 - export TZ=Asia/Taipei
-- npm install -g hexo-cli
+- yarn global add hexo-cli
+- yarn global add hexo-deployer-git
 install:
-- npm install
+- yarn install
 script:
 - hexo clean
 - hexo generate
 after_success:
 - git config --global user.name 'Jeff Wu'
 - git config --global user.email 'a60985182@hotmail.com'
-- sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
+- sed -i'' "/^ *repo/s~github\.com~${GITHUB_TOKEN}@github.com~" _config.yml
 - hexo deploy
 cache:
   directories:
   - node_modules
-env:
-  global:
-  - secure: ga8PP5pbfAMmQZ6I+U6h8CtxYNHxQomd+NoH+jazVi7AEsB7DlbQStzvhVwFPHs31Wj2RXZNQoLkKif/h+03lEMWtnrdRkYQZQ0UI+evTHhq75BNERGpr04shzIulMND3DV3I6411AvqHzgvh1MvXz8M7gkRdZYlQDUV62msjeyoHgNB4FK53WJhc4d5GI8Q5nn04YVHLcaSkqpyeUmpMHTH4ilTg6alHok2+rs+RhWrEz7OyImUjPCJWTb+/u3h3IO5DIchz1bGfvrrsPq/ZsOkqe7erq+eU11KSj7dvAkKrn6UomuVFfvFv8CGz9+FtoLq3KhlYZHL/p+XWtN9Z3swl12+3tMvUstfEW8TPt7nu0sSSrT3Rt5z6aqTSQrTwUuHTRqE0Scxd51vZMkshszXCUeYFvDKGrM0yqUkF44tTf4iADKjlSjR8nj7hnpIpBF9hR3F111MGcSbZUCph0G2TykzXcj4fguTlIVK6cT9cP7S2t6O7HOfZv6O6ZfAUttHPLe3b/V0e4i0O7VDeSjYqGCpVvM+mvT6XVo7RGCXg7BqknEVGPIVAwQiIdli83L5QI1Pz47EtvDJIDvNXpNdjGBCcQ4gG/fzK5ZDSKacTHuTD3LutV0o0i6JizL0IZWFHURHn3UEdqSEZzyQBk5QX1VKgvsWT+5PWXCWoIw=
-  - secure: SEks8dtzajKCsS5MJVkvuwLOR/dCGNBBkY5I8lbp9mPun69hQNHl+nX7NfuFl/oQH7gypZ0xKKxT5mbnKGlH5zHKVIYlQO5Q7o4pzFoL25WELzOuasbkbaM/bre88kZJ5GCxhprJQ6oGzl9E8k3JL8GI9gr7aesC7HEmmeAUbCZZB3qwAjjqDEqZKumsBoOZYaNQS4WNSiSyHrLtOGPCbu+YZYhwCQe8v3hmlZ1NQ2hRJX+Od7Pvs7XacDzxMTphSa6CUAn3FXUXnZe6cNxTAlDbuVBVmdEBJxpOBL4k+mFYePyq1yf+XYMIT4H/O2GfXMQ+wYR5lRRSIIMthupSMqXk74Tn+h5BJK080y3Db2x0qCcfq4vwQWvwn5AekcAwCx240gzFVwe1XvVe4eNaBCBKz6j3VEYJ1NBh5aGaHc7131PYC4XmjLFWwfuzhAhlkmBixfeZAR25nKLPIS14pdeBRooyUDbvUZnL9ffyKQR/uEFblFQdPjRTCwMGOCnXKpv/+dcJ6cLvz8xuQ7Y8FR1ZOi3mfz4lOFrhdCEkS1v7dwCzFzY+otlAYJJZhzTCggaLTXo7tJgEWHjsPbfy7j99JXi7VA06H0QMIG/4fhoWtnxn+b3C5Lno1BdGRbQueUVa/sgKxxubNfPm6Nl34Q2caGLXQD5sW36FK9butPI=
