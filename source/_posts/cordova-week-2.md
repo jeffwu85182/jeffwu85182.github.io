@@ -1,5 +1,5 @@
 ---
-title: "[Cordova Week-2] Cordova Push Notification"
+title: "[Cordova Week-2] Cordova Push Notification - Android"
 date: 2018-04-16 19:32:34
 category:
 - Cordova
