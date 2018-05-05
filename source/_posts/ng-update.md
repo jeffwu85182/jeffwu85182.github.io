@@ -62,8 +62,7 @@ Good work!
 接著最重要的 `ng serve` 死掉了：
 ![image|690x206](./ng-update/step6.png)
 
-原來 `.angular-cli.json` 還活著，這一版的設定檔名稱已經改成 `angular.json`。
-所以要升級的話，輸入：
+原來 6.0 的設定檔名稱已經從原本的 `.angular-cli.json` 改成 `angular.json `了，要如何更新呢？一樣透過指令進行，在更新 `@angular/cli` 的時候會根據舊的設定檔重新建立 `angular.json`：
 ```bash
 ng update @angular/cli
 ```
