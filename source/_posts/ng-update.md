@@ -2,9 +2,9 @@
 title: 升級! 全新進化 Angular 6！
 date: 2018-05-05 16:28:43
 categories:
-- Angular 6
+- Angular
 tags:
-- Angular V6
+- Angular 6
 - angular/cli
 - ng update
 ---
