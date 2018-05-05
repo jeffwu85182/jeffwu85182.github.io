@@ -25,8 +25,8 @@ Angular 終於發布 6.0 正式版了，當然馬上拿手邊的專案來升級�
 ```
 <!--more-->
 
-接著輸入 `ng update` 進行檢查：
-![image|651x165](./ng-update/step1.png)
+接著輸入 `ng update` 進行檢查，ng update 會進行相關 package 分析，並提供建議與指令提示：
+![ng update 會進行相關 module 的版本分析](./ng-update/step1.png)
 
 根據分析結果先來升級 `@angular/core`：
 ```bash
@@ -34,9 +34,9 @@ ng update @angular/core
 ```
 然後就等了快五分鐘...
 看來大部分升級第一個會遇到的問題應該都是 typescript，畢竟不是時常會去動這個。
-![image|690x50](./ng-update/step2.png)
+![可能遇到的錯誤訊息之一](./ng-update/step2.png)
 or
-![image|690x85](./ng-update/step3.png)
+![可能遇到的錯誤訊息之二](./ng-update/step3.png)
 
 檢查 typescript 版本：
 ```bash
@@ -50,7 +50,7 @@ yarn upgrade typescript@2.7
 ```bash
 ng update
 ```
-![image|685x500](./ng-update/step4.png)
+![升級完成後並檢查版本](./ng-update/step4.png)
 
 再輸入一次 `ng update`：
 ![image|600x37](./ng-update/step5.png)
@@ -67,10 +67,10 @@ Good work!
 ```bash
 ng update @angular/cli
 ```
-![image|690x95](./ng-update/step7.png)
+![ng update @angular/cli](./ng-update/step7.png)
 
 再來一次！！
-![image|690x185](./ng-update/step8.png)
+![重新 ng serve](./ng-update/step8.png)
 
 `localhost:4200` 也確認無誤正常執行，以上。
 
