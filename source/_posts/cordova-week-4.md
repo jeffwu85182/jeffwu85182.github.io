@@ -151,7 +151,7 @@ private resolveLocalFileSystemURL(): Observable<DirectoryEntry> {
 declare const cordova: Cordova;
 ```
 
-至於 cordova.file 有哪些空間可以使用，可參考文件中 [File-System-Layouts](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/#file-system-layouts) 的部分，有整理 Layout 名稱與對應的存取位置。
+至於 cordova.file 有哪些空間可以使用，可參考文件 [File-System-Layouts](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/#file-system-layouts) 的部分，有整理名稱與對應的裝置路徑。
 
 ## 存取檔案
 
