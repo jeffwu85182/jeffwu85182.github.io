@@ -151,7 +151,7 @@ var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout:
 
 
 
-###navigator.geolocation.clearWatch
+### navigator.geolocation.clearWatch
 
 藉由 `watchID` 參數傳入並呼叫，以停止追蹤裝置的位置變化。其參數是由 `watchPosition` 呼叫後回傳的值。
 
@@ -174,7 +174,7 @@ navigator.geolocation.clearWatch(watchID);
 
 
 
-##相關物件介紹
+## 相關物件介紹
 
 ### geolocationOptions
 
@@ -194,18 +194,18 @@ navigator.geolocation.clearWatch(watchID);
 
 由 `geolocation` API 所建立的物件，包含了位置 ( Position ) 的座標與時間戳。
 
-####屬性
+#### 屬性
 
 - **coords**: 一組位置的座標資訊。
 - **timestamp**: 建立座標資訊的時間戳。
 
 
 
-###Coordinates
+### Coordinates
 
 A `Coordinates` object is attached to a `Position` object that is available to callback functions in requests for the current position. It contains a set of properties that describe the geographic coordinates of a position.
 
-####屬性
+#### 屬性
 
 - **latitude**: 緯度 *(Number)*
 - **longitude**: 經度 *(Number)*
@@ -215,13 +215,13 @@ A `Coordinates` object is attached to a `Position` object that is available to c
 - **heading**: 面對行徑的方向，以北為起始點順時針計算的度數 *(Number)*
 - **speed**: 裝置目前的移動速度，單位為每秒公尺 *(Number)*
 
-####Android 注意事項
+#### Android 注意事項
 
 **altitudeAccuracy**: 不支援 Android，會回傳 `null`.
 
 
 
-###PositionError
+### PositionError
 
 `PositionError` 物件會在 navigator.geolocation 發生錯誤時作為參數傳入 `geolocationError` callback 並觸發。
 
@@ -230,7 +230,7 @@ A `Coordinates` object is attached to a `Position` object that is available to c
 - **code**: 如下列，預先定義好的錯誤代碼
 - **message**: 描述關於錯誤發生的訊息內容
 
-####常數
+#### 常數
 
 - ```
   PositionError.PERMISSION_DENIED
@@ -252,9 +252,9 @@ A `Coordinates` object is attached to a `Position` object that is available to c
   PositionError.TIMEOUT
   ```
 
-  - 當裝置無法在指定的時間 ( `geolocationOptions` 中的 `timeout` ) 內取得座標資訊時回傳，若是透過 `navigator.geolocation.watchPosition` 方式取得，則在每次設定的 `timeout` 發生時，都會藉由 `geolocationError` callback 帶入並觸發。
+  - 當裝置無法在指定的時間 ( `geolocationOptions` 中的 `timeout` ) 內取得座標資訊時回傳，若是透過 `navigator.geolocation.watchPosition` 方式取得，則在每次設定的 `timeout` 發生時，都會藉由 `geolocationError` callback 帶入並觸發。 
 
-## 
+
 
  ## 參考資料
 
