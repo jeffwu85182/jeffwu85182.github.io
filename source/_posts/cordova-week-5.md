@@ -203,7 +203,7 @@ navigator.geolocation.clearWatch(watchID);
 
 ### Coordinates
 
-A `Coordinates` object is attached to a `Position` object that is available to callback functions in requests for the current position. It contains a set of properties that describe the geographic coordinates of a position.
+`Coordinates` 物件包含一組描述位置的地理坐標屬性並存在 `Position` 物件下，當請求位置的 callback 發生時，會作為參數帶入。
 
 #### 屬性
 
