@@ -1,6 +1,13 @@
+---
+layout: post
+title: 'TypeScript intro and migrating'
+date: 2019-05-29 02:00
+comments: true
+categories: [TypeScript]
+---
 ## TypeScript intro and migrating
 
-### Backgound
+### Background
 
 It's not easy to build a great project that is easy to maintain. Especially when you are in a large company, you have to work with other members. There are many different opinions and ideas even for the simplest of things. Fortunately we have a lot of talent members in RingCentral. We maintain a high quality in our libraries, widgets and products which we build. But, as the project or requirements increase, more and more issue appear. It's time to prepare our project for facing huge projects in the future with innovations.
 
@@ -9,27 +16,20 @@ It's not easy to build a great project that is easy to maintain. Especially when
 ### Current problems
 
 1. Project scaling
-
    As described above, more and more source code have been pushed into the projects. There will be a day when our projects grow to enormous sizes. How to make our source code easy to maintain and read, that is the challenge we would have to overcome.
 
+<!--more-->
 2. Refactoring
-
    What are the common procedures of refactoring?
-
    1. Bulk rename functions or property with meaningful names.
-
    2. Check the reference counts of functions and properties, and remove if they are unused.
-
    3. Extract common logic from functions.
 
 3. Build a great library that is flexible and maintainable.
-
    Since we also provide our library as open source project for 3rd-party use, the importance of maintaining and scaling the project is much higher than before. TypeScript can make this easier.
 
 4. How to reduce the work of moving from Javascript to TypeScript?
-
    Apart from the efforts in learning TypeScirpt, we also have to consider how we can maintain our product development velocity.
-
 
 
 ### TypeScript
@@ -55,7 +55,7 @@ By the tutorial, we can know that advantage of using TypeScript. Static typing i
 
 ### Migrating
 
-To migrating with current repositories, we need a smooth progess of migration from ES6 babel. Here are 2 ways I found for smooth migration:
+To migrating with current repositories, we need a smooth progress of migration from ES6 babel. Here are 2 ways I found for smooth migration:
 
 1. Using [react-app-script-ts](https://github.com/wmonk/create-react-app)
 
