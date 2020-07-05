@@ -130,7 +130,7 @@ export class AppModule { }
 
 重整後，你會在 Devtool 看到以下的畫面：
 
-{% img /angular-model-driven/template-error.png "'未綁定 formGroup 實體的錯誤訊息'" "'然後他就壞掉了'" %}
+{% asset_img angular-model-driven/template-error.png "'未綁定 formGroup 實體的錯誤訊息'" "'然後他就壞掉了'" %}
 
 因為在只有 Import **ReactiveFormsModule** 的情況下，`<form>` 必須綁定一個 `formGroup` 的實體，否則會產生像上方的錯誤訊息。
 

@@ -40,7 +40,7 @@ bootstrap(AppComponent, [
 
 舊版的表單 API 已經進入了棄用階段。在這個過渡期， Angular 會同時支援兩個表單模組。為了提醒我們 「舊版 API 已被棄用」， Angular 會在 console 顯示一些警告訊息。
 
-{% img /angular2-forms-study/angualr-warn-console.png 900 "'舊版表單 API 即將被棄用'" "'在 Devtool console 中會顯示舊版表單 API 即將被棄用提示訊息'" %}
+{% asset_img angualr-warn-console.png 900 "'舊版表單 API 即將被棄用'" "'在 Devtool console 中會顯示舊版表單 API 即將被棄用提示訊息'" %}
 
 當我們完全轉換成新的 API 而不再用舊版的時候，可以呼叫 `disableDeprecatedForms()` 來徹底禁用舊版的表單功能，並消除警告訊息。
 
@@ -54,11 +54,11 @@ bootstrap(AppComponent, [
 
 我們將討論與學習建構如下的 「 Template 驅動」 表單：
 
-{% img /angular2-forms-study/hero-form-1.png 400 "'建立template 驅動表單'" "'建立template 驅動表單'" %}
+{% asset_img hero-form-1.png 400 "'建立template 驅動表單'" "'建立template 驅動表單'" %}
 
 這個表單中的三個欄位都是必填的。這些欄位左側會有一個綠色的小標籤色塊，讓它們更容易辨識。如果我們刪除了 Name，表單就會用一種引人注目的樣式把驗證錯誤顯示出來。
 
-{% img /angular2-forms-study/hero-form-2.png 400 "'表單欄位驗證錯誤提示'" "'表單欄位驗證錯誤提示。<br> 注意，Submit 按鈕被禁用了，而且輸入欄位左側的 「必填」 色條從綠色變為了紅色。'" %}
+{% asset_img hero-form-2.png 400 "'表單欄位驗證錯誤提示'" "'表單欄位驗證錯誤提示。<br> 注意，Submit 按鈕被禁用了，而且輸入欄位左側的 「必填」 色條從綠色變為了紅色。'" %}
 
 我們將按照一系列的步驟來建構此表單：
 
@@ -76,7 +76,7 @@ bootstrap(AppComponent, [
 
 我們直接透過 Angular Cli 來建立一個練習專案
 
-{% img /angular2-forms-study/ng-cli-new-project.png 600 "'使用 Angular-Cli 新增專案'" "'使用 Angular-Cli 新增練習專案。'" %}
+{% asset_img ng-cli-new-project.png 600 "'使用 Angular-Cli 新增專案'" "'使用 Angular-Cli 新增練習專案。'" %}
 
 ### Step 1. 建立一個 Hero 模型類 ( Model Class )
 
@@ -244,7 +244,7 @@ export class AppComponent {
 
 現在看一下繫結語法 `[(ngModel)]="..."` ，如果現在執行這個應用，並在**姓名**輸入框中鍵入，新增和刪除字符，我們將看到下方的訊息中顯示和消失。它看起來像這樣：
 
-{% img /angular2-forms-study/binding-test.gif 300 "'這就是雙向資料繫結！'" %}
+{% asset_img binding-test.gif 300 "'這就是雙向資料繫結！'" %}
 
 偵錯訊息證明了資料從輸入框流動到模型，再反向流動回來的整個過程。 **這就是雙向資料繫結！**
 
@@ -276,7 +276,7 @@ export class AppComponent {
 
 如果現在執行應用，並且修改 Hero 模型的每一個屬性，表單看起來會像這樣：
 
-{% img /angular2-forms-study/ng-model-in-action-2.png 400 "'這就是雙向資料繫結！'" "'表單頂部的偵錯訊息反映出了我們所做的一切更改。'" %}
+{% asset_img ng-model-in-action-2.png 400 "'這就是雙向資料繫結！'" "'表單頂部的偵錯訊息反映出了我們所做的一切更改。'" %}
 
 表單頂部的 `diagnostic` 繫結表達式已經完成了它的使命，可以刪除它了。
 
@@ -321,15 +321,15 @@ Angular 內部會建立 `FormControls` 並註冊在 `NgForm` directive 中，讓
 
 動作和對應的效果如下：
 
-{% img /angular2-forms-study/control-state-transitions-anim.gif 600 "'class test'" %}
+{% asset_img control-state-transitions-anim.gif 600 "'class test'" %}
 
 可以看到下列四組 CSS Class 以及它們的變化：
 
-{% img /angular2-forms-study/ng-control-class-changes.png 600 "'class test'" %}
+{% asset_img ng-control-class-changes.png 600 "'class test'" %}
 
 當資料驗證失敗時，我們希望發出一個強力的視覺提醒並標記出必填欄位。因此在輸入框的左側新增一個帶顏色的色塊，透過 (`ng-valid` | `ng-invalid`) 這兩個 CSS Class 來進行裝飾。
 
-{% img /angular2-forms-study/validity-required-indicator.png 400 "'indicator'" %}
+{% asset_img validity-required-indicator.png 400 "'indicator'" %}
 
 在 hero-form 的資料夾下有 `hero-form.component.css` 檔案，針對這個元件新增兩個樣式如下：
 
@@ -349,7 +349,7 @@ Angular 內部會建立 `FormControls` 並註冊在 `NgForm` directive 中，讓
 
 「Name」 輸入框是必填的，清空它會讓左側的條變紅。這表示 **某些東西**是錯的，但不知道錯在哪裡，或者如何糾正。 我們可以透過 `ng-invalid` Class 來提供一個更明確的訊息。例如當姓名是空白的時後，可以在下方出現提示訊息：
 
-{% img /angular2-forms-study/name-required-error.png 400 "'錯誤訊息提示'" %}
+{% asset_img name-required-error.png 400 "'錯誤訊息提示'" %}
 
 要實作這樣的效果，需要在template 做些調整，在控制項新增一個template 參考變數，並在下方加入一個提示訊息區塊，當驗證失敗的時候才會顯示。
 

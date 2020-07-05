@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "hexo": "^4.2.1",
-    "hexo-asset-image": "1.0.0",
     "hexo-deployer-git": "^2.1.0",
     "hexo-fs": "^3.1.0",
     "hexo-generator-archive": "^1.0.0",

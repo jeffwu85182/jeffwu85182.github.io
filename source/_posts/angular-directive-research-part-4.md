@@ -71,7 +71,7 @@ Directive 的 class 是以首字大駝峰式命名 ( `NgIf` )， 套用 Directiv
 
 Angular 的 `ngIf` 並非透過 CSS 來隱藏 element，而是直接從 DOM 本身加入或移除。這可以從瀏覽器的開發者工具檢查元素確定。
 
-{% img /element-not-in-dom.png "'透過 ngIf 可以將要隱藏的 element 不存在於 dom'" "'透過 ngIf 可以將要隱藏的 element 不存在於 dom'" %}
+{% asset_img element-not-in-dom.png "'透過 ngIf 可以將要隱藏的 element 不存在於 dom'" "'透過 ngIf 可以將要隱藏的 element 不存在於 dom'" %}
 
 上圖有兩段內容，第一段就是一般正常的 DOM，而下方的第二段是沒有使用的部分，可以看到這個區塊不存在於 DOM 中，取而代之的是關於 "template binding" 的一段註解，詳細的說明後面會提到。
 
@@ -94,7 +94,7 @@ Directive 可以隱藏不需要的段落，但不是將 `display` style 設置�
 
 雖然設定 CSS `display: none` 在畫面上確實是看不見的，但元素仍會存在 DOM 中。
 
-{% img /element-display-in-dom.png "'只用 display none，雖然畫面上是隱藏的，但實際還存在於 DOM 中'" "'只用 display none，雖然畫面上是隱藏的，但實際還存在於 DOM 中'" %}
+{% asset_img element-display-in-dom.png "'只用 display none，雖然畫面上是隱藏的，但實際還存在於 DOM 中'" "'只用 display none，雖然畫面上是隱藏的，但實際還存在於 DOM 中'" %}
 
 對於內容簡單的段落來說，要隱藏或移除都是無關緊要的，但若是 host element 附加到資料密集的 component 中，這樣的 component 即使隱藏起來仍會持續執行並附加自己的 element 在 DOM 上，因此也會持續進行事件的監聽，而 Angular 持續確認改變的特性可以去影響資料的綁定，無論 component 在幹嘛，Angular 都會持續進行這件事。
 
@@ -133,7 +133,7 @@ Directive 可以隱藏不需要的段落，但不是將 `display` style 設置�
 
 而上述這些內容都不會實際運作時呈現出來，只會顯示最後的結果到 DOM 中。
 
-{% img /hero-div-in-dom.png %}
+{% asset_img hero-div-in-dom.png %}
 
 Angular 在實際渲染時會消耗 `<ng-template>` 的內容，取而代之的是可用來除錯時參考的註解。
 

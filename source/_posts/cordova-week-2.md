@@ -52,19 +52,19 @@ $ cordova plugin add phonegap-plugin-push
 
 首先點選左上角建立資源，選擇 `Web + 行動` 的類別，可以看到 `Notification Hub`：
 
-![](/Users/crazyalu/Blog/source/_posts/cordova-week-2/create-azure-hub-step-1.png)
+![](create-azure-hub-step-1.png)
 
 輸入 Notification Hub 相關資料，完成後點擊建立按鈕：
 
-![](/Users/crazyalu/Blog/source/_posts/cordova-week-2/create-azure-hub-step-2.png)
+![](create-azure-hub-step-2.png)
 
 回到儀表板，可以看到剛建立好的通知中樞：
 
-![](/Users/crazyalu/Blog/source/_posts/cordova-week-2/azure-dash-board.png)
+![](azure-dash-board.png)
 
 點擊通知中樞可以看到詳細資訊：
 
-![NOTIFICATION SETTINGS 則是通知中樞所支援的平台](/Users/crazyalu/Blog/source/_posts/cordova-week-2/create-azure-hub-step-3.png)
+![NOTIFICATION SETTINGS 則是通知中樞所支援的平台](create-azure-hub-step-3.png)
 
 ## 實作 Cordova App 接收推播通知功能
 
@@ -154,27 +154,27 @@ registDevice(): Observable<any> {
 
 要推播訊息到 Android 系統，需要先建立 [FCM](https://console.firebase.google.com/) ( Firebase Cloud Message ) 專案，登入 Google 帳號後可以看到以下的畫面，點選新增專案：
 
-![](./cordova-week-2/create-fcm-project-step-1.png)
+![](create-fcm-project-step-1.png)
 
 然後輸入專案相關資訊：專案名稱、ID 及國家或地區，並點擊建立專案。
 
-![](./cordova-week-2/create-fcm-project-step-2.png)
+![](create-fcm-project-step-2.png)
 
 專案建立完成後，會進到專案的 dash board，點選左上角的齒輪展開選單，點擊`專案設定`：
 
-![](./cordova-week-2/create-fcm-project-step-3.png)
+![](create-fcm-project-step-3.png)
 
 點選後會看到專案的相關資訊，捲軸滾到下方可以看到目前專案中沒有任何應用程式，點擊中間將 Firebase 加入您的 Android 應用程式的選項：
 
-![](./cordova-week-2/fcm-create-android-app.png)
+![](fcm-create-android-app.png)
 
 點擊後進入新增 Android 應用程式的畫面，輸入 App 相關資訊，輸入完成後點擊註冊應用程式：
 
-![](./cordova-week-2/fcm-create-android-app-2.png)
+![](fcm-create-android-app-2.png)
 
 註冊完成之後，點選 下載 google-services.json` 按鈕進行下載，並將檔案存放在 Cordova 專案的根目錄。
 
-![](./cordova-week-2/fcm-create-android-app-3.png)
+![](fcm-create-android-app-3.png)
 
 下載完成之後再回到 Cordova 專案的 `config.xml` 設定檔，在 Android 的 `platform` 區塊中加上以下的內容：
 
@@ -187,21 +187,21 @@ registDevice(): Observable<any> {
 
 FCM 的部分設定完成後，我們還需要將 API Key 存放至 Azure Notification Hub 的設定中，因此回到專案的主控台，雖然在一般的分頁下可以看到 `網路 API 金鑰`，但這似乎還是舊版的，筆者在 Azure 輸入設定時會遇到錯誤的情況，因此新版的部分要點選 ` CLOUD MESSAGING` 標籤進入：
 
-![](./cordova-week-2/create-fcm-project-step-4.png)
+![](create-fcm-project-step-4.png)
 
 會看到專案憑證的資訊及寄件者 ID，而伺服器金鑰則是建立 Azure Notification Hub 之後要設定的 API Key：
 
-![](./cordova-week-2/create-fcm-project-step-5.png)
+![](create-fcm-project-step-5.png)
 
 進入 Googel ( GCM ) 的設定，並將複製的 API Key 貼上：
 
-![](./cordova-week-2/android-add-api-key.png)
+![](android-add-api-key.png)
 
 ### Azure Notification Hub 測試推播
 
 完成設定之後，可以到側欄下方有個`支援與疑難排解`的類別，底下有個 `Test Send` 連結，點選後會看到測試發送的畫面，確認 Cordova App 的 Device Token 有順利註冊成功後，選擇 Android 平台即可立即發送測試。
 
-![](./cordova-week-2/android-send-test.png)
+![](android-send-test.png)
 
 
 

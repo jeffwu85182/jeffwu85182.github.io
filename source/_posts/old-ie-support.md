@@ -17,13 +17,13 @@ Angular 2 也是一樣，對於舊版的 IE 預設的情況下是沒有支援的
 
 <!-- more -->
 
-{% img /cover.jpg "'你以為你做完了？不，你還有 IE 要處理'" "'你以為你做完了？不，你還有 IE 要處理'" %}
+{% asset_img cover.jpg "'你以為你做完了？不，你還有 IE 要處理'" "'你以為你做完了？不，你還有 IE 要處理'" %}
 
 ## Angular 2 Polyfill
 
 根據 Angular 官網的技術文件中瀏覽器支援說明的部分，目前最多能支援到 IE 9：
 
-{% img /angular-browser-support.png "'Angular 2 目前對於各版本瀏覽器的支援度一覽'" %}
+{% asset_img angular-browser-support.png "'Angular 2 目前對於各版本瀏覽器的支援度一覽'" %}
 
 Angular 2 是基於最新的 web paltform 標準進行開發的，要能支援多樣的瀏覽器版本著實是一大挑戰，因為這些瀏覽器不一定能支援現代瀏覽器的所有新功能，而我們在專案開發時，若遇到支援 IE 的需求也不得不勇敢的面對，而我們可以藉由在 `index.html` 載入 **Polyfill** 來補足一些舊版瀏覽器不支援的功能，如下：
 

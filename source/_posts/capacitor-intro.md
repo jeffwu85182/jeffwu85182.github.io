@@ -7,7 +7,7 @@ tags:
 - ionic 4
 ---
 
-![](capacitor-intro/capacitor-logo.jpg)
+{% asset_img capacitor-logo.jpg %}
 
 ## Hybrid App
 
