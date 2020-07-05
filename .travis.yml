@@ -1,7 +1,7 @@
+os: linux
 language: node_js
 node_js:
 - '11.15'
-sudo: false
 dist: trusty
 branches:
   only:
