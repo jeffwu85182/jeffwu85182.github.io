@@ -1,9 +1,10 @@
-<!-- ---
+---
+layout: false
 title: 初探 Serverless
 categories: default
 tags: note
 date: 2020-07-04 15:48:02
---- -->
+---
 
 ## 關於 Serverless
 
