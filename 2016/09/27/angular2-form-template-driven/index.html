@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2 Forms 介紹：Template-Driven Forms | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="介紹如何使用 template driven 快速建立簡易的互動表單Angular 2 正式版在日前已經正式發佈了，因此較不會再遇到 alpha 或 beta 甚至 rc 的時候還出現的重大變更（BREAK CHANGE）了，真的出現的話，我想也應該是 Angular 3 要出來的時候了 XD。 先前參考官方文件介紹過 Angular 2 Forms 的用法，這次來自己實作，以 Template-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2 Forms 介紹：Template-Driven Forms">
+<meta property="og:url" content="https://blog.crazyalu.com/2016/09/27/angular2-form-template-driven/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="介紹如何使用 template driven 快速建立簡易的互動表單Angular 2 正式版在日前已經正式發佈了，因此較不會再遇到 alpha 或 beta 甚至 rc 的時候還出現的重大變更（BREAK CHANGE）了，真的出現的話，我想也應該是 Angular 3 要出來的時候了 XD。 先前參考官方文件介紹過 Angular 2 Forms 的用法，這次來自己實作，以 Template-">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2016-09-26T16:56:24.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.905Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="Forms">
+<meta property="article:tag" content="Template-Driven-Forms">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-angular2-form-template-driven" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/27/angular2-form-template-driven/" class="article-date">
+  <time datetime="2016-09-26T16:56:24.000Z" itemprop="datePublished">2016-09-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Angular-2/">Angular 2</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2 Forms 介紹：Template-Driven Forms
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="介紹如何使用-template-driven-快速建立簡易的互動表單"><a href="#介紹如何使用-template-driven-快速建立簡易的互動表單" class="headerlink" title="介紹如何使用 template driven 快速建立簡易的互動表單"></a>介紹如何使用 template driven 快速建立簡易的互動表單</h2><p>Angular 2 正式版在日前已經正式發佈了，因此較不會再遇到 alpha 或 beta 甚至 rc 的時候還出現的重大變更（BREAK CHANGE）了，真的出現的話，我想也應該是 Angular 3 要出來的時候了 XD。</p>
+<p>先前參考官方文件介紹過 Angular 2 Forms 的用法，這次來自己實作，以 Template-Driven 的方式建立簡單的登入表單，並且介紹完整的運作流程，主要的內容如下：</p>
+<ul>
+<li>Import FormsModule &amp; 準備 HTML template</li>
+<li>在 Template 中的表單控制項加上 <code>ngModel</code> Directive </li>
+<li>初始化表單控制項預設值</li>
+<li>使用 <code>ngModel</code> 提供的狀態進行 CSS class 裝飾</li>
+<li>追蹤表單驗證狀態並顯示錯誤訊息提示</li>
+</ul>
+<p>登入畫面，是我們在任何的 web application 中最常看到的頁面，因此，就以登入畫面來當範例練習吧！</p>
+<a id="more"></a>
+
+<h2 id="首先，import-所需要的-FormsModule"><a href="#首先，import-所需要的-FormsModule" class="headerlink" title="首先，import 所需要的 FormsModule"></a>首先，import 所需要的 FormsModule</h2><p>使用 Angular 2 Forms 之前，要先把需要的 Module import 進來，AppModule 的內容如下：</p>
+<figure class="highlight typescript"><figcaption><span>app.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FormsModule &#125; <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    FormsModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [],</span><br><span class="line">  bootstrap: [AppComponent]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著，準備我們的 HTML Template：</p>
+<figure class="highlight html"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Angular 2 Form Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span>&gt;</span>Email<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"Email"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"errors"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>請輸入帳號<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"password"</span>&gt;</span>Password<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">placeholder</span>=<span class="string">"Password"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"errors"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>請輸入密碼<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"remember"</span> <span class="attr">name</span>=<span class="string">"remember"</span> <span class="attr">type</span>=<span class="string">"checkbox"</span>&gt;</span> Remember me</span><br><span class="line">    <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這是一個單純的 HTML Template，到目前為止都尚未有任何和 Angular 相關的操作，HTML <code>class</code> 的部分則是套用了 <a href="http://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap</a> 的樣式，你也可以先在 index.html 上加上 Bootstrap 的樣式來源。讓畫面看起來比較順眼些。準備好以上的前置步驟後，準備開始套用 <code>ngModel</code> 實作 Template-Driven Forms 囉！</p>
+<h2 id="在-Template-中的表單控制項加上-ngModel-Directive"><a href="#在-Template-中的表單控制項加上-ngModel-Directive" class="headerlink" title="在 Template 中的表單控制項加上 ngModel Directive"></a>在 Template 中的表單控制項加上 <code>ngModel</code> Directive</h2><p>打開 <code>app.component.html</code> template 檔，在表單中的所有 <code>input</code> 加上 <code>ngModel</code>，如下：</p>
+<figure class="highlight html"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--Template-Driven--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Angular 2 Form Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> #<span class="attr">myForm</span>=<span class="string">"ngForm"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span>&gt;</span>Email<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"Email"</span> <span class="attr">ngModel</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"errors"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>請輸入帳號<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"password"</span>&gt;</span>Password<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">placeholder</span>=<span class="string">"Password"</span> <span class="attr">ngModel</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"errors"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>請輸入密碼<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"remember"</span> <span class="attr">name</span>=<span class="string">"remember"</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">ngModel</span>&gt;</span></span><br><span class="line">       Remember me</span><br><span class="line">    <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> (<span class="attr">click</span>)=<span class="string">"doSome(myForm)"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Show Test Data--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pre</span>&gt;</span></span><br><span class="line">    &#123;&#123; myForm.value | json &#125;&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面這邊我們主要是在表單中的所有控制項加上 <code>ngModel</code> 屬性，加上後，首先 Angular 就會在這個 template 產生一個 ngForm 的實體，每個有 <code>ngModel</code> directive 的 input 也會產生實體物件，並且存在於 ngForm 實體中，為了可以看到 model 的值，我們在 <code>form</code> 標籤新增一個 template 變數 <code>myForm</code> ，然後在下方新增一個 <code>pre</code> 標籤區塊並加上 Angular 的 expression 來顯示 <code>myForm</code> 的值，執行後的結果如下：</p>
+
+
+<h2 id="初始化表單預設值"><a href="#初始化表單預設值" class="headerlink" title="初始化表單預設值"></a>初始化表單預設值</h2><p>很多時候我們的表單都會需要有預設值的情況，那在 template-driven form 要如何初始化 model 的預設值呢？</p>
+<p>我們需要先在 component class 新增一個屬性來存放 model 資料，然後在 template 把原本的 <code>ngModel</code> 改成 <code>[ngModel]=&quot;modelName&quot;</code> 就可以囉！</p>
+<figure class="highlight html"><figcaption><span>app.component.html partial code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span>&gt;</span>Email<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> </span></span><br><span class="line"><span class="tag">      <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"Email"</span> [<span class="attr">ngModel</span>]=<span class="string">"email"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用-ngModel-提供的狀態進行-CSS-class-裝飾"><a href="#使用-ngModel-提供的狀態進行-CSS-class-裝飾" class="headerlink" title="使用 ngModel 提供的狀態進行 CSS class 裝飾"></a>使用 <code>ngModel</code> 提供的狀態進行 CSS class 裝飾</h2><p>還有一種需求佷也很常見，就是依照表單的狀態來顯示不同的 CSS 樣式，一般的做法通常都是自己針對不同狀態來命名 CSS Class，Angular 預設為表單提供了三種類型的狀態 class，我們就可以直接對預設提供的 class 名稱來設計樣式。表單控制項的狀態預設提供的有：</p>
+<table>
+<thead>
+<tr>
+<th>狀態（State  ）</th>
+<th>Class if true</th>
+<th>Class if false</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Control  被點擊接觸過</td>
+<td>ng-touched</td>
+<td>ng-untouched</td>
+</tr>
+<tr>
+<td>Control  的值被改變</td>
+<td>ng-dirty</td>
+<td>ng-pristine</td>
+</tr>
+<tr>
+<td>Control  的值不符合驗證</td>
+<td>ng-valid</td>
+<td>ng-invalid</td>
+</tr>
+</tbody></table>
+<h2 id="追蹤表單驗證狀態並顯示錯誤訊息提示"><a href="#追蹤表單驗證狀態並顯示錯誤訊息提示" class="headerlink" title="追蹤表單驗證狀態並顯示錯誤訊息提示"></a>追蹤表單驗證狀態並顯示錯誤訊息提示</h2><p>表單控制項除了依照狀態來顯示 CSS 樣式之外，我們還需要有提示訊息的顯示來讓使用者可以更容易的了解，透過適當的訊息提示可有效幫助 UI 操作，帶來良好的使用者體驗。<code>ngModel</code> 除了依照控制項的狀態來提供 CSS Class 之外，在 formControl 的實體中，也存在著控制項狀態的 model，我們可以依照這些 model 作為訊息顯示的判斷。</p>
+<p>一開始準備好的 template 可以看到有 <code>class=&quot;errors&quot;</code> 的 <code>div</code> 元素，但一開始進入頁面的時候，其實不需要馬上顯示錯誤，而是要使用者接觸或輸入之後，若有錯誤再出現提示訊息即可。</p>
+<p>我們可以在表單控制項加上 template 變數 <code>#userMail</code> 變數名稱可自訂，要以 <code>#</code> 字號為開頭，並指定成 <code>ngModel</code>，然後每個再加上需要的驗證屬性例如：<code>required</code>, <code>minlength</code>, <code>maxlength</code>, <code>pattern</code> 等，這些是 Angular 預設提供的 Validator，套用的方式如下：</p>
+<figure class="highlight html"><figcaption><span>app.component.html partial</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span>&gt;</span>Email<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">placeholder</span>=<span class="string">"Email"</span></span></span><br><span class="line"><span class="tag">        [<span class="attr">ngModel</span>]=<span class="string">"email"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">required</span></span></span><br><span class="line"><span class="tag">        <span class="attr">minlength</span>=<span class="string">"5"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">pattern</span>=<span class="string">"^[a-zA-Z0-9.!#$%&amp;』*+/=?^_`&#123;|&#125;~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"</span></span></span><br><span class="line"><span class="tag">        #<span class="attr">iemail</span>=<span class="string">"ngModel"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"errors"</span> *<span class="attr">ngIf</span>=<span class="string">"iemail.errors"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> *<span class="attr">ngIf</span>=<span class="string">"iemail.errors.minlength"</span>&gt;</span>最少要 5 個字<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> *<span class="attr">ngIf</span>=<span class="string">"iemail.errors.required"</span>&gt;</span>必填項目<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> *<span class="attr">ngIf</span>=<span class="string">"iemail.errors.pattern"</span>&gt;</span>請輸入正確的 Email 格式<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Class errors 的 div 的用途用來顯示錯誤訊息的部分，以上面的 input 為例，Angular 建立實體之後，會有一個 errors 的屬性，當有 Validator 驗證錯誤的時候，會存一個物件到 errors 屬性中。這時候我們做了一個 ngIf 來判斷是哪一個錯誤，然後顯示對應的錯誤訊息。另外我們也可以在按鈕設定，當整張表單的驗證狀態為 invalid 的時候，就可以把按鈕 <code>disabled</code> 禁止點擊。</p>
+<p>到目前為止的練習，我們的 component 完全沒有任何的邏輯驗證或處理，只設定了一個初始值，所有的驗證都在 template 做完了！Angular 2 Template-Driven Forms 是不是很簡單呢？ :)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2016/09/27/angular2-form-template-driven/" data-id="cklr48h9a000xrxrsfoxi4mg2" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2016/09/27/angular2-form-template-driven/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/26/angular-model-driven/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Angular 2 Forms 介紹：Model-Driven Forms
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/03/inside-ng-model/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular 2 ngModel 的內幕(?)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2016/09/27/angular2-form-template-driven/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[Cordova Week-2] Cordova Push Notification - Android | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言在 Mobile App 的開發中，推播通知已經是不可或缺的 App 功能之一，大部分的商業 APP 都一定有推播通知的功能，因此，這次要介紹如何安裝與使用 Phonegap Plugin Push 並透過 Azure Notification Hub 實現 Android 與 iOS 的即時推播訊息功能。 什麼是 Phonegap-plugin-push?Phonegap-plugin-pu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Cordova Week-2] Cordova Push Notification - Android">
+<meta property="og:url" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="前言在 Mobile App 的開發中，推播通知已經是不可或缺的 App 功能之一，大部分的商業 APP 都一定有推播通知的功能，因此，這次要介紹如何安裝與使用 Phonegap Plugin Push 並透過 Azure Notification Hub 實現 Android 與 iOS 的即時推播訊息功能。 什麼是 Phonegap-plugin-push?Phonegap-plugin-pu">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-azure-hub-step-1.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-azure-hub-step-2.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/azure-dash-board.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-azure-hub-step-3.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-fcm-project-step-1.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-fcm-project-step-2.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-fcm-project-step-3.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/fcm-create-android-app.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/fcm-create-android-app-2.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/fcm-create-android-app-3.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-fcm-project-step-4.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-fcm-project-step-5.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/android-add-api-key.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/android-send-test.png">
+<meta property="article:published_time" content="2018-04-16T11:32:34.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.917Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="Phonegap plugin">
+<meta property="article:tag" content="Push Notification">
+<meta property="article:tag" content="Cordova-iOS">
+<meta property="article:tag" content="Cordova-Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.crazyalu.com/2018/04/16/cordova-week-2/create-azure-hub-step-1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cordova-week-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/16/cordova-week-2/" class="article-date">
+  <time datetime="2018-04-16T11:32:34.000Z" itemprop="datePublished">2018-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cordova/">Cordova</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [Cordova Week-2] Cordova Push Notification - Android
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Mobile App 的開發中，推播通知已經是不可或缺的 App 功能之一，大部分的商業 APP 都一定有推播通知的功能，因此，這次要介紹如何安裝與使用 Phonegap Plugin Push 並透過 Azure Notification Hub 實現 Android 與 iOS 的即時推播訊息功能。</p>
+<h2 id="什麼是-Phonegap-plugin-push"><a href="#什麼是-Phonegap-plugin-push" class="headerlink" title="什麼是 Phonegap-plugin-push?"></a>什麼是 Phonegap-plugin-push?</h2><p>Phonegap-plugin-push 提供使用<strong>單一獨立的 API</strong> 來支援接收及處理原生 push notification。但這不是指我們可以發送單一個訊息並在不同作業系統上都能收到。基本上 Android 使用的是 FCM，iOS 則使用 APNS，而且他們的 payload 都很不一樣。即使在 Android 及 iOS 都使用 FCM，也是需要提供不同的 payload 才能使套件正常運作。對 Android 來說，每一次的推播內容都會在 payload 存放 <code>data</code> 的物件，可以參考 <a href="https://github.com/phonegap/phonegap-plugin-push/blob/master/docs/PAYLOAD.md#notification-vs-data-payloads" target="_blank" rel="noopener">Notification vs Data Payload</a> 這篇文章。iOS 的話可以依照 <a href="https://firebase.google.com/docs/cloud-messaging/http-server-ref" target="_blank" rel="noopener">FCM documentation</a>。</p>
+<p>筆者主要是透過 <a href="https://docs.microsoft.com/zh-tw/azure/app-service-mobile/app-service-mobile-cordova-get-started-push" target="_blank" rel="noopener">Azure Notification Hub</a> 發送推播訊息， Azure Notification Hub 同時提供了方便管理的介面，讓我們只需要透過一個通知中樞，並根據不同的平台提供不同的 payload 即可輕鬆的實現推播訊息通知的功能！</p>
+<h3 id="安裝需求"><a href="#安裝需求" class="headerlink" title="安裝需求"></a>安裝需求</h3><p>在安裝之前需要檢查一下對應的 Cordova 所支援的版本，若選擇的版本是較舊的 Cordova-Android 6.0.0 與  Cordova-iOS 4.3，則需要留意套件的版本要裝 1.9.0 的。</p>
+<table>
+<thead>
+<tr>
+<th>Plugin version</th>
+<th>Cordova CLI</th>
+<th>Cordova Android</th>
+<th>Cordova iOS</th>
+<th>CocoaPods</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.0.0</td>
+<td>7.0.0</td>
+<td>6.2.1</td>
+<td>4.4.0</td>
+<td>1.1.1</td>
+</tr>
+<tr>
+<td>1.9.0</td>
+<td>6.4.0</td>
+<td>6.0.0</td>
+<td>4.3.0</td>
+<td>1.1.1</td>
+</tr>
+<tr>
+<td>1.8.0</td>
+<td>3.6.3</td>
+<td>4.0.0</td>
+<td>4.1.0</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+
+<h3 id="指令安裝"><a href="#指令安裝" class="headerlink" title="指令安裝"></a>指令安裝</h3><p>透過指令工具進行安裝：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin add phonegap-plugin-push</span><br></pre></td></tr></table></figure>
+
+<p>安裝完成後可以看到 <code>config.xml</code> 出現如下的內容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"phonegap-plugin-push"</span> <span class="attr">spec</span>=<span class="string">"^2.1.2"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="建立-Azure-通知中樞"><a href="#建立-Azure-通知中樞" class="headerlink" title="建立 Azure 通知中樞"></a>建立 Azure 通知中樞</h2><p>首先點選左上角建立資源，選擇 <code>Web + 行動</code> 的類別，可以看到 <code>Notification Hub</code>：</p>
+<p><img src="create-azure-hub-step-1.png"></p>
+<p>輸入 Notification Hub 相關資料，完成後點擊建立按鈕：</p>
+<p><img src="create-azure-hub-step-2.png"></p>
+<p>回到儀表板，可以看到剛建立好的通知中樞：</p>
+<p><img src="azure-dash-board.png"></p>
+<p>點擊通知中樞可以看到詳細資訊：</p>
+<p><img src="create-azure-hub-step-3.png" alt="NOTIFICATION SETTINGS 則是通知中樞所支援的平台"></p>
+<h2 id="實作-Cordova-App-接收推播通知功能"><a href="#實作-Cordova-App-接收推播通知功能" class="headerlink" title="實作 Cordova App 接收推播通知功能"></a>實作 Cordova App 接收推播通知功能</h2><ul>
+<li>Sample Code<ul>
+<li>Initialize PushNotification</li>
+<li>WebAPI Post platform info and device token</li>
+</ul>
+</li>
+</ul>
+<h4 id="初始化設定"><a href="#初始化設定" class="headerlink" title="初始化設定"></a>初始化設定</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">initNotification() &#123;</span><br><span class="line">  <span class="keyword">const</span> senderID = environment.senderId;</span><br><span class="line">  <span class="keyword">const</span> pushConfig: PhonegapPluginPush.InitOptions = &#123;</span><br><span class="line">    android: &#123;</span><br><span class="line">      senderID: senderID</span><br><span class="line">    &#125;,</span><br><span class="line">    ios: &#123; alert: <span class="literal">true</span>, badge: <span class="literal">true</span>, sound: <span class="literal">true</span> &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.pushNotification = PushNotification.init(pushConfig);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 進行註冊</span></span><br><span class="line">  <span class="keyword">this</span>.pushNotification.on(<span class="string">'registration'</span>, <span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Get the native platform of the device.</span></span><br><span class="line">    <span class="keyword">const</span> platform = device.platform;</span><br><span class="line">    <span class="comment">// Get the handle returned during registration.</span></span><br><span class="line">    <span class="keyword">const</span> registId = data.registrationId;</span><br><span class="line">    <span class="comment">// Set the device-specific message template.</span></span><br><span class="line">    <span class="keyword">if</span> (platform === <span class="string">'android'</span> || platform === <span class="string">'Android'</span>) &#123;</span><br><span class="line">      <span class="comment">// Register for GCM notifications.</span></span><br><span class="line">      <span class="keyword">this</span>.handleData = &#123; Platform: <span class="string">'gcm'</span>, DeviceToken: registId &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (device.platform === <span class="string">'iOS'</span>) &#123;</span><br><span class="line">      <span class="comment">// Register for notifications.</span></span><br><span class="line">      <span class="keyword">this</span>.handleData = &#123; Platform: <span class="string">'apns'</span>, DeviceToken: registId &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`取得 token`</span>, data.registrationId);</span><br><span class="line">  &#125;);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 收到訊息時</span></span><br><span class="line">  <span class="keyword">this</span>.pushNotification.on(<span class="string">'notification'</span>, <span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`got notification!`</span>, data);</span><br><span class="line">    <span class="comment">// data.message,</span></span><br><span class="line">    <span class="comment">// data.title,</span></span><br><span class="line">    <span class="comment">// data.count,</span></span><br><span class="line">    <span class="comment">// data.sound,</span></span><br><span class="line">    <span class="comment">// data.image,</span></span><br><span class="line">    <span class="comment">// data.additionalData</span></span><br><span class="line">  &#125;);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 發生錯誤時</span></span><br><span class="line">  <span class="keyword">this</span>.pushNotification.on(<span class="string">'error'</span>, <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Notification Error: <span class="subst">$&#123;e.message&#125;</span>`</span>, e);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="註冊裝置"><a href="#註冊裝置" class="headerlink" title="註冊裝置"></a>註冊裝置</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">registDevice(): Observable&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="comment">// console.log(`進行推播註冊`, environment.serverUrl);</span></span><br><span class="line">    <span class="comment">// console.log(`device token`, this.handleData.DeviceToken);</span></span><br><span class="line">    <span class="comment">// console.log(`platform`, this.handleData.Platform);</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.http</span><br><span class="line">      .post&lt;<span class="built_in">any</span>&gt;(</span><br><span class="line">        environment.apiUrl,</span><br><span class="line">        <span class="keyword">this</span>.handleData,</span><br><span class="line">      )</span><br><span class="line">      .pipe(</span><br><span class="line">        catchError(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">`notificationService registDevice error`</span>, err);</span><br><span class="line">          <span class="keyword">return</span> Observable.throw(err);</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Android-平台設定"><a href="#Android-平台設定" class="headerlink" title="Android 平台設定"></a>Android 平台設定</h2><h3 id="建立-FCM-Project"><a href="#建立-FCM-Project" class="headerlink" title="建立 FCM Project"></a>建立 FCM Project</h3><p>要推播訊息到 Android 系統，需要先建立 <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">FCM</a> ( Firebase Cloud Message ) 專案，登入 Google 帳號後可以看到以下的畫面，點選新增專案：</p>
+<p><img src="create-fcm-project-step-1.png"></p>
+<p>然後輸入專案相關資訊：專案名稱、ID 及國家或地區，並點擊建立專案。</p>
+<p><img src="create-fcm-project-step-2.png"></p>
+<p>專案建立完成後，會進到專案的 dash board，點選左上角的齒輪展開選單，點擊<code>專案設定</code>：</p>
+<p><img src="create-fcm-project-step-3.png"></p>
+<p>點選後會看到專案的相關資訊，捲軸滾到下方可以看到目前專案中沒有任何應用程式，點擊中間將 Firebase 加入您的 Android 應用程式的選項：</p>
+<p><img src="fcm-create-android-app.png"></p>
+<p>點擊後進入新增 Android 應用程式的畫面，輸入 App 相關資訊，輸入完成後點擊註冊應用程式：</p>
+<p><img src="fcm-create-android-app-2.png"></p>
+<p>註冊完成之後，點選 下載 google-services.json` 按鈕進行下載，並將檔案存放在 Cordova 專案的根目錄。</p>
+<p><img src="fcm-create-android-app-3.png"></p>
+<p>下載完成之後再回到 Cordova 專案的 <code>config.xml</code> 設定檔，在 Android 的 <code>platform</code> 區塊中加上以下的內容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">platform</span> <span class="attr">name</span>=<span class="string">"android"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"market:*"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource-file</span> <span class="attr">src</span>=<span class="string">"google-services.json"</span> <span class="attr">target</span>=<span class="string">"app/google-services.json"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">platform</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>FCM 的部分設定完成後，我們還需要將 API Key 存放至 Azure Notification Hub 的設定中，因此回到專案的主控台，雖然在一般的分頁下可以看到 <code>網路 API 金鑰</code>，但這似乎還是舊版的，筆者在 Azure 輸入設定時會遇到錯誤的情況，因此新版的部分要點選 <code> CLOUD MESSAGING</code> 標籤進入：</p>
+<p><img src="create-fcm-project-step-4.png"></p>
+<p>會看到專案憑證的資訊及寄件者 ID，而伺服器金鑰則是建立 Azure Notification Hub 之後要設定的 API Key：</p>
+<p><img src="create-fcm-project-step-5.png"></p>
+<p>進入 Googel ( GCM ) 的設定，並將複製的 API Key 貼上：</p>
+<p><img src="android-add-api-key.png"></p>
+<h3 id="Azure-Notification-Hub-測試推播"><a href="#Azure-Notification-Hub-測試推播" class="headerlink" title="Azure Notification Hub 測試推播"></a>Azure Notification Hub 測試推播</h3><p>完成設定之後，可以到側欄下方有個<code>支援與疑難排解</code>的類別，底下有個 <code>Test Send</code> 連結，點選後會看到測試發送的畫面，確認 Cordova App 的 Device Token 有順利註冊成功後，選擇 Android 平台即可立即發送測試。</p>
+<p><img src="android-send-test.png"></p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>經過以上的介紹我們可以知道要如何安裝 <code>phonegap-plugin-push</code> 並建立 FCM Project 後，將 <code>google-service.json</code> 加入 Cordova 專案中，同時將伺服器金鑰設定至 Azure Notification Hub 中，最後來一發測試訊息，大功告成！</p>
+<p>Apple 的部分，由於需要另外建立推播服務的憑證，下篇文章會再針對 APNS 的部分去做說明，若沒接觸過 Apple Develope 後台，想實作推播功能的話，需要花點時間了解 Apple 的 App Identity 與憑證的建立方式，才能順利實作囉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2018/04/16/cordova-week-2/" data-id="cklr48h9b0010rxrs7mag1xnt" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2018/04/16/cordova-week-2/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/28/cordova-week-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          [Cordova Week-3] Cordova Push Notification - iOS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/08/cordova-week-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[Cordova Week-1] Hello Cordova!</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2018/04/16/cordova-week-2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

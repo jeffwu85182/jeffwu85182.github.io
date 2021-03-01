@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[Cordova Week-4] Cordova File System | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言開發 App 的時候，時常會遇到要處理裝置中的圖片或檔案，一陣子沒有碰了，因此這次就來聊聊 Cordova App 中的 File System！Cordova 針對 File System 提供了核心套件 ( Core Plugin ) - cordova-plugin-file，主要實作了檔案操作相關的 API 使我們能讀寫裝置中的檔案，不同的平台，提供的屬性或方法都不盡相同，我們先從 A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Cordova Week-4] Cordova File System">
+<meta property="og:url" content="https://blog.crazyalu.com/2018/05/07/cordova-week-4/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="前言開發 App 的時候，時常會遇到要處理裝置中的圖片或檔案，一陣子沒有碰了，因此這次就來聊聊 Cordova App 中的 File System！Cordova 針對 File System 提供了核心套件 ( Core Plugin ) - cordova-plugin-file，主要實作了檔案操作相關的 API 使我們能讀寫裝置中的檔案，不同的平台，提供的屬性或方法都不盡相同，我們先從 A">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-05-07T04:25:30.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.941Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="cordova plugin file">
+<meta property="article:tag" content="file">
+<meta property="article:tag" content="Cordova Android">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cordova-week-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/07/cordova-week-4/" class="article-date">
+  <time datetime="2018-05-07T04:25:30.000Z" itemprop="datePublished">2018-05-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cordova/">Cordova</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [Cordova Week-4] Cordova File System
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>開發 App 的時候，時常會遇到要處理裝置中的圖片或檔案，一陣子沒有碰了，因此這次就來聊聊 Cordova App 中的 File System！Cordova 針對 File System 提供了核心套件 ( Core Plugin ) - <code>cordova-plugin-file</code>，主要實作了檔案操作相關的 API 使我們能讀寫裝置中的檔案，不同的平台，提供的屬性或方法都不盡相同，我們先從 Android 的部分開始介紹。</p>
+<h2 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h2><p>透過 Cordova CLI 進行安裝：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin add cordova-plugin-file</span><br></pre></td></tr></table></figure>
+
+<p>在執行時期，若有正確引入 cordova.js，加入 <code>cordova-plugin-file</code> 後，會在全域屬性中找到 cordova.file 物件。所以我們可以在 javascript 的部分加入事件監聽 ( Event Listener )，並 console.log 物件確認是否有成功加入：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"deviceready"</span>, onDeviceReady, <span class="literal">false</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDeviceReady</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(cordova.file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="支援的平台"><a href="#支援的平台" class="headerlink" title="支援的平台"></a>支援的平台</h2><p>根據套件 Repo 提供的 <code>README</code>，目前支援的平台如下：</p>
+<ul>
+<li>Android</li>
+<li>iOS</li>
+<li>OS X</li>
+<li>Windows</li>
+<li>Browser</li>
+</ul>
+<p>其中 Ｗindows 平台目前不支援 <code>FileReader.readAsArrayBuffer</code> 以及 <code>FileWriter.write(blob)</code> 的方法。 但這次的介紹主軸在於 Android &amp; iOS，因此這部分有個基本的了解即可。</p>
+<a id="more"></a>
+
+<h2 id="Entry：DirectoryEntry-amp-FileEntry"><a href="#Entry：DirectoryEntry-amp-FileEntry" class="headerlink" title="Entry：DirectoryEntry &amp; FileEntry"></a>Entry：DirectoryEntry &amp; FileEntry</h2><p>在開始之前，需要先了解一下兩個名詞，主要在進行存取的時候一定會需要使用的入口 ( Entry ) 物件。</p>
+<ul>
+<li>DirectoryEntry：目錄的入口，透過 <code>window.requestFileSystem</code> 或 <code>resolveLocalFileSystemURL</code> 取得。</li>
+<li>FileEntry：檔案入口，透過 <code>directoryEntry.getFile()</code> 取得，若可取得即代表檔案有存在。<ul>
+<li>若檔案存在則能順利取得物件實體，否則會收到錯誤 <code>FileError {code: 1}</code>，即 <code>NOT_FOUND_ERR</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="引用-Types"><a href="#引用-Types" class="headerlink" title="引用 Types"></a>引用 Types</h2><p>由於我們使用 Angular + Cordova 進行 Hybrid App 開發，寫 Angular 習慣使用 <code>TypeScript</code>，負責維護 Cordova 核心套件的團隊也針對套件提供了好用的定義檔，我們只需要引入到 tsconfig.json (tsconfig.app.json) 即可：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: <span class="string">"../tsconfig.json"</span>,</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"outDir"</span>: <span class="string">"../out-tsc/app"</span>,</span><br><span class="line">    <span class="attr">"baseUrl"</span>: <span class="string">"./"</span>,</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"es2015"</span>,</span><br><span class="line">    <span class="attr">"types"</span>: [</span><br><span class="line">      <span class="string">"../hello/plugins/phonegap-plugin-push/types"</span>,</span><br><span class="line">      <span class="string">"../hello/plugins/cordova-plugin-device/types"</span>,</span><br><span class="line">      <span class="string">"../hello/plugins/cordova-plugin-file/types"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"exclude"</span>: [<span class="string">"test.ts"</span>, <span class="string">"**/*.spec.ts"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>範例的 Cordova 專案建立在 angular 專案根目錄下，利用相對路徑，進入 Cordova 專案目錄下的 <code>node_modules</code>，在套件加入的時候， <code>node_module</code> 會同時產生加入的套件，因此可以在這個目錄下看到加入過的套件，底下都會有 <code>types</code> 目錄，而裡面的檔案就是帶給我們更多方便的 types。</p>
+<h2 id="設定套件-可選擇"><a href="#設定套件-可選擇" class="headerlink" title="設定套件 (可選擇)"></a>設定套件 (可選擇)</h2><p>可透過 config.xml 新增標籤設定，限定特定位置開放存取操作，標籤中的 value 可參考上方 file-system layout 的項目列出來並以逗號隔開，代表只有列出的項目有安裝並開放存取。而在預設的情況下所有的 file-system root 都是啟用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;preference name&#x3D;&quot;iosExtraFilesystems&quot; value&#x3D;&quot;library,library-nosync,documents,documents-nosync,cache,bundle,root&quot; &#x2F;&gt;</span><br><span class="line">&lt;preference name&#x3D;&quot;AndroidExtraFilesystems&quot; value&#x3D;&quot;files,files-external,documents,sdcard,cache,cache-</span><br></pre></td></tr></table></figure>
+
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ul>
+<li><code>files</code>: App 內部的檔案存取目錄</li>
+<li><code>files-external</code>: App 外部檔案存取目錄</li>
+<li><code>sdcard</code>: 全域的外部存取目錄（若有裝的話則是 SD 卡的根目錄），必須先取得 <code>android.permission.WRITE_EXTERNAL_STORAGE</code> 權限才能使用。</li>
+<li><code>cache</code>: App 內部的快取目錄</li>
+<li><code>cache-external</code>: App 外部的快取目錄</li>
+<li><code>assets</code>: App 打包的檔案資料 (唯讀)</li>
+<li><code>root</code>: 整個裝置的 file-system</li>
+</ul>
+<p>Android 也支援一個特殊的 file-system，名叫 <code>documents</code>，這代表是在 <code>files</code> 的 file-system 根目錄下的 <code>Documents</code> 的子目錄名稱。</p>
+<h3 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h3><ul>
+<li><code>library</code>: App 的 <code>Library</code> 目錄</li>
+<li><code>documents</code>: App 的 <code>Documents</code> 目錄</li>
+<li><code>cache</code>: App 的 <code>Cache</code> 目錄</li>
+<li><code>bundle</code>: App 的 <code>bundle</code> 目錄，是 App 在磁碟中本身的位置 (唯讀)</li>
+<li><code>root</code>: 整個裝置的 file-system</li>
+</ul>
+<p>在預設的情況 <code>library</code> 與 <code>documents</code> 目錄可以同步到 iCloud ，我們也可以要求兩個 file-system，<code>library-nosync</code> 與 <code>documents-nosync</code>，代表這兩個 file-system 中不會同步到 iCloud 的目錄。</p>
+<h2 id="初始化目錄實體-DirectoryEntry-Instance"><a href="#初始化目錄實體-DirectoryEntry-Instance" class="headerlink" title="初始化目錄實體 ( DirectoryEntry Instance )"></a>初始化目錄實體 ( DirectoryEntry Instance )</h2><p>每次操作檔案或目錄時，我們需要透過物件實體進行操作，因此需要先進行初始化以取得物件實體，由於一開始是從 <code>cordova.file.externalDataDirectory</code> 取得，可以確認是 <code>DirectoryEntry</code> 而不是 <code>FileEntry</code>，如下的範例，並嘗試使用 Observable 實作：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">initRootDirectoryEntry() &#123;</span><br><span class="line">    <span class="keyword">this</span>.resolveLocalFileSystemURL()</span><br><span class="line">      .pipe(map(<span class="function"><span class="params">fs</span> =&gt;</span> (<span class="keyword">this</span>.rootDirectoryEntry = fs)))</span><br><span class="line">      .subscribe();</span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">private</span> resolveLocalFileSystemURL(): Observable&lt;DirectoryEntry&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> Observable.create(<span class="function">(<span class="params">observer: Observer&lt;DirectoryEntry&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">window</span>.resolveLocalFileSystemURL(</span><br><span class="line">        cordova.file.externalDataDirectory,</span><br><span class="line">        fs =&gt; &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">`resolved fs`</span>, fs);</span><br><span class="line">          <span class="keyword">this</span>.title = <span class="string">'file system is resolved'</span>;</span><br><span class="line">          <span class="comment">// this.rootDirectoryEntry = &lt;DirectoryEntry&gt;fs;</span></span><br><span class="line">          observer.next(&lt;DirectoryEntry&gt;fs);</span><br><span class="line">        &#125;,</span><br><span class="line">        err =&gt; &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">`resolve error`</span>, err);</span><br><span class="line">          observer.error(err);</span><br><span class="line">        &#125;</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>由於 TypeScript 提供了強型別的概念，這段程式碼直接引用的話，在開發時期，會遇到 <code>cannot find name cordova</code> 的問題，這時候只需要在檔案的最上方新增一行宣告即可使用：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="keyword">const</span> cordova: Cordova;</span><br></pre></td></tr></table></figure>
+
+<p>至於 cordova.file 有哪些空間可以使用，可參考文件 <a href="https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/#file-system-layouts" target="_blank" rel="noopener">File-System-Layouts</a> 的部分，有整理名稱與對應的裝置路徑。</p>
+<h2 id="存取檔案"><a href="#存取檔案" class="headerlink" title="存取檔案"></a>存取檔案</h2><p>存取檔案的方式是利用 <code>Entry</code> 提供的方法 <code>getFile()</code> 取得，若有檔案確實存在則會取得 FileEntry，反之則會收到錯誤訊息，若在 <code>getFile()</code> 加入設定參數 <code>{create: true}</code>，即使沒有檔案存在則一樣會建立檔案。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">createFile() &#123;</span><br><span class="line">    <span class="keyword">this</span>.rootDirectoryEntry.getFile(</span><br><span class="line">        <span class="string">'test.txt'</span>,</span><br><span class="line">        &#123; create: <span class="literal">true</span> &#125;, <span class="comment">// 若 create 為 flase，當檔案不存在時會發出錯誤。</span></span><br><span class="line">        fileEntry =&gt; &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'fileEntry is file?'</span> + fileEntry.isFile.toString());</span><br><span class="line">            <span class="keyword">this</span>.writeFile(fileEntry, <span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">this</span>.myFileEntry = fileEntry;</span><br><span class="line">        &#125;,</span><br><span class="line">        error =&gt; <span class="built_in">console</span>.log(<span class="string">`createFile Error`</span>, error)</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="建立檔案"><a href="#建立檔案" class="headerlink" title="建立檔案"></a>建立檔案</h2><p>建立檔案的方式與存取檔案一樣都是透過 <code>getFile</code> 方法進行，取得 <code>FileEntry</code> 後寫入檔案內容，寫入的方式是透過 <code>FileEntry</code> 提供的 <code>createWriter</code> 帶入 Callback Function，並在各個事件例如 <code>onwritteend</code>, <code>onerror</code> 實作對應的處理，最後則呼叫 <code>write()</code> 並帶入 <code>dataObj</code>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">createFile() &#123;</span><br><span class="line">   <span class="keyword">this</span>.rootDirectoryEntry.getFile(</span><br><span class="line">     <span class="string">'test.txt'</span>,</span><br><span class="line">     &#123; create: <span class="literal">true</span> &#125;,</span><br><span class="line">     fileEntry =&gt; &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'fileEntry is file?'</span> + fileEntry.isFile.toString());</span><br><span class="line">       <span class="keyword">this</span>.writeFile(fileEntry, <span class="literal">null</span>);</span><br><span class="line">       <span class="keyword">this</span>.myFileEntry = fileEntry;</span><br><span class="line">     &#125;,</span><br><span class="line">     error =&gt; <span class="built_in">console</span>.log(<span class="string">`createFile Error`</span>, error)</span><br><span class="line">   );</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span> writeFile(fileEntry: FileEntry, dataObj) &#123;</span><br><span class="line">   <span class="comment">// Create a FileWriter object for our FileEntry (log.txt).</span></span><br><span class="line">   fileEntry.createWriter(<span class="function"><span class="params">fileWriter</span> =&gt;</span> &#123;</span><br><span class="line">     fileWriter.onwriteend = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Successful file write...'</span>);</span><br><span class="line">       <span class="keyword">this</span>.readFile(fileEntry);</span><br><span class="line">     &#125;;</span><br><span class="line"></span><br><span class="line">     fileWriter.onerror = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Failed file write: '</span> + e.toString());</span><br><span class="line">     &#125;;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// If data object is not passed in,</span></span><br><span class="line">     <span class="comment">// create a new Blob instead.</span></span><br><span class="line">     <span class="keyword">if</span> (!dataObj) &#123;</span><br><span class="line">       dataObj = <span class="keyword">new</span> Blob([<span class="string">'some file data'</span>], &#123; <span class="keyword">type</span>: <span class="string">'text/plain'</span> &#125;);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     fileWriter.write(dataObj);</span><br><span class="line">   &#125;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="讀取檔案"><a href="#讀取檔案" class="headerlink" title="讀取檔案"></a>讀取檔案</h2><p>在寫入檔案的範例中，或許有注意到 <code>this.readFile</code> 方法的呼叫，這個是我們要自己實作一個讀取檔案的方法，一樣透過 <code>FileEntry</code> 進行，並取得 <code>file</code> 後 new 一個 <code>FileReader</code>，並註冊事件方法在 <code>onloadend</code>，最後再選用讀取的方法例如 <code>readAsText()</code> 並帶入取得的 <code>file</code> 物件：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> readFile(fileEntry: FileEntry) &#123;</span><br><span class="line">    fileEntry.file(</span><br><span class="line">        file =&gt; &#123;</span><br><span class="line">            <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line"></span><br><span class="line">            reader.onloadend = <span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'Successful file read: '</span>, result);</span><br><span class="line">                <span class="comment">// displayFileData(fileEntry.fullPath + ": " + this.result);</span></span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            reader.readAsText(file);</span><br><span class="line">        &#125;,</span><br><span class="line">        readFileError =&gt; <span class="built_in">console</span>.log(<span class="string">`readFileError`</span>, readFileError)</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="刪除檔案"><a href="#刪除檔案" class="headerlink" title="刪除檔案"></a>刪除檔案</h2><p>透過 <code>FileEntry</code> 提供的 <code>remove()</code> 方法即可刪除檔案：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">deleteFile() &#123;</span><br><span class="line">    <span class="keyword">this</span>.myFileEntry.remove(</span><br><span class="line">        () =&gt; <span class="built_in">console</span>.log(<span class="string">`remove sucess`</span>),</span><br><span class="line">        error =&gt; <span class="built_in">console</span>.log(<span class="string">`remove error`</span>, error)</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>從上述的例子中，有些有用 <code>private</code> 有些則沒有，主要區別提供 UI 呼叫的公開方法及 <code>component</code> 使用的私有方法。</p>
+<h2 id="Android-相關注意事項"><a href="#Android-相關注意事項" class="headerlink" title="Android 相關注意事項"></a>Android 相關注意事項</h2><p>套件的說明文件中其中有一個段落在描述各平台的 <code>Quirks</code>，翻成中文是指『怪癖』，這邊我們就當作有些小奇葩的地方要留意囉。</p>
+<h3 id="Android-持續存取的位置決定"><a href="#Android-持續存取的位置決定" class="headerlink" title="Android 持續存取的位置決定"></a>Android 持續存取的位置決定</h3><p>在 Android 裝置上有許多可以持續儲存的空間，可以參考 <a href="http://developer.android.com/guide/topics/data/data-storage.html" target="_blank" rel="noopener">Android 官網文件</a> 延伸討論其可行性。先前的版本套件會在啟動的時候選擇暫存與永久檔案個別的位置，根據裝置是否有宣告安裝了SD卡（或等效的儲存分區），若有安裝 SD 卡，或有較大的內部儲存空間時，則會將檔案存取設定在該空間的根目錄上。換句話說，所有的 Cordova 應用都能看到所有在這張卡上的檔案，若有這樣的疑慮則要多留意了。</p>
+<p>若 SD 卡無法使用時，之前的版本套件會將資料在 <code>/ data / data / &lt;packageId&gt;</code>下存取，這雖然能將各應用隔離，但還是有可能導致在不同的使用者間分享資料。</p>
+<p>現在可以決定是否針對舊版的判斷邏輯來選擇要存取的空間，只需要透過以下兩行的其中一行加入到 Cordova 專案根目錄中的 <code>config.xml</code> 即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"AndroidPersistentFileLocation"</span> <span class="attr">value</span>=<span class="string">"Internal"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"AndroidPersistentFileLocation"</span> <span class="attr">value</span>=<span class="string">"Compatibility"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>若沒有加入上述的其中一行時，預設的行為是 <code>Internal</code>，若有加入標籤但 <code>value</code> 卻不是這兩個的其中一個，則會導致 App 無法啟動，若是專案是早期的版本，並使用 <code>3.0.0</code> 之前版本的套件，而且已經發佈給使用者的話，就要將標籤加入至設定檔，並設定值為 <code>Compatibility</code>。若沒有這樣設定，直接切換到 <code>Internal</code> 的話，使用者更新之後可能會無法存取到先前操作所留下的檔案，這要視使用者的裝置而定。反之若是新的專案，則建議直接使用 <code>Internal</code> 囉。</p>
+<h3 id="遞迴處理-Android-assets-緩慢問題"><a href="#遞迴處理-Android-assets-緩慢問題" class="headerlink" title="遞迴處理 Android_assets 緩慢問題"></a>遞迴處理 Android_assets 緩慢問題</h3><p>若碰到需要處理列出 <code>android_assets</code> 資料夾相關遞迴操作時，會發現執行速度非常緩慢的情況，因此套件的 <code>src/android</code> 目錄下有提供 <code>build-extras.gradle</code> 的檔案，將檔案加至 Cordova platform android 根目錄即可提升速度，但 cordova-android 版本至少要 <code>4.0.0</code> 以上。筆者是還沒遇過這樣的操作需求，有遇過的大大可以分享一下。</p>
+<h3 id="Android-Marshmallow-android-6-0-版本權限問題"><a href="#Android-Marshmallow-android-6-0-版本權限問題" class="headerlink" title="Android Marshmallow (android 6.0) 版本權限問題"></a>Android Marshmallow (android 6.0) 版本權限問題</h3><p>當 Android 6.0，也就是棉花糖的版本中，預設的情況下是擁有 <code>cordova.file.applicationStorageDirectory</code> 以及 <code>cordova.file.externalApplicationStorageDirectory</code> 的讀寫權限的，套件並不需要針對這兩個存取空間去請求存取操作的權限，除非外部儲存空間並沒有安裝，由於系統限制的關係，當沒有安裝外部儲存時，就會跳出 <code>cordova.file.externalApplicationStorageDirectory</code> 空間的存取權限請求。筆者想嘗試還原情境，但試不出來，參考<a href="https://github.com/Microsoft/cordova-plugin-code-push/issues/57" target="_blank" rel="noopener">這篇討論文</a>，應該是要實體的裝置執行時才會遇到了。</p>
+<h2 id="錯誤代碼與意義"><a href="#錯誤代碼與意義" class="headerlink" title="錯誤代碼與意義"></a>錯誤代碼與意義</h2><p>當有執行過程產生錯誤時，會丟出下方列表中的錯誤：</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Constant</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>NOT_FOUND_ERR</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>SECURITY_ERR</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ABORT_ERR</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>NOT_READABLE_ERR</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ENCODING_ERR</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>NO_MODIFICATION_ALLOWED_ERR</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>INVALID_STATE_ERR</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>SYNTAX_ERR</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>INVALID_MODIFICATION_ERR</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>QUOTA_EXCEEDED_ERR</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>TYPE_MISMATCH_ERR</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>PATH_EXISTS_ERR</code></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2018/05/07/cordova-week-4/" data-id="cklr48h9c0011rxrsg21y727u" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2018/05/07/cordova-week-4/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file/" rel="tag">file</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/03/cordova-week-5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          [Cordova Week-5] Cordova Plugin Geolocation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/05/ng-update/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">升級! 全新進化 Angular 6！</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2018/05/07/cordova-week-4/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

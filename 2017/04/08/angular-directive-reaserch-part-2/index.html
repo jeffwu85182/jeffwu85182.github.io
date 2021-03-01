@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular Directive 初探 - Part.2 | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇文章，我們初步了解 directive 基本的使用方式，這次來嘗試加入一些事件或值的傳遞，進一步體驗這強大又方便的  Angular Directive。 反應由使用者發起的事件目前 appHighlight 很單純的去改變一個元素的樣式而已，但 directive 可以做得更動態，例如我們可以指定當使用者將滑鼠移入或移出元素的時候，進行背景色的改變。在最上方從 @angular&#x2F;core">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular Directive 初探 - Part.2">
+<meta property="og:url" content="https://blog.crazyalu.com/2017/04/08/angular-directive-reaserch-part-2/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="上一篇文章，我們初步了解 directive 基本的使用方式，這次來嘗試加入一些事件或值的傳遞，進一步體驗這強大又方便的  Angular Directive。 反應由使用者發起的事件目前 appHighlight 很單純的去改變一個元素的樣式而已，但 directive 可以做得更動態，例如我們可以指定當使用者將滑鼠移入或移出元素的時候，進行背景色的改變。在最上方從 @angular&#x2F;core">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-04-08T05:31:22.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.901Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="Angular 2">
+<meta property="article:tag" content="Directive">
+<meta property="article:tag" content="Attribute Directives">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-angular-directive-reaserch-part-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/08/angular-directive-reaserch-part-2/" class="article-date">
+  <time datetime="2017-04-08T05:31:22.000Z" itemprop="datePublished">2017-04-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Angular-2/">Angular 2</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular Directive 初探 - Part.2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="/2017/03/25/angular-directive-reaserch/">上一篇文章</a>，我們初步了解 directive 基本的使用方式，這次來嘗試加入一些事件或值的傳遞，進一步體驗這強大又方便的  Angular Directive。</p>
+<h3 id="反應由使用者發起的事件"><a href="#反應由使用者發起的事件" class="headerlink" title="反應由使用者發起的事件"></a>反應由使用者發起的事件</h3><p>目前 <code>appHighlight</code> 很單純的去改變一個元素的樣式而已，但 directive 可以做得更動態，例如我們可以指定當使用者將滑鼠移入或移出元素的時候，進行背景色的改變。在最上方從 <code>@angular/core</code> import 的部分加入 <code>HostListener</code>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Directive, ElementRef, OnInit, HostListener, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然後加入兩個 eventhandlers 負責處理 mouse enters 或 leaves 的事件，由於滑鼠的進入及離開共有兩個事件，要加上各自的 <code>@HostListener</code> decorator 共兩個：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HostListener</span>(<span class="string">'mouseenter'</span>) onMouseEnter() &#123;</span><br><span class="line">  <span class="keyword">this</span>._el.nativeElement.style.backgroundColor = <span class="string">'green'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@HostListener</span>(<span class="string">'mouseleave'</span>) onMouseLeave() &#123;</span><br><span class="line">  <span class="keyword">this</span>._el.nativeElement.style.backgroundColor = <span class="string">'orange'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>透過 <code>HostListener</code> 來監聽事件並進行處理，就可以讓 directive 實現更多動態的功能囉，那如果要從外部傳值進來讓 directive 進行處理的話呢？我們接著往下看。</p>
+<a id="more"></a>
+
+<h3 id="藉由-Input-進行資料綁定的方式將值傳進-Directive"><a href="#藉由-Input-進行資料綁定的方式將值傳進-Directive" class="headerlink" title="藉由 @Input 進行資料綁定的方式將值傳進 Directive"></a>藉由 @Input 進行資料綁定的方式將值傳進 Directive</h3><p>到目前為止，highlight 指定的顏色都是直接寫死 ( hard-coded ) 在 directive，但這樣還不夠，若要自訂顏色的話還要進來 directive 中進行修改，缺乏了可調整的彈性，因此我們可以透過一些方法讓 directive 去接收外面的值，如此一來 direcitve 就變得更有彈性，提供給其他開發者使用時也能快速的進行套用的動作，以加快開發速度。Time is money XD</p>
+<h4 id="從-directive-class-開始"><a href="#從-directive-class-開始" class="headerlink" title="從 directive class 開始"></a>從 directive class 開始</h4><p>在開始之前，先在 class 中加入 <code>@Input</code> decorator 如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Input</span>() bgColor: <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
+
+<p>記得要最上方的部分要 import <code>Input</code> 才能使用 decorator 喔 :D 接著建立一個 get 屬性方法：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 設定一個 get，如果 bgColor 沒有值，預設給 orange</span></span><br><span class="line">  <span class="keyword">get</span> backgroundColor() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this.bgColor'</span>, <span class="keyword">this</span>.bgColor);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.bgColor || <span class="string">'orange'</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>考慮到使用者在套用 directive 的時候，可能會沒給值，這時會有兩條路：<del>勝利或死亡</del> (誤) 直接出現錯誤訊息壞掉或提供預設值，站在貼心的角度，善良的開發者都應該要設個預設值才對（謎之音：廢話）因此這邊我們就先設個 get 屬性方法，直接在取值的時候決定是否給與預設值囉。接著就是將原本 hard-code 的部分改成讀取屬性的值：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>._el.nativeElement.style.backgroundColor = <span class="keyword">this</span>.backgroundColor;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Template-的使用方式"><a href="#Template-的使用方式" class="headerlink" title="Template 的使用方式"></a>Template 的使用方式</h4><p>使用方式就是直接在上面加上 html attribute 並把值加上去，套用的方式有兩種表達型態：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">appHighlight</span> <span class="attr">bgColor</span>=<span class="string">"tomato"</span>&gt;</span></span><br><span class="line">  this is span 1</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">appHighlight</span> [<span class="attr">bgColor</span>]=<span class="string">"'royalblue'"</span>&gt;</span></span><br><span class="line">  this is span 2</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>若沒有用中括號包起來的話，傳入的直接就是字串的值，若你的 component 有屬性是負責提供值的話，可改用第二種方法，上面第二種方法可以看到多了單引號，若沒加單引號的話，傳入的值會是屬性名稱，因此要再多補個單引號來告訴他是傳字串。</p>
+<h3 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h3><p>來個小結吧，這次我們了解要如何讓 directive 變得更有彈性，體會到 directive 帶來封裝的便利性，而且我們從頭到尾都沒有在 AppComponent 中撰寫任何程式碼，只有在 AppModule 的部分加入 <code>declarations</code> 並在 template 中的 HTML Tag 加上 attributes 就搞定一切了！做到這邊不知道你的嘴角是否不自覺的上揚，還是只有我而已？<del>對，只有你！</del></p>
+<p>沒關係，下一篇我們試著來做一個使用第三方套件的 directive，相信一定會有更強烈的感受 XD</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://angular.io/docs/ts/latest/guide/attribute-directives.html#!#pass-values-into-the-directive-with-an-_-input_-data-binding" target="_blank" rel="noopener">Angular.io Guide - Attribute Directive</a></li>
+<li><a href="https://github.com/jeffwu85182/angularDirectiveReaserch" target="_blank" rel="noopener">練習範例</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2017/04/08/angular-directive-reaserch-part-2/" data-id="cklr48h6w0004rxrs7gcs9uh2" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2017/04/08/angular-directive-reaserch-part-2/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/09/angular-directive-research-part-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Angular Directive 初探 - Part.3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/25/angular-directive-reaserch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular Directive 初探 - Part.1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2017/04/08/angular-directive-reaserch-part-2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

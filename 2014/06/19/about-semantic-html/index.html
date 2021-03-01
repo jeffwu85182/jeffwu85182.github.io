@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>介紹 Semantic HTML | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在網路上看到一篇 Semantic HTML 的介紹，嘗試翻譯了一下，有任何錯誤或需要修改的地方請多多指教，謝謝。#Semantic：語意現在任何人想建立他們自己的HTML頁面應該要以“使自己的標記語義是正確”為目標。這篇文章將會解釋什麼是 Semantic HTML 與 semantically-correct HTML，以及它是如何有利於Web的發展。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="介紹 Semantic HTML">
+<meta property="og:url" content="https://blog.crazyalu.com/2014/06/19/about-semantic-html/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="在網路上看到一篇 Semantic HTML 的介紹，嘗試翻譯了一下，有任何錯誤或需要修改的地方請多多指教，謝謝。#Semantic：語意現在任何人想建立他們自己的HTML頁面應該要以“使自己的標記語義是正確”為目標。這篇文章將會解釋什麼是 Semantic HTML 與 semantically-correct HTML，以及它是如何有利於Web的發展。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2014-06-18T18:07:00.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.901Z">
+<meta property="article:author" content="Jeff Wu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-about-semantic-html" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/06/19/about-semantic-html/" class="article-date">
+  <time datetime="2014-06-18T18:07:00.000Z" itemprop="datePublished">2014-06-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/html/">html</a>►<a class="article-category-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      介紹 Semantic HTML
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在網路上看到一篇 <a href="http://webdesignfromscratch.com/html-css/semantic-html/" target="_blank" rel="noopener">Semantic HTML</a> 的介紹，嘗試翻譯了一下，有任何錯誤或需要修改的地方請多多指教，謝謝。<br>#Semantic：語意<br>現在任何人想建立他們自己的HTML頁面應該要以<strong>“使自己的標記語義是正確”</strong>為目標。<br>這篇文章將會解釋什麼是 Semantic HTML 與 semantically-correct HTML，以及它是如何有利於Web的發展。    </p>
+<a id="more"></a>
+
+<p>Semantic一詞在中文直譯為「語意」，不過這裡的「語意」非語言中的「語意」，而是讓你所撰寫的電子資訊，可以讓人類能夠清楚理解，同時也適合被機器或程式處理之。其實這一點就跟網站優化的目的相同：</p>
+<ul>
+<li>可以讓人類能夠清楚理解 - SMO</li>
+<li>適合被機器或程式處理 - SEO</li>
+</ul>
+<p>#什麼是 Semantic HTML?<br>Semantic 的主要研究意義在於：如何有意義的去建立並應用這些標記。<br>“為什麼 X 要叫做 X?” 這就是 semantics 的問題。<br>HTML 是我們用來撰寫網頁的標記語言，它是能夠被標準的網頁瀏覽器所了解，以及多項其他類型的”使用者代理”，包含了行動裝置、搜尋引擎蜘蛛及聽覺瀏覽器等。</p>
+<p>HTML包含了兩種類型的東西：</p>
+<ul>
+<li>標記(Tags)</li>
+<li>文字內容(Text content)</li>
+</ul>
+<p>有一些標記可以擁有他們自己的內容（像是圖片、Flash動畫或是metadata），但大部分的HTML標記都是應用在內容架構上。<br>語意化HTML(Semantic HTML) 或 語意正確的HTML(semantically-correct HTML)<br>指的是我們選用建立架構的標記是要有意義的，並適當的應用在其中。</p>
+<p>因為搜索引擎不是人，她並不懂你網站中文字的意思是什麼，她會的只是整理跟歸納而已。所以你的HTML結構中，就必須先幫搜索引擎劃重點。<br>所以，舉個例子好了，如果你想要你的 HTML 是語意正確(semantically-correct)的話…</p>
+<ul>
+<li>Headings：也就是 h1 ~ h6，標籤數字越小層級越高，這就有如書本中或是報紙的大中小標題一般。被標示為 h1（大標題）通常是很醒目的目標，一定是具代表性的意義的文字，於是搜索引擎就會特別注意 h1標籤內的字。</li>
+<li>一個段落標記<code>&lt;p&gt;&lt;/p&gt;</code>的使用應該要用於標示一個段落(這是一個架構的概念)，而不能用在建立一個在網頁上的空間。<br>    <strong>絕對不要用一堆<code>&lt;p&gt;</code>來建立網頁上的空白位置</strong></li>
+<li>標記<code>&lt;b&gt;&lt;/b&gt;</code>(粗體)與<code>&lt;i&gt;&lt;/i&gt;</code>(斜體)永遠不要用它，因為這些標記是用在格式上的應用，在內容的架構上是沒有意義的。取而代之，使用<code>&lt;strong&gt;&lt;/strong&gt;</code>與<code>&lt;em&gt;&lt;/em&gt;</code>(強調意味)，兩者在瀏覽器預設的情況下，文字格式會變成粗體與斜體，但使用<code>&lt;strong&gt;&lt;/strong&gt;</code>和<code>&lt;em&gt;&lt;/em&gt;</code>同時也增加有意義的架構內容。</li>
+<li>Alt：這是附屬在img標籤裡面的屬性，因為搜索引擎看到的都是程式碼，alt的功用就是幫圖附上註解，讓搜索引擎知道，這張圖是在說什麼。</li>
+</ul>
+<p>就W3C的準則而言：</p>
+<ul>
+<li>I: Renders as italic text style.</li>
+<li>B: Renders as bold text style. [<a href="http://www.w3.org/TR/html4/present/graphics.html#h-15.2.1" target="_blank" rel="noopener">w3c.org</a>]</li>
+<li>EM:Indicates emphasis.</li>
+<li>STRONG:Indicates stronger emphasis. [<a href="http://www.w3.org/TR/html4/struct/text.html#h-9.2.1" target="_blank" rel="noopener">w3c.org</a>]</li>
+</ul>
+<p><strong>所以在操作SEO的時候，網站或是每篇文章的重要關鍵字，一定是要被包在h1標籤中的。</strong></p>
+<p>#總是將樣式表從內容獨立出來<br>HTML 標記不應該被套上圖樣 - 這是CSS的工作(層疊樣式表 Cascading Style Sheet)<br>請參考 [<a href="http://webdesignfromscratch.com/web-design-tutorials/]" target="_blank" rel="noopener">http://webdesignfromscratch.com/web-design-tutorials/]</a>(Free Web Design Tutorials)來了解更多關於HTML、CSS 及 JavaScript 如何結合在一個網頁上。<br>(實際演練的時候也會將所有的JavaScript功能(Functions)及事件處理(Event Handlers)從 HTML 標記中移除)</p>
+<p>以上是基礎中的基礎，要做好SEO事實上並沒那麼困難，出發點就是讓人及搜尋引擎能夠輕鬆的看懂你的網站，就是好的網站優化。</p>
+<p>#為什麼有正確語意的HTML會比較好?<br>撰寫語意化HTML帶來的相當大的好處：</p>
+<ul>
+<li>易於使用 (Ease of use)</li>
+<li>易接近、無障礙 (Accessibility)</li>
+<li>搜尋引擎優化 (Search Engine Optimisation)</li>
+<li>可再利用 (Repurposing)</li>
+</ul>
+<p>#易於使用<br>首先，語意化HTML是乾淨的HTML。它更容易閱讀和編輯標記，而且沒有額外的標記和內嵌樣式。<br>當要和其他人協力進行的時候，乾淨的標記也節省了時間和金錢。<br>例如：開發人員要在一個內容管理系統或任何其他web應用來實現你的頁面樣板，乾淨的HTML就可以很快的完成樣式的套用。<br>而且還有一個好處就是你的HTML檔案會比較小，可以加速讀取的速度。</p>
+<p>#易接近、無障礙<br>搜尋引擎蜘蛛與爬蟲，像是Google機器人，代表著另一種使用者代理，他們也會讀取網頁內容，嘗試去辨別其中的涵義。<br>當爬蟲發現一個網頁，它會在索引資料庫存取對於這個網頁是關於什麼的評估，以提供與使用者相匹配的搜尋查詢時使用。</p>
+<p><strong>最大的問題是：搜尋引擎要如何匹配搜尋的條件，對已知頁面來建立一個優先級列表?</strong><br>當然，每家的作法都不太一樣，不過對於搜尋引擎優化其中一個關鍵點，就是使用普通的方式。如果你是一個搜尋引擎，你會怎麼做呢?如果你透過搜尋引擎的工作遇到一些問題，那麼有幾項很快就會明白，往往容易表達的前綴就是”所有的事物都是平等的”。</p>
+<p>比方說，你有兩個網頁，這兩個網頁都是完全相同的文字內容(10KB)，其中一頁有多餘5KB的HTML標記，整齊地註釋在內容的語意意涵。第二頁有多餘30KB的標記，包含了行內樣式、大量的巢狀<code>&lt;div&gt;</code>標記及裝飾圖像。<br>現在，更多的圖樣密集的頁面或許對人類訪客來說看起來比較好，但如果每頁都包含了搜尋條件 “bluebottle” 五次，你會(把自己當成是搜尋引擎)如何判別哪一個才是最接近某人要的”bluebottle”搜尋條件呢?</p>
+<p>顯然的，是第一個，除了頁面比較輕巧，還有以下幾點可能的原因：</p>
+<ul>
+<li><p>1.輕盈頁面的關鍵字密度是最好的。它在15KB的標記中帶有搜尋條件5次，而第二個頁面40KB的標記中也帶有5次條件。無論加入的標記是要給搜尋引擎看的(搜尋引擎也許無法告知)，它看起來似乎沒有關於”bluebottle”的條件。</p>
+</li>
+<li><p>2.每個出現的搜尋條件很可能在文件的一開始中，輕量化的頁面比40KB大的頁面提升更多。所有的事物都是平等的，越早發現文件的搜尋條件，越有可能是關於這個搜尋條件的文件，或這個條件是在這個文件內容中最突出的。</p>
+</li>
+<li><p>3.假設第一個文件是明確的含有語意化的標記，比起在一個更多圖樣的頁面(這頁面可能使用圖片當連結，或許也沒有適當的加入<code>alt</code>屬性)，那麼第一個頁面很可能會是搜尋條件中被放在更高價值的標記(例如標頭(heading)或連結(link))。</p>
+</li>
+</ul>
+<p>#再利用<br>當你的標記(有意義的內容)從你的樣式(為不同的媒體提供的樣式表)中分離，明顯地內容可以更容易被使用者代理了解。這意味著不只是使用者代理已經知道你，但是有些你不完全知道(像是自動抓取建立自定義的RSS新聞feeds在某個主題上、或圖片或具體的影片搜尋引擎)以及其他尚未被發明的！</p>
+<p>最近幾年我們可以看到很多混和內容為主要特點的網站與應用。這會在網站原創者沒有知識(knowledge)下發生，但大多數的情況下，這樣的自由內容在網站間移動，適應各種媒體，這對原創者來說是有益的。</p>
+<p>通常在這樣的情況下，在新的混合頁面上被不同格式的方式獲取網頁的內容，更重要的是它從標記本身移除所有的任何樣式內容。<br>(注意 行內樣式、直接套用在HTML標記上、透過分離出來的樣式表來覆蓋任何其他樣式，如此一來他們就可以把程式碼剝離)</p>
+<p>顯然地，這使內容從任何來源更容易獲取與再使用，而且能容易套用到任何介質(medium)，當它不包含任何寫死的(hard-coded)樣式，而且當它包含語意標記可幫助電腦程序了解其內容的架構和意涵。</p>
+<p>來源：<br>[<a href="http://webdesignfromscratch.com/html-css/semantic-html/]" target="_blank" rel="noopener">http://webdesignfromscratch.com/html-css/semantic-html/]</a>(Introduction to Semantic HTML)<br><a href="%E5%8F%B0%E7%81%A3SEO%E5%84%AA%E5%8C%96%E5%AD%B8%E9%99%A2">http://blog.seo-tw.org/2010/04/seo-semantic-html.html</a><br>[<a href="http://www.slideshare.net/josephj/semantic-html-basic-presentation]" target="_blank" rel="noopener">http://www.slideshare.net/josephj/semantic-html-basic-presentation]</a>(Semantic HTML Basic)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2014/06/19/about-semantic-html/" data-id="cklr48h97000rrxrsehtsf993" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2014/06/19/about-semantic-html/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/24/how-to-optimize-a-site-for-assets-and-resources/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何優化一個網站的靜態檔案 (assets) 和資源 (resources)？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/06/18/progressive-enhancement-progressive-enhancement-with-graceful-degradation-graceful-degradation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">漸進增強 (progressive enhancement)與優美退化 (graceful degradation) </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2014/06/19/about-semantic-html/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

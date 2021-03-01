@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[Cordova Week-1] Hello Cordova! | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言潛水了很久，是時候出來還債分享一下了，在工作上跟 Cordova 真的很有緣，雖然主要是 Angular 的專案開發，但幾乎都是要打包成 APP 的方式呈現，在開發的過程中也踩了不少地雷，經歷過多少次的絕望深淵中爬出，為此，將自身的經驗紀錄下來分享給大家，若有錯誤或需補充的地方還請大家不吝指教。 什麼是 Cordova？Apache Cordova 是一個開源的行動開發框架，它可以讓我們透過標">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Cordova Week-1] Hello Cordova!">
+<meta property="og:url" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="前言潛水了很久，是時候出來還債分享一下了，在工作上跟 Cordova 真的很有緣，雖然主要是 Angular 的專案開發，但幾乎都是要打包成 APP 的方式呈現，在開發的過程中也踩了不少地雷，經歷過多少次的絕望深淵中爬出，為此，將自身的經驗紀錄下來分享給大家，若有錯誤或需補充的地方還請大家不吝指教。 什麼是 Cordova？Apache Cordova 是一個開源的行動開發框架，它可以讓我們透過標">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cordova.apache.org/static/img/guide/cordovaapparchitecture.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/download-jdk.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/download-android-studio.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/open-android-sdk-management.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/android-sdk-management.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/create-cordova-folder.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/xcode-without-sign.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/xcode-with-sign.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/open-chrome-remote-dev-tools.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/open-chrome-dev-tools.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/open-safari-preference.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/enable-safari-dev-tools.png">
+<meta property="og:image" content="https://blog.crazyalu.com/2018/04/08/cordova-week-1/open-safari-dev-tools.png">
+<meta property="article:published_time" content="2018-04-08T05:39:44.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.909Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="Cordova-iOS">
+<meta property="article:tag" content="Cordova-Android">
+<meta property="article:tag" content="Angular with cordova">
+<meta property="article:tag" content="Cordova environment prepare">
+<meta property="article:tag" content="Cordova-CLI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cordova.apache.org/static/img/guide/cordovaapparchitecture.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cordova-week-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/08/cordova-week-1/" class="article-date">
+  <time datetime="2018-04-08T05:39:44.000Z" itemprop="datePublished">2018-04-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cordova/">Cordova</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [Cordova Week-1] Hello Cordova!
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>潛水了很久，是時候出來<del>還債</del>分享一下了，在工作上跟 Cordova 真的很有緣，雖然主要是 Angular 的專案開發，但幾乎都是要打包成 APP 的方式呈現，在開發的過程中也踩了不少地雷，經歷過多少次的絕望深淵中爬出，為此，將自身的經驗紀錄下來分享給大家，若有錯誤或需補充的地方還請大家不吝指教。</p>
+<h2 id="什麼是-Cordova？"><a href="#什麼是-Cordova？" class="headerlink" title="什麼是 Cordova？"></a>什麼是 Cordova？</h2><p>Apache Cordova 是一個開源的行動開發框架，它可以讓我們透過標準的 Web 技術例如：<code>HTML</code>, <code>CSS3</code> 與 <code>JavaScript</code> 進行跨平台的行動應用開發，應用程式可以在每個不同的平台包裝並執行，並依靠符合標準的 API 綁定來存取裝置的功能，例如傳感器，資料或網路狀態等。</p>
+<p>有以下的情況可以使用 Cordova：</p>
+<ul>
+<li>你的行動應用開發想要沿用現有的專案，跨到其他平台，不想再使用該平台的程式語言與工具重新開發。</li>
+<li>你是網站開發者，想要將你的網站應用封裝並部署到各個應用商店平台。</li>
+<li>你是原生的行動應用開發者，對混合式的原生應用存取原生裝置層級 API 的 <code>WebView</code> 元件感興趣，或是你想開發一個可以在原生與 WebView 間運作的套件。</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Cordova-架構"><a href="#Cordova-架構" class="headerlink" title="Cordova 架構"></a>Cordova 架構</h2><p>透過下方的架構圖可以了解 Cordova 的世界觀：</p>
+<ul>
+<li><h3 id="HTML-Rendering-Engine-Web-View"><a href="#HTML-Rendering-Engine-Web-View" class="headerlink" title="HTML Rendering Engine ( Web View )"></a>HTML Rendering Engine ( Web View )</h3><ul>
+<li>是整個 Web 應用表演的舞台，除了提供一般瀏覽器都有的 HTML API 之外，同時也提供了 Cordova API，我們可以使用 JavaScript 來呼叫這些 API，實作我們想要的功能。</li>
+</ul>
+</li>
+<li><h3 id="Web-App"><a href="#Web-App" class="headerlink" title="Web App"></a>Web App</h3><ul>
+<li>顧名思義就是主要開發 Web 的區塊，整個 App 的畫面與非原生的功能都在這開發，可以比喻成是表演者與工作人員的後台，負責撰寫腳本、準備道具的地方。預設的網頁名稱為 <code>index.html</code>，並引用 CSS、JavaScript、圖片或其他在執行時所需要的資源檔案。應用程式會在一個原生應用包裝的 <code>WebView</code> 中執行，這個區塊有一個很重要的檔案 <code>config.xml</code>，他主要提供關於應用程式的資訊與特定的設定參數影響他的執行方式，例如是否針對裝置轉向做出反應。</li>
+</ul>
+</li>
+<li><h3 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h3><ul>
+<li>Cordova 套件是整個舞台最重要的部分，他們是幕後辛苦的工作人員窗口，提供原生裝置相關的功能存取介面，這些介面背後綁定了 Cordova 原生 API，我們可以使用 JavaScript 呼叫這些套件提供的 API，實現例如相機功能、電池、網路狀態、檔案存取…等原生的功能。</li>
+<li>Apache Cordova 專案持續維護的套件稱為核心套件( <a href="https://cordova.apache.org/docs/en/latest/guide/support/index.html#core-plugin-apis" target="_blank" rel="noopener">Core Plugins</a> )，這些核心套件提供存取了上述基本且重要的功能，此外，也有不少針對特定平台才有的功能進行開發的第三方套件可以使用，我們可以在 <a href="https://cordova.apache.org/plugins/" target="_blank" rel="noopener">plugin search</a> 或 <a href="https://www.npmjs.com/search?q=ecosystem%253Acordova" target="_blank" rel="noopener">npm</a> 搜尋需要的 Cordova 套件。或是直接參考 <a href="https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html" target="_blank" rel="noopener">Plugin Development Guide</a> 自行開發套件。</li>
+<li>在專案初始化的時候預設是沒有安裝任何套件的，即使是核心套件，這部分需要我們自行設定與安裝。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://cordova.apache.org/static/img/guide/cordovaapparchitecture.png" alt="Cordova 架構圖"></p>
+<h2 id="開發路線"><a href="#開發路線" class="headerlink" title="開發路線"></a>開發路線</h2><p>Cordova 提供了兩種基本的工作流程 ( workflow ) 來建立行動應用，雖然都可以完成相同的工作，但不同的工作流成有著不同的優勢：</p>
+<ul>
+<li>跨平台工作流程 ( <strong>Cross-platform (CLI) workflow</strong> ) <ul>
+<li>若你的應用要盡可能在許多不同的 mobile OS 中執行，就使用這個工作流程吧！只需要專注在特定平台的開發，這個工作流程主要以 <code>cordova</code> CLI 為中心，CLI 是一個高層的工具，它可以讓我們一次建立多個平台專案，並將底層常見的 <code>shell script</code> 功能抽象化。CLI 會將一包 Web Assets 複製到每個行動平台的子目錄中，在每次執行建置的時候為每個平台進行必要的配置調整，並產生應用程式的二進位檔案，CLI 也提供了方便的套件安裝功能，除非你需要切換成以平台為中心的工作流程，建議還是以跨平台工作流程為主。</li>
+</ul>
+</li>
+<li>平台為中心工作流程 ( <strong>Platform-centered workflow</strong> )<ul>
+<li>若想專注於為單一平台構建應用程式並需要<strong>針對底層</strong>進行調整，請使用此工作流程。舉例來說，如同 <a href="https://cordova.apache.org/docs/en/latest/guide/hybrid/webviews/index.html" target="_blank" rel="noopener">Embedding WebViews</a> 的說明，你需要將一個原生元件混合到以 Web 為基礎的 Cordova 元件中，根據經驗，如果需要修改SDK 中的專案，那個使用此工作流程較為適合。</li>
+</ul>
+</li>
+</ul>
+<p>筆者在開發的時候，都是以跨平台工作流程為主，因此接下來的介紹都會以跨平台工作流程的開發經驗分享為主。</p>
+<hr>
+<h2 id="環境準備"><a href="#環境準備" class="headerlink" title="環境準備"></a>環境準備</h2><h3 id="安裝-Node-js"><a href="#安裝-Node-js" class="headerlink" title="安裝 Node.js"></a>安裝 Node.js</h3><p>可以到 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js 官網</a>下載安裝檔進行安裝。</p>
+<h3 id="安裝-Cordova-CLI"><a href="#安裝-Cordova-CLI" class="headerlink" title="安裝 Cordova-CLI"></a>安裝 Cordova-CLI</h3><p>在開發過程中，cordova-cli 扮演著很重要的角色，它提供了平台管理、套件管理、建置與執行的功能，安裝方式如下：</p>
+<p>使用 npm 安裝：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cordova</span><br></pre></td></tr></table></figure>
+
+<p>使用 yarn 安裝：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global add cordova</span><br></pre></td></tr></table></figure>
+
+<p>目前常見的 App 開發主要支援的平台有 Android、iOS 與 Windows Phone，其中前兩者為主要的市場平台，筆者目前遇到需要支援的平台也以 iOS 與 Android 為主，因此就針對這兩個平台來分享經驗囉。</p>
+<h3 id="Android-環境準備"><a href="#Android-環境準備" class="headerlink" title="Android 環境準備"></a>Android 環境準備</h3><h4 id="JDK-Java-Development-Kit"><a href="#JDK-Java-Development-Kit" class="headerlink" title="JDK ( Java Development Kit )"></a>JDK ( Java Development Kit )</h4><p>Java JDK 可直接到<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">官網下載</a>。</p>
+<p><img src="download-jdk.png" alt="到官網即可下載 JDK 進行安裝"></p>
+<p>Android SDK Manager 根據<a href="https://developer.android.com/studio/intro/update.html" target="_blank" rel="noopener">官方建議</a>使用 <a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio</a> 提供的 GUI 管理介面進行管理較方便。</p>
+<p><img src="download-android-studio.png" alt="到官網即可下載 Android Studio 進行安裝"></p>
+<h4 id="Android-SDK-Management"><a href="#Android-SDK-Management" class="headerlink" title="Android SDK Management"></a>Android SDK Management</h4><p>Cordova Android 的版本支援需要留意對應的 Android API-Level，而 Android API-Level 關係到行動裝置的版本是否支援。因此這部分在一開始需要確認專案支援的 Android 版本最低需求為何。Android SDK 的版本除非需要特定支援舊版的情況，一般來說只要裝最新版本即可，未來若有更新也可以將舊版的移除。</p>
+<table>
+<thead>
+<tr>
+<th>cordova-android 版本</th>
+<th>支援的 Android API-Levels</th>
+<th>相當於 Android 版本範圍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7.X.X</td>
+<td>19 - 27</td>
+<td>4.4 - 8.0</td>
+</tr>
+<tr>
+<td>6.X.X</td>
+<td>16 - 25</td>
+<td>4.1 - 7.1.1</td>
+</tr>
+<tr>
+<td>5.X.X</td>
+<td>14 - 23</td>
+<td>4.0 - 6.0.1</td>
+</tr>
+<tr>
+<td>4.1.X</td>
+<td>14 - 22</td>
+<td>4.0 - 5.1</td>
+</tr>
+<tr>
+<td>4.0.X</td>
+<td>10 - 22</td>
+<td>2.3.3 - 5.1</td>
+</tr>
+<tr>
+<td>3.7.X</td>
+<td>10 - 21</td>
+<td>2.3.3 - 5.0.2</td>
+</tr>
+</tbody></table>
+<p>開啟 <strong>Android SDK Management</strong> 的方式：開啟 Android Studio 之後進入 <strong>Preferences</strong> 的視窗，<strong>System Settings</strong> 下有 Android SDK，點擊即可檢視 Android SDK Management 的介面。</p>
+<p><img src="open-android-sdk-management.png" alt="Android SDK Management 開啟方式"></p>
+<p><img src="android-sdk-management.png" alt="Android SDK Management 位置"></p>
+<h3 id="iOS-環境準備"><a href="#iOS-環境準備" class="headerlink" title="iOS 環境準備"></a>iOS 環境準備</h3><ul>
+<li><p>Xcode</p>
+<ul>
+<li><p>Xcode 有兩種安裝方式：</p>
+<ul>
+<li><a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12" target="_blank" rel="noopener">App Store</a> 搜尋 Xcode 進行安裝</li>
+<li><a href="https://developer.apple.com/downloads/index.action" target="_blank" rel="noopener">Apple Developer Downloads</a> 下載安裝檔</li>
+</ul>
+</li>
+<li><p>Xcode 安裝完成之後，有一些指令列工具需要啟動提供給 Cordova 執行。在指令列工具下輸入：</p>
+</li>
+<li><pre><code class="bash">$ xcode-select --install
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- Deployment Tools</span><br><span class="line"></span><br><span class="line">  - [ios-deploy](https:&#x2F;&#x2F;www.npmjs.org&#x2F;package&#x2F;ios-deploy) 可以讓我們透過 command-line 將 iOS 應用程式更新到 iOS 裝置上。</span><br><span class="line"></span><br><span class="line">  - 安裝方式：</span><br><span class="line"></span><br><span class="line">    - 透過 npm 安裝</span><br><span class="line"></span><br><span class="line">    - &#96;&#96;&#96;bash</span><br><span class="line">      $ npm install ios-deploy -g</span><br></pre></td></tr></table></figure>
+
+- 透過 yarn 安裝
+
+- ```bash
+  $ yarn global add ios-deploy
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-------</span><br><span class="line"></span><br><span class="line">## 建立 Cordova 專案</span><br><span class="line"></span><br><span class="line">環境都準備好之後，就正式來建立 Cordova 專案吧！透過 cordova cli 在指令列工具上輸入：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;bash</span><br><span class="line">$ cordova create hello com.example.hello HelloWorld</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>create</code> 是主要的指令，屬於<a href="https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#global-command-list" target="_blank" rel="noopener">全域型指令</a>，hello 是資料夾的命名，也可以是路徑，若是路徑的話則要先手動建立資料夾。<code>com.example.hello</code> 是 App 的 ID，通常是以反向域名的方式命名，<code>HelloWorld</code> 則是 APP 的顯示名稱，在建立之後這些資訊都可以在 <code>config.xml</code> 中進行調整。建立後的資料夾架構如下圖：</p>
+<p><img src="create-cordova-folder.png" alt="Cordova 建立新專案後的內容"></p>
+<h3 id="專案目錄架構"><a href="#專案目錄架構" class="headerlink" title="專案目錄架構"></a>專案目錄架構</h3><ul>
+<li><code>config.xml</code>：整個專案最重要的檔案，主要記錄著 APP 相關的參數，例如：圖示、初始化圖片、名稱、開發團隊資訊、平台與套件相關資訊…等，這個檔案一定要加入版控！</li>
+<li><code>hooks</code>：預設是空的，可針對專案需求製作掛鉤腳本以節省不必要的時間浪費。</li>
+<li><code>package.json</code>：就是 npm 的 package.json，紀錄著套件或平台之間的版本相依性檔案。</li>
+<li><code>platforms</code>：依照不同的平台會產生不同的資料夾，例如：android, ios…等。由於在編譯的過程中，會時常修改這裡面的檔案，因此不建議直接在這檔案中進行編輯，極有可能會被覆寫掉喔！</li>
+<li><code>plugins</code>：存放加入的 cordova 套件，也不需要加入版控，config.xml 已經有紀錄囉。</li>
+<li><code>res</code>：存放 APP Icon 與初始畫面圖片的地方，有很多不同的大小，這部分可<a href="http://cordova.apache.org/docs/en/7.x/config_ref/images.html" target="_blank" rel="noopener">參考文件</a>與 <a href="http://cordova.apache.org/docs/en/7.x/reference/cordova-plugin-splashscreen/index.html" target="_blank" rel="noopener">SplashScreen 套件說明</a>。</li>
+<li><code>www</code>：Web 應用存放的地方，用 Angular 開發的話就是將 <code>ng build</code> 後的結果複製到這個資料夾中。</li>
+</ul>
+<h3 id="gitignore-設定"><a href="#gitignore-設定" class="headerlink" title=".gitignore 設定"></a>.gitignore 設定</h3><p>Git 這麼好用的版控工具，沒用怎麼行呢？由於新增的時候沒有版控的設定，網路上有熱心的開發者提供現成的 gitignore 設定檔下載，基本上就是 <code>platforms</code>、<code>plugins</code> 這兩個資料夾中的檔案不需要加入版控即可。由於筆者的開發是搭配 Angular 進行，因此 <code>www</code> 資料夾也沒有加入版控，最後會再說明如何透過 Hooks 與 Angular CLI 的 <code>ng build</code> 搭配。</p>
+<hr>
+<h2 id="新增-Cordova-平台-Platform"><a href="#新增-Cordova-平台-Platform" class="headerlink" title="新增 Cordova 平台 ( Platform )"></a>新增 Cordova 平台 ( Platform )</h2><p>新增平台的方式很簡單，一樣透過 Cordova CLI 輸入以下的指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova platform add android ios</span><br></pre></td></tr></table></figure>
+
+<p><code>platform</code> <a href="https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#project-command-list" target="_blank" rel="noopener">專案型指令</a>，主要與平台相關的操作，<code>add</code> 是加入指定的平台，Android 和 iOS 可以一起建立。</p>
+<h2 id="安裝-Cordova-Plugins"><a href="#安裝-Cordova-Plugins" class="headerlink" title="安裝 Cordova Plugins"></a>安裝 Cordova Plugins</h2><p>專案開發的過程中多少都會需要存取原生的功能，這時候就要去尋找是否有符合需求的套件能使用，在架構介紹的時候有提到 Cordova 官方有持續在維護核心套件 ( Core Plugin )，大部分的需求都可透過這些套件實現，但有少部分的情況，我們可能需要尋找第三方套件來安裝，Cordova 發展時間已 6 年，因此不太需要擔心找不到適合的套件情況，僅留意套件之間是否有相依性的問題。</p>
+<p>安裝 cordova plugin 指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin add cordova-plugin-xxx</span><br></pre></td></tr></table></figure>
+
+<p>安裝完成之後，可以觀察一下 <code>config.xml</code> 檔案的變化，就可以了解主要的平台與套件的資訊皆紀錄在這個檔案中。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">widget</span> <span class="attr">id</span>=<span class="string">"com.cordova.hello"</span> <span class="attr">version</span>=<span class="string">"1.0.0"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/ns/widgets"</span> <span class="attr">xmlns:cdv</span>=<span class="string">"http://cordova.apache.org/ns/1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>HelloCordova<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">        A sample Apache Cordova application that responds to the deviceready event.</span><br><span class="line">    <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">author</span> <span class="attr">email</span>=<span class="string">"dev@cordova.apache.org"</span> <span class="attr">href</span>=<span class="string">"http://cordova.io"</span>&gt;</span></span><br><span class="line">        Apache Cordova Team</span><br><span class="line">    <span class="tag">&lt;/<span class="name">author</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">content</span> <span class="attr">src</span>=<span class="string">"index.html"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"cordova-plugin-whitelist"</span> <span class="attr">spec</span>=<span class="string">"1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">access</span> <span class="attr">origin</span>=<span class="string">"*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"http://*/*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"https://*/*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"tel:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"sms:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"mailto:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"geo:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">platform</span> <span class="attr">name</span>=<span class="string">"android"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"market:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">platform</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">platform</span> <span class="attr">name</span>=<span class="string">"ios"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"itms:*"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">allow-intent</span> <span class="attr">href</span>=<span class="string">"itms-apps:*"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">platform</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">engine</span> <span class="attr">name</span>=<span class="string">"android"</span> <span class="attr">spec</span>=<span class="string">"~7.0.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">engine</span> <span class="attr">name</span>=<span class="string">"ios"</span> <span class="attr">spec</span>=<span class="string">"~4.5.4"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"cordova-plugin-device"</span> <span class="attr">spec</span>=<span class="string">"^2.0.1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"cordova-plugin-dialogs"</span> <span class="attr">spec</span>=<span class="string">"^2.0.1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"cordova-plugin-geolocation"</span> <span class="attr">spec</span>=<span class="string">"^4.0.1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">widget</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="建置-Cordova-專案"><a href="#建置-Cordova-專案" class="headerlink" title="建置 Cordova 專案"></a>建置 Cordova 專案</h2><p>建置專案的方式很簡單，首先將做好的 Web 專案整包複製到 <code>www</code> 資料夾下，然後輸入指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cordova run android</span><br><span class="line">$ cordova build android</span><br></pre></td></tr></table></figure>
+
+<p><code>cordova run</code> 的用途是直接建置完成後部署到模擬器或實體裝置上。 <code>cordova build</code> 則只有進行編譯，不會另外部署。兩者皆會產生 apk 檔案，除了對 android 進行建置之外，也可以一次建置多個平台，只需要將平台加在指令後即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cordova run android ios</span><br><span class="line">$ cordova build android ios</span><br></pre></td></tr></table></figure>
+
+<p>建置完成之後 Android 平台會產生 APK 檔，路徑在：<code>&lt;your project name&gt;/platforms/android/app/build/outputs/apk/debug</code>，會看到名稱為 <code>app-debug.apk </code>檔案，複製之後存到行動裝置中也以手動的方式進行安裝。從檔案名稱就可以知道這是在開發時期進行測試用的 apk 檔案。至於要如何建置正式發佈的版本，之後再紀錄分享。</p>
+<h4 id="iOS-建置"><a href="#iOS-建置" class="headerlink" title="iOS 建置"></a>iOS 建置</h4><p>由於第一次開啟 Xcode 會有同意書需要先確認同意，若之前沒有開啟過 Xcode，請先開啟一次，才能確保專案建置與模擬器開啟順利。一樣透過 <code>cordova run</code> 建置與部署至實體裝置或模擬器，或是以 <code>cordova build</code> 建置產生 Xcode 的專案檔，檔案路徑如下：<code>&lt;your project name&gt;/platforms/ios/</code> 資料夾中有名為 <code>&lt;AppName&gt;.xcworkspace</code> 的檔案，若要手動建置則直接開啟此檔，第一次建置完成開啟後會看到一些錯誤訊息，主要是簽證的部分，由於尚未設定，因此會出現錯誤的情況。</p>
+<p><img src="xcode-without-sign.png" alt="第一次開啟時必定會出現的錯誤訊息-沒有簽證"></p>
+<p><img src="xcode-with-sign.png" alt="選擇團隊之後會進行 APP Provision 的註冊，即可解決錯誤"></p>
+<h2 id="設定掛鉤-Hooks-搭配-Angular-Build"><a href="#設定掛鉤-Hooks-搭配-Angular-Build" class="headerlink" title="設定掛鉤 ( Hooks ) 搭配 Angular Build"></a>設定掛鉤 ( Hooks ) 搭配 Angular Build</h2><p>由於我們使用 Angular 進行開發，因此在建置之前還需要經過 <code>ng build</code> 這段，並將 <code>dist</code> 資料架內容複製到 Cordova 專案目錄下的 <code>www</code>，當有新的變更要進行 <code>cordova build</code> 或 <code>cordova run</code> 時，都必須要『人肉 CI』一下，手動複製編譯後的內容，很沒效率，對於撰寫批次檔熟悉的開發者，就會自己寫個腳本來做這些事情，任何能透過指令解決的都可以寫成腳本，而 Cordova 也提供了方便好用的 Hooks 機制，可以設定在 <code>config.xml</code> 中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">hook</span> <span class="attr">src</span>=<span class="string">"hooks/buildApp.js"</span> <span class="attr">type</span>=<span class="string">"before_build"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hook</span> <span class="attr">src</span>=<span class="string">"hooks/buildApp.js"</span> <span class="attr">type</span>=<span class="string">"before_run"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的意思就是，當 Cordova 要 <code>build</code> 或 <code>run</code> 之前，可以執行 <a href="https://gist.github.com/jeffwu85182/1c39649696eed4c51dffdeb9585a175d" target="_blank" rel="noopener">buildApp.js</a> 檔案，而這個檔案是使用 node.js 撰寫的腳本，主要做的事情就是回到 Angular 專案目錄下進行 <code>ng build</code>，完成後將 <code>dist</code> 的內容複製到 cordova 專案的 <code>www</code> 目錄下，如此一來就可以省下很多不必要的時間浪費囉！Working hard 之外，Working smart 也很重要呢！更多 Hooks 可<a href="https://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html" target="_blank" rel="noopener">參考官網文件</a></p>
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><p>網站開發時我們都會透過 Chrome 的 <code>F12</code> 開發者工具進行除錯，到 App 上後，我們該如何除錯呢？很簡單，Chrome 針對 Android 平台提供了方便除錯的功能，一樣透過開發者工具，開啟 Remote Device：</p>
+<p><img src="open-chrome-remote-dev-tools.png" alt="在 chrome devtools 右上角點選 More tools 中的 Remote devices"></p>
+<p><img src="open-chrome-dev-tools.png" alt="若有開啟模擬器或連接中的裝置則會出現在左邊的 Devices 清單，點擊 Inspect 即可開啟 APP 除錯工具"></p>
+<p>iOS APP 若要進行除錯的話，則需要透過 safari，首先進入 safari 的偏好設定：</p>
+<p><img src="open-safari-preference.png"></p>
+<p>接著到<code>進階</code>的分頁下，有個<code>在選單列中顯示『開發』選單</code>的選項，勾選起來：</p>
+<p><img src="enable-safari-dev-tools.png"></p>
+<p>回到 Safari，就會看到開發的選單項目，裡面會看到如下圖的內容，其中『Jeff-Macbook』是筆者的電腦，若有接上其他 iOS 裝置或模擬器則會顯示在這個選單中，展開會就可查看『可檢閱的應用程式』，也就能進行除錯囉！</p>
+<p><img src="open-safari-dev-tools.png" alt="Safari 開發選單項目的內容"></p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>透過以上的介紹，可以了解如何準備環境與安裝 Cordova CLI，透過指令 <code>cordova create</code> 新增專案並使用 <code>cordova platform add</code> 加入支援的平台與套件，最後利用 Cordova hooks 搭配 Angular CLI 將建置後的內容與複製到 <code>www</code> 資料夾進行 Cordova 建置。利用 <code>cordova run android</code> 或 <code>cordova build android</code> 進行 APP 建置，iOS 第一次建置完成後透過 Xcode 開啟 <code>xcworkspace</code> 檔案需要選擇團隊以建立 APP Provision，在開發的過程中可利用 Chrome 瀏覽器的 F12 開發者工具進行 Android APP 的偵錯，透過 Safari 瀏覽器提供的開發者工具針對 iOS APP 除錯。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://cordova.apache.org/docs/en/7.x/guide/cli/index.html" target="_blank" rel="noopener">Cordova doc - Create your first app</a></li>
+<li><a href="http://cordova.apache.org/docs/en/7.x/reference/cordova-cli/index.html" target="_blank" rel="noopener">Cordova doc - CLI Reference</a></li>
+<li><a href="https://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html" target="_blank" rel="noopener">Cordova doc - Hooks</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2018/04/08/cordova-week-1/" data-id="cklr48hae002irxrsfqfy2bg9" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2018/04/08/cordova-week-1/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/16/cordova-week-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          [Cordova Week-2] Cordova Push Notification - Android
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/11/angular-directive-research-part-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular Directive 初探 - Part.4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2018/04/08/cordova-week-1/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

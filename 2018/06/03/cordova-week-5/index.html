@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[Cordova Week-5] Cordova Plugin Geolocation | Jeff&#39;s WebTech Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言來到了第五週，這次要介紹的功能也是時常會用到的，衛星定位功能，無論是在生活還是實務中，一定會用到的功能，因此 Cordova 官方也將 cordova-plugin-geolocation 列為核心套件並持續提供維護。套件支援的平台有 Windows, Android 以及 iOS，這次一樣針對 Android &amp; iOS 的部分來做介紹。 安裝方式安裝方式與前面幾篇介紹的一樣，透過">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Cordova Week-5] Cordova Plugin Geolocation">
+<meta property="og:url" content="https://blog.crazyalu.com/2018/06/03/cordova-week-5/index.html">
+<meta property="og:site_name" content="Jeff&#39;s WebTech Note">
+<meta property="og:description" content="前言來到了第五週，這次要介紹的功能也是時常會用到的，衛星定位功能，無論是在生活還是實務中，一定會用到的功能，因此 Cordova 官方也將 cordova-plugin-geolocation 列為核心套件並持續提供維護。套件支援的平台有 Windows, Android 以及 iOS，這次一樣針對 Android &amp; iOS 的部分來做介紹。 安裝方式安裝方式與前面幾篇介紹的一樣，透過">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-06-03T07:52:20.000Z">
+<meta property="article:modified_time" content="2021-03-01T21:49:48.941Z">
+<meta property="article:author" content="Jeff Wu">
+<meta property="article:tag" content="cordova plugin">
+<meta property="article:tag" content="geolocation">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeff&#39;s WebTech Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-79727724-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeff&#39;s WebTech Note</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">記錄技術＆生活點滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://jeffwu85182.github.io" target="_blank" rel="noopener">Github</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.crazyalu.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cordova-week-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/cordova-week-5/" class="article-date">
+  <time datetime="2018-06-03T07:52:20.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cordova/">Cordova</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [Cordova Week-5] Cordova Plugin Geolocation
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>來到了第五週，這次要介紹的功能也是時常會用到的，衛星定位功能，無論是在生活還是實務中，一定會用到的功能，因此 Cordova 官方也將 <code>cordova-plugin-geolocation</code> 列為核心套件並持續提供維護。套件支援的平台有 Windows, Android 以及 iOS，這次一樣針對 Android &amp; iOS 的部分來做介紹。</p>
+<h2 id="安裝方式"><a href="#安裝方式" class="headerlink" title="安裝方式"></a>安裝方式</h2><p>安裝方式與前面幾篇介紹的一樣，透過 cordova cli 安裝套件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin add cordova-plugin-geolocation</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>在安裝並建置完成之後，套件會建立全域的物件 <code>navigator</code> 下的一個 <code>geolocation</code> 屬性，雖然是全域屬性，但與其它套件一樣，要在 <code>deviceready</code> 觸發之後才能開始使用，因此可以透過事件監聽的方式 console.log 物件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"deviceready"</span>, onDeviceReady, <span class="literal">false</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDeviceReady</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"navigator.geolocation works well"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+
+
+<h2 id="方法-Method"><a href="#方法-Method" class="headerlink" title="方法 ( Method )"></a>方法 ( Method )</h2><p><code>cordova-plugin-geolocation</code> 提供的方法有以下三個：</p>
+<ul>
+<li>navigator.geolocation.getCurrentPosition</li>
+<li>navigator.geolocation.watchPosition</li>
+<li>navigator.geolocation.clearWatch</li>
+</ul>
+<h3 id="navigator-geolocation-getCurrentPosition"><a href="#navigator-geolocation-getCurrentPosition" class="headerlink" title="navigator.geolocation.getCurrentPosition"></a>navigator.geolocation.getCurrentPosition</h3><p>當成功取得裝置目前的位置資訊時會觸發 <code>geolocationSuccess</code> callback，並帶 <code>Position</code> 物件作為參數，若發生錯誤則會觸發 <code>geolocationError</code> callback 並帶有 <code>PositionError</code> 物件作為參數：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(geolocationSuccess,</span><br><span class="line">                                         [geolocationError],</span><br><span class="line">                                         [geolocationOptions]);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>geolocationSuccess</strong>: 會帶入目前位置的 callback function</li>
+<li><strong>geolocationError</strong>: <em>(Optional)</em> 當錯誤發生時會執行的 callback</li>
+<li><strong>geolocationOptions</strong>: <em>(Optional)</em> 地理位置相關的選項設定</li>
+</ul>
+<p>範例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// onSuccess Callback</span></span><br><span class="line">    <span class="comment">// This method accepts a Position object, which contains the</span></span><br><span class="line">    <span class="comment">// current GPS coordinates</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">var</span> onSuccess = <span class="function"><span class="keyword">function</span>(<span class="params">position</span>) </span>&#123;</span><br><span class="line">        alert(<span class="string">'Latitude: '</span>          + position.coords.latitude          + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Longitude: '</span>         + position.coords.longitude         + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Altitude: '</span>          + position.coords.altitude          + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Accuracy: '</span>          + position.coords.accuracy          + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Altitude Accuracy: '</span> + position.coords.altitudeAccuracy  + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Heading: '</span>           + position.coords.heading           + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Speed: '</span>             + position.coords.speed             + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'Timestamp: '</span>         + position.timestamp                + <span class="string">'\n'</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// onError Callback receives a PositionError object</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">onError</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">        alert(<span class="string">'code: '</span>    + error.code    + <span class="string">'\n'</span> +</span><br><span class="line">              <span class="string">'message: '</span> + error.message + <span class="string">'\n'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    navigator.geolocation.getCurrentPosition(onSuccess, onError);</span><br></pre></td></tr></table></figure>
+
+<h4 id="iOS-注意事項"><a href="#iOS-注意事項" class="headerlink" title="iOS 注意事項"></a>iOS 注意事項</h4><p>從 iOS 10 開始，若嘗試存取隱私敏感資料，則必須在 <code>info.plist</code> 提供使用說明，當系統提示使用者是否允許存取時，使用說明就會顯示在權限允許確認的視窗中描述。但如果沒有加入使用說明，App 會在顯示是否允許的視窗之前直接閃退，而且 Apple 也會拒絕沒有提供敏感資料使用說明的 App 上架。</p>
+<p>這個套件加入資料存取使用說明的方式如下：</p>
+<ul>
+<li><code>NSLocationWhenInUseUsageDescription</code> 是描述存取使用者位置的原因。</li>
+</ul>
+<p>要將使用說明加入 <code>info.plist</code> 中，可以在 <code>config.xml</code> 中加入 <code>edit-config</code> 標籤：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">edit-config</span> <span class="attr">target</span>=<span class="string">"NSLocationWhenInUseUsageDescription"</span> <span class="attr">file</span>=<span class="string">"*-Info.plist"</span> <span class="attr">mode</span>=<span class="string">"merge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>需要存取位的說明放在這裡<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">edit-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Android-注意事項"><a href="#Android-注意事項" class="headerlink" title="Android 注意事項"></a>Android 注意事項</h4><p>若 Geolocation service 被關閉，且有設定 <code>timeout</code> 的話，則會觸發 <code>onError</code> callback，若沒有設定 <code>timeout</code> 則不會觸發 callback，因此若要在定位服務被關閉時執行相關動作，則需要留意是否有設定 <code>timeout</code>。</p>
+<h3 id="navigator-geolocation-watchPosition"><a href="#navigator-geolocation-watchPosition" class="headerlink" title="navigator.geolocation.watchPosition"></a>navigator.geolocation.watchPosition</h3><p>當檢測到位置發生變化時，回傳裝置目前的位置。當裝置檢測到新的位置時，則觸發 <code>geolocationSuccess</code> callback 並帶著 <code>Position</code> 物件作為參數執行；若發生錯誤，則觸發 <code>geolocationError</code> callback 並帶著 <code>PositionError</code> 物件作為參數執行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> watchId = navigator.geolocation.watchPosition(geolocationSuccess,</span><br><span class="line">                                                  [geolocationError],</span><br><span class="line">                                                  [geolocationOptions]);</span><br></pre></td></tr></table></figure>
+
+<p>和 <code>getCurrentPosition</code> 相同，可帶入三個參數，個別為：成功取得位置時 (<code>geolocationSuccess</code>)、發生錯誤時 ( <code>geolocationError</code>) 與套件設定物件 (<code>geolocationOptions</code>)。</p>
+<h4 id="回傳值"><a href="#回傳值" class="headerlink" title="回傳值"></a>回傳值</h4><p>這個方法呼叫執行後會回傳一個字串，主要是持續監視位置改變的 <code>watch id</code>，此 <code>id</code> 可用在當我們要停止持續追蹤時呼叫用的，也就是第三個方法 <code>clearWatch</code> 呼叫時作為參數帶入執行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// onSuccess Callback</span></span><br><span class="line"><span class="comment">//   This method accepts a `Position` object, which contains</span></span><br><span class="line"><span class="comment">//   the current GPS coordinates</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onSuccess</span>(<span class="params">position</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.getElementById(<span class="string">'geolocation'</span>);</span><br><span class="line">    element.innerHTML = <span class="string">'Latitude: '</span>  + position.coords.latitude      + <span class="string">'&lt;br /&gt;'</span> +</span><br><span class="line">        <span class="string">'Longitude: '</span> + position.coords.longitude     + <span class="string">'&lt;br /&gt;'</span> +</span><br><span class="line">        <span class="string">'&lt;hr /&gt;'</span>      + element.innerHTML;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// onError Callback receives a PositionError object</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onError</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'code: '</span>    + error.code    + <span class="string">'\n'</span> +</span><br><span class="line">          <span class="string">'message: '</span> + error.message + <span class="string">'\n'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Options: throw an error if no update is received every 30 seconds.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">var</span> watchID = navigator.geolocation.watchPosition(onSuccess, onError, &#123; <span class="attr">timeout</span>: <span class="number">30000</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="navigator-geolocation-clearWatch"><a href="#navigator-geolocation-clearWatch" class="headerlink" title="navigator.geolocation.clearWatch"></a>navigator.geolocation.clearWatch</h3><p>藉由 <code>watchID</code> 參數傳入並呼叫，以停止追蹤裝置的位置變化。其參數是由 <code>watchPosition</code> 呼叫後回傳的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.clearWatch(watchID);</span><br></pre></td></tr></table></figure>
+
+<p>範例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Options: watch for changes in position, and use the most</span></span><br><span class="line"><span class="comment">// accurate position acquisition method available.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">var</span> watchID = navigator.geolocation.watchPosition(onSuccess, onError, &#123; <span class="attr">enableHighAccuracy</span>: <span class="literal">true</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...later on...</span></span><br><span class="line"></span><br><span class="line">navigator.geolocation.clearWatch(watchID);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="相關物件介紹"><a href="#相關物件介紹" class="headerlink" title="相關物件介紹"></a>相關物件介紹</h2><h3 id="geolocationOptions"><a href="#geolocationOptions" class="headerlink" title="geolocationOptions"></a>geolocationOptions</h3><p>在呼叫 <code>getCurrentPosition</code> 與 <code>watchPosition</code> 兩個方法時，帶入的第三個參數 <code>geolocationOptions</code> 主要有以下幾個屬性可設定：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">maximumAge</span>: <span class="number">3000</span>, <span class="attr">timeout</span>: <span class="number">5000</span>, <span class="attr">enableHighAccuracy</span>: <span class="literal">true</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>enableHighAccuracy</strong>：提供使 App 取得準確度更高的提示，預設的情況，裝置是藉由網路為基礎的方法取得 <code>Position</code>，設定此屬性為 <code>true</code> 以提醒可選用精度更高的方式，例如衛星定位。（Boolean）</li>
+<li><strong>timeout</strong>：允許等待傳入參數並執行 <code>navigator.geolocation.getCurrentPosition</code> 或 <code>navigator.geolocation.watchPosition</code> 中的 <code>geolocationSuccess</code> callback 的最長時間（毫秒），若在設定的時間內未觸發 <code>geolocationSuccess</code> 則會帶入 <code>PositionError.TIMEOUT</code> 的錯誤碼，觸發 <code>geolocationError</code> callback，要注意到若是呼叫 <code>geolocation.watchPosition</code>，只要每次超過設定的時間就會觸發 <code>geolocationError</code>。(Number)</li>
+<li><strong>maximumAge</strong>: 設定位置暫存時間，以毫秒為單位，預設為0，該值為0時，定位時會重新獲取一個新的 <code>Position</code> 物件；若有設定值則會在設定的時間內回傳上一次的暫存 <code>Position</code> 物件，如果超過設定的時間，則重新取得。 (Number)</li>
+</ul>
+<h3 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h3><p>由 <code>geolocation</code> API 所建立的物件，包含了位置 ( Position ) 的座標與時間戳。</p>
+<h4 id="屬性"><a href="#屬性" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>coords</strong>: 一組位置的座標資訊。</li>
+<li><strong>timestamp</strong>: 建立座標資訊的時間戳。</li>
+</ul>
+<h3 id="Coordinates"><a href="#Coordinates" class="headerlink" title="Coordinates"></a>Coordinates</h3><p><code>Coordinates</code> 物件包含一組描述位置的地理坐標屬性並存在 <code>Position</code> 物件下，當請求位置的 callback 發生時，會作為參數帶入。</p>
+<h4 id="屬性-1"><a href="#屬性-1" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>latitude</strong>: 緯度 <em>(Number)</em></li>
+<li><strong>longitude</strong>: 經度 <em>(Number)</em></li>
+<li><strong>altitude</strong>: 高度 <em>(Number)</em></li>
+<li><strong>accuracy</strong>: 座標經緯度的準確程度，單位為公尺 <em>(Number)</em></li>
+<li><strong>altitudeAccuracy</strong>: 座標高度的準確程度，單位為公尺 <em>(Number)</em></li>
+<li><strong>heading</strong>: 面對行徑的方向，以北為起始點順時針計算的度數 <em>(Number)</em></li>
+<li><strong>speed</strong>: 裝置目前的移動速度，單位為每秒公尺 <em>(Number)</em></li>
+</ul>
+<h4 id="Android-注意事項-1"><a href="#Android-注意事項-1" class="headerlink" title="Android 注意事項"></a>Android 注意事項</h4><p><strong>altitudeAccuracy</strong>: 不支援 Android，會回傳 <code>null</code>.</p>
+<h3 id="PositionError"><a href="#PositionError" class="headerlink" title="PositionError"></a>PositionError</h3><p><code>PositionError</code> 物件會在 navigator.geolocation 發生錯誤時作為參數傳入 <code>geolocationError</code> callback 並觸發。</p>
+<h4 id="屬性-2"><a href="#屬性-2" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>code</strong>: 如下列，預先定義好的錯誤代碼</li>
+<li><strong>message</strong>: 描述關於錯誤發生的訊息內容</li>
+</ul>
+<h4 id="常數"><a href="#常數" class="headerlink" title="常數"></a>常數</h4><ul>
+<li><pre><code>PositionError.PERMISSION_DENIED
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 當使用者不允許 App 存取座標資訊時會回傳，視平台而定。</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+PositionError.POSITION_UNAVAILABLE
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 當裝置無法取得座標時會回傳，一般來說都是未連接網路或沒有啟用定位功能。</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+PositionError.TIMEOUT</code></pre>
+<ul>
+<li>當裝置無法在指定的時間 ( <code>geolocationOptions</code> 中的 <code>timeout</code> ) 內取得座標資訊時回傳，若是透過 <code>navigator.geolocation.watchPosition</code> 方式取得，則在每次設定的 <code>timeout</code> 發生時，都會藉由 <code>geolocationError</code> callback 帶入並觸發。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://github.com/apache/cordova-plugin-geolocation" target="_blank" rel="noopener">apache/cordova-plugin-geolocation</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.crazyalu.com/2018/06/03/cordova-week-5/" data-id="cklr48h9e0014rxrsh3d795va" class="article-share-link">Share</a>
+      
+        <a href="https://blog.crazyalu.com/2018/06/03/cordova-week-5/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/03/capacitor-intro/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Capacitor - The Native Bridge for Cross-Platform Web Apps
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/07/cordova-week-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[Cordova Week-4] Cordova File System</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分類</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-2/">Angular 2</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/Nav-Scrolling/">Nav-Scrolling</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML-Status/">HTML_Status</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/css3/">css3</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/css3/counter-increment/">counter-increment</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/html/Semantic-HTML/">Semantic HTML</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/">jquery</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/jquery/ScrollTop/">ScrollTop()</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/">sass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/">Compass</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/sass/Compass/Bourbon/">Bourbon</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/sass/mixin/">mixin</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-2/" rel="tag">Angular 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/" rel="tag">Angular 6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-with-cordova/" rel="tag">Angular with cordova</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-CLI/" rel="tag">Angular-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Attribute-Directives/" rel="tag">Attribute Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Notification-Hub/" rel="tag">Azure Notification Hub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-environment-prepare/" rel="tag">Cordova environment prepare</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-Android/" rel="tag">Cordova-Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-CLI/" rel="tag">Cordova-CLI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cordova-iOS/" rel="tag">Cordova-iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Directive/" rel="tag">Directive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forms/" rel="tag">Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FuxkIE/" rel="tag">FuxkIE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model-Driven/" rel="tag">Model-Driven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Phonegap-plugin/" rel="tag">Phonegap plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Polyfill/" rel="tag">Polyfill</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Push-Notification/" rel="tag">Push Notification</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Structural-Directives/" rel="tag">Structural Directives</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Template-Driven-Forms/" rel="tag">Template-Driven-Forms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" rel="tag">VScode 設定</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio-Code/" rel="tag">Visual Studio Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular-cli/" rel="tag">angular/cli</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/capacitor/" rel="tag">capacitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin/" rel="tag">cordova plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cordova-plugin-file/" rel="tag">cordova plugin file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extend/" rel="tag">extend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/file/" rel="tag">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/geolocation/" rel="tag">geolocation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hybrid-app/" rel="tag">hybrid app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic-4/" rel="tag">ionic 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ng-update/" rel="tag">ng update</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngModel/" rel="tag">ngModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/" rel="tag">sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/template-issue/" rel="tag">template issue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular-2/" style="font-size: 20px;">Angular 2</a> <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Angular-with-cordova/" style="font-size: 10px;">Angular with cordova</a> <a href="/tags/Angular-CLI/" style="font-size: 12.5px;">Angular-CLI</a> <a href="/tags/Attribute-Directives/" style="font-size: 15px;">Attribute Directives</a> <a href="/tags/Azure-Notification-Hub/" style="font-size: 10px;">Azure Notification Hub</a> <a href="/tags/Cordova-Android/" style="font-size: 10px;">Cordova Android</a> <a href="/tags/Cordova-environment-prepare/" style="font-size: 10px;">Cordova environment prepare</a> <a href="/tags/Cordova-Android/" style="font-size: 12.5px;">Cordova-Android</a> <a href="/tags/Cordova-CLI/" style="font-size: 10px;">Cordova-CLI</a> <a href="/tags/Cordova-iOS/" style="font-size: 15px;">Cordova-iOS</a> <a href="/tags/Directive/" style="font-size: 17.5px;">Directive</a> <a href="/tags/Forms/" style="font-size: 17.5px;">Forms</a> <a href="/tags/FuxkIE/" style="font-size: 10px;">FuxkIE</a> <a href="/tags/Model-Driven/" style="font-size: 10px;">Model-Driven</a> <a href="/tags/Phonegap-plugin/" style="font-size: 12.5px;">Phonegap plugin</a> <a href="/tags/Polyfill/" style="font-size: 10px;">Polyfill</a> <a href="/tags/Push-Notification/" style="font-size: 12.5px;">Push Notification</a> <a href="/tags/Structural-Directives/" style="font-size: 10px;">Structural Directives</a> <a href="/tags/Template-Driven-Forms/" style="font-size: 10px;">Template-Driven-Forms</a> <a href="/tags/VScode-%E8%A8%AD%E5%AE%9A/" style="font-size: 10px;">VScode 設定</a> <a href="/tags/Visual-Studio-Code/" style="font-size: 10px;">Visual Studio Code</a> <a href="/tags/angular-cli/" style="font-size: 10px;">angular/cli</a> <a href="/tags/capacitor/" style="font-size: 10px;">capacitor</a> <a href="/tags/cordova-plugin/" style="font-size: 10px;">cordova plugin</a> <a href="/tags/cordova-plugin-file/" style="font-size: 10px;">cordova plugin file</a> <a href="/tags/extend/" style="font-size: 10px;">extend</a> <a href="/tags/file/" style="font-size: 10px;">file</a> <a href="/tags/geolocation/" style="font-size: 10px;">geolocation</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hybrid-app/" style="font-size: 10px;">hybrid app</a> <a href="/tags/ionic-4/" style="font-size: 10px;">ionic 4</a> <a href="/tags/ng-update/" style="font-size: 10px;">ng update</a> <a href="/tags/ngModel/" style="font-size: 10px;">ngModel</a> <a href="/tags/sass/" style="font-size: 10px;">sass</a> <a href="/tags/template-issue/" style="font-size: 10px;">template issue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/29/TypeScript%20intro%20and%20migrating/">TypeScript intro and migrating</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/capacitor-intro/">Capacitor - The Native Bridge for Cross-Platform Web Apps</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/03/cordova-week-5/">[Cordova Week-5] Cordova Plugin Geolocation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/07/cordova-week-4/">[Cordova Week-4] Cordova File System</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ng-update/">升級! 全新進化 Angular 6！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">近期留言</h3>
+    <div class="widget">
+        <script type="text/javascript" src="https://crazyalu.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Jeff Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://jeffwu85182.github.io" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazyalu';
+  
+  var disqus_url = 'https://blog.crazyalu.com/2018/06/03/cordova-week-5/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
