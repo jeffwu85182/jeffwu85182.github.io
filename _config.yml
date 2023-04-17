@@ -4,7 +4,7 @@
 
 # Site
 title: Jeff's WebTech Note
-subtitle: 記錄技術＆生活點滴
+subtitle: Life & technology note
 description: Working smart!
 author: Jeff Wu
 language: zh-TW
@@ -68,7 +68,7 @@ time_format: HH:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 4
+per_page: 5
 pagination_dir: page
 
 # https://github.com/hexojs/hexo-generator-feed

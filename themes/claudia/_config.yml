@@ -14,17 +14,16 @@ widgets:
 # social config
 social:
   zhihu:
-  twitter: /
-  facebook: /
-  linkedin:
-  instagram: /
+  twitter: F2E_JeffWu
+  facebook: /CrazyWuJeff
+  linkedin: /jeff-wu-28ba1979
   github: jeffwu85182
 
 user:
   name: Jeff Wu
-  avatar:
+  avatar: https://s.gravatar.com/avatar/d08075428662d37b51ef71ac4ddeaea3?s=320
   location: Taipei, Taiwan
-  description: May the Force be with you
+  description: Don't forget the original intention. Always keen on learning and exploring new things.
   footnotes: # footnotes
 
 # documents: https://github.com/utterance/utterances
@@ -54,14 +53,14 @@ appearance: auto # Default value is auto
 favicon: images/favicon.ico
 
 friend_links:
-  - title: Google
-    link: https://www.google.com/
-  - title: Github
-    link: https://www.github.com/
-  - title: V2EX
-    link: https://v2ex.com/
-  - title: Twitter
-    link: https://twitter.com/
+  # - title: Google
+  #   link: https://www.google.com/
+  # - title: Github
+  #   link: https://www.github.com/
+  # - title: V2EX
+  #   link: https://v2ex.com/
+  # - title: Twitter
+  #   link: https://twitter.com/
 
 # Google Analytics
 ga_track_id: G-391C0PJRZ6

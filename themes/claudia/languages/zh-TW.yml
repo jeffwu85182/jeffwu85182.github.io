@@ -1,6 +1,6 @@
 archive:
-  one: '歸檔'
-  other: '歸檔'
+  one: '彙整'
+  other: '彙整'
 
 category:
   one: '分類'
@@ -21,7 +21,7 @@ all: '全部'
 home: '首頁'
 title: '標題'
 about: '關於'
-recent: '最近'
+recent: '最新文章'
 read_more: '更多'
 user_name: '名字'
 friends: '友情連結'
