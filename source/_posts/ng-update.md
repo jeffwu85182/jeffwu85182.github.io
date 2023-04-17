@@ -26,7 +26,7 @@ Angular 終於發布 6.0 正式版了，當然馬上拿手邊的專案來升級�
 <!--more-->
 
 接著輸入 `ng update` 進行檢查，ng update 會進行相關 package 分析，並提供建議與指令提示：
-![ng update 會進行相關 module 的版本分析](step1.png)
+![ng update 會進行相關 module 的版本分析](images/ng-update/step1.png)
 
 根據分析結果先來升級 `@angular/core`：
 ```bash
@@ -34,9 +34,9 @@ ng update @angular/core
 ```
 然後就等了快五分鐘...
 看來大部分升級第一個會遇到的問題應該都是 typescript，畢竟不是時常會去動這個。
-![可能遇到的錯誤訊息之一](step2.png)
+![可能遇到的錯誤訊息之一](images/ng-update/step2.png)
 or
-![可能遇到的錯誤訊息之二](step3.png)
+![可能遇到的錯誤訊息之二](images/ng-update/step3.png)
 
 檢查 typescript 版本：
 ```bash
@@ -50,26 +50,26 @@ yarn upgrade typescript@2.7
 ```bash
 ng update
 ```
-![升級完成後並檢查版本](step4.png)
+![升級完成後並檢查版本](images/ng-update/step4.png)
 
 再輸入一次 `ng update`：
-![](step5.png)
+![](images/ng-update/step5.png)
 
 Good work!
 
 
 
 接著最重要的 `ng serve` 死掉了：
-![](step6.png)
+![](images/ng-update/step6.png)
 
 原來 6.0 的設定檔名稱已經從原本的 `.angular-cli.json` 改成 `angular.json `了，要如何更新呢？一樣透過指令進行，在更新 `@angular/cli` 的時候會根據舊的設定檔重新建立 `angular.json`：
 ```bash
 ng update @angular/cli
 ```
-![ng update @angular/cli](step7.png)
+![ng update @angular/cli](images/ng-update/step7.png)
 
 再來一次！！
-![重新 ng serve](step8.png)
+![重新 ng serve](images/ng-update/step8.png)
 
 `localhost:4200` 也確認無誤正常執行，以上。
 

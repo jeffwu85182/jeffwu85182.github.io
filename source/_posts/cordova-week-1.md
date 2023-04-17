@@ -48,7 +48,7 @@ Apache Cordova 是一個開源的行動開發框架，它可以讓我們透過�
 
 
 
-![Cordova 架構圖](https://cordova.apache.org/static/img/guide/cordovaapparchitecture.png)
+![Cordova 架構圖](images/cordova-week-1/cordovaapparchitecture.png)
 
 ## 開發路線
 
@@ -93,11 +93,11 @@ yarn global add cordova
 
 Java JDK 可直接到[官網下載](http://www.oracle.com/technetwork/java/javase/downloads/index.html)。
 
-![到官網即可下載 JDK 進行安裝](download-jdk.png)
+![到官網即可下載 JDK 進行安裝](images/cordova-week-1/download-jdk.png)
 
 Android SDK Manager 根據[官方建議](https://developer.android.com/studio/intro/update.html)使用 [Android Studio](https://developer.android.com/studio/index.html) 提供的 GUI 管理介面進行管理較方便。
 
-![到官網即可下載 Android Studio 進行安裝](download-android-studio.png)
+![到官網即可下載 Android Studio 進行安裝](images/cordova-week-1/download-android-studio.png)
 
 #### Android SDK Management
 
@@ -114,9 +114,9 @@ Cordova Android 的版本支援需要留意對應的 Android API-Level，而 And
 
 開啟 **Android SDK Management** 的方式：開啟 Android Studio 之後進入 **Preferences** 的視窗，**System Settings** 下有 Android SDK，點擊即可檢視 Android SDK Management 的介面。
 
-![Android SDK Management 開啟方式](open-android-sdk-management.png)
+![Android SDK Management 開啟方式](images/cordova-week-1/open-android-sdk-management.png)
 
-![Android SDK Management 位置](android-sdk-management.png)
+![Android SDK Management 位置](images/cordova-week-1/android-sdk-management.png)
 
 ### iOS 環境準備
 
@@ -163,7 +163,7 @@ $ cordova create hello com.example.hello HelloWorld
 
 `create` 是主要的指令，屬於[全域型指令](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#global-command-list)，hello 是資料夾的命名，也可以是路徑，若是路徑的話則要先手動建立資料夾。`com.example.hello` 是 App 的 ID，通常是以反向域名的方式命名，`HelloWorld` 則是 APP 的顯示名稱，在建立之後這些資訊都可以在 `config.xml` 中進行調整。建立後的資料夾架構如下圖：
 
-![Cordova 建立新專案後的內容](create-cordova-folder.png)
+![Cordova 建立新專案後的內容](images/cordova-week-1/create-cordova-folder.png)
 
 ### 專案目錄架構
 
@@ -262,9 +262,9 @@ $ cordova build android ios
 
 由於第一次開啟 Xcode 會有同意書需要先確認同意，若之前沒有開啟過 Xcode，請先開啟一次，才能確保專案建置與模擬器開啟順利。一樣透過 `cordova run` 建置與部署至實體裝置或模擬器，或是以 `cordova build` 建置產生 Xcode 的專案檔，檔案路徑如下：`<your project name>/platforms/ios/` 資料夾中有名為 `<AppName>.xcworkspace` 的檔案，若要手動建置則直接開啟此檔，第一次建置完成開啟後會看到一些錯誤訊息，主要是簽證的部分，由於尚未設定，因此會出現錯誤的情況。
 
-![第一次開啟時必定會出現的錯誤訊息-沒有簽證](xcode-without-sign.png)
+![第一次開啟時必定會出現的錯誤訊息-沒有簽證](images/cordova-week-1/xcode-without-sign.png)
 
-![選擇團隊之後會進行 APP Provision 的註冊，即可解決錯誤](xcode-with-sign.png)
+![選擇團隊之後會進行 APP Provision 的註冊，即可解決錯誤](images/cordova-week-1/xcode-with-sign.png)
 
 
 
@@ -283,21 +283,21 @@ $ cordova build android ios
 
 網站開發時我們都會透過 Chrome 的 `F12` 開發者工具進行除錯，到 App 上後，我們該如何除錯呢？很簡單，Chrome 針對 Android 平台提供了方便除錯的功能，一樣透過開發者工具，開啟 Remote Device：
 
-![在 chrome devtools 右上角點選 More tools 中的 Remote devices](open-chrome-remote-dev-tools.png)
+![在 chrome devtools 右上角點選 More tools 中的 Remote devices](images/cordova-week-1/open-chrome-remote-dev-tools.png)
 
-![若有開啟模擬器或連接中的裝置則會出現在左邊的 Devices 清單，點擊 Inspect 即可開啟 APP 除錯工具](open-chrome-dev-tools.png)
+![若有開啟模擬器或連接中的裝置則會出現在左邊的 Devices 清單，點擊 Inspect 即可開啟 APP 除錯工具](images/cordova-week-1/open-chrome-dev-tools.png)
 
 iOS APP 若要進行除錯的話，則需要透過 safari，首先進入 safari 的偏好設定：
 
-![](open-safari-preference.png)
+![](images/cordova-week-1/open-safari-preference.png)
 
 接著到`進階`的分頁下，有個`在選單列中顯示『開發』選單`的選項，勾選起來：
 
-![](enable-safari-dev-tools.png)
+![](images/cordova-week-1/enable-safari-dev-tools.png)
 
 回到 Safari，就會看到開發的選單項目，裡面會看到如下圖的內容，其中『Jeff-Macbook』是筆者的電腦，若有接上其他 iOS 裝置或模擬器則會顯示在這個選單中，展開會就可查看『可檢閱的應用程式』，也就能進行除錯囉！
 
-![Safari 開發選單項目的內容](open-safari-dev-tools.png)
+![Safari 開發選單項目的內容](images/cordova-week-1/open-safari-dev-tools.png)
 
 
 

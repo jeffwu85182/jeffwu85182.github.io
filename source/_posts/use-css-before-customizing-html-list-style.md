@@ -20,7 +20,7 @@ categories: [css3, counter-increment]
 </ol>
 
 我們這裡介紹如何使用 CSS 自訂每一個項目的編號：
-![](http://user-image.logdown.io/user/8440/blog/8340/post/233845/mhWsUIn3Q7GB1aCj3pHv_1.png)
+![](images/use-css-before-customizing-html-list-style/stylesample.png)
 
 步驟練習：
 

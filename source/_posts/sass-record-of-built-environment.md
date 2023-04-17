@@ -49,12 +49,12 @@ compass create project001
 都完成上述步驟之後，就可以開始寫 sass 囉！ 
 
 首先，進到 Sublime Text 後，再選擇 Project / Add Folder to Project (項目 > 增加資料夾到項目)選項。 
-![](http://user-image.logdown.io/user/8440/blog/8340/post/216345/R8vAOBirT9W5kn6VAElH_test2.jpg)
+![](images/sass-record-of-built-environment/add-item-to-folder.jpg)
 
 然後選擇剛所建立好的專案目錄。 
 
 選擇完畢後，再選擇 View / Show Side Bar (檢視 > 顯示/隱藏側邊攔)選項。
-![](http://user-image.logdown.io/user/8440/blog/8340/post/216345/SVvIPKPT7WKR61cdRn0d_test.jpg)
+![](images/sass-record-of-built-environment/hide-side-bar.jpg)
 
 接著左側就會出現專案的目錄，sass是儲放原始檔的目錄，而stylesheets是轉存好的css檔。 
 
@@ -73,7 +73,7 @@ compass create project001
 如果希望sass編譯出來的css不要有註解，那就打開根目錄的config.rb，
 
 將# line_comments = false 前面的#號拿掉就不會產生出註解。
-![](http://user-image.logdown.io/user/8440/blog/8340/post/216345/usDYjjyCQaOeycaVSNXK_test3.jpg)
+![](images/sass-record-of-built-environment/remove-comment.jpg)
 
 裡面會有四行以下的預設設定碼，如果你放CSS的資料夾名稱為CSS，便把stylesheets名稱改為CSS，
 

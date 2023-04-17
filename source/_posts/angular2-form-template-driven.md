@@ -127,7 +127,7 @@ export class AppModule { }
 
 上面這邊我們主要是在表單中的所有控制項加上 `ngModel` 屬性，加上後，首先 Angular 就會在這個 template 產生一個 ngForm 的實體，每個有 `ngModel` directive 的 input 也會產生實體物件，並且存在於 ngForm 實體中，為了可以看到 model 的值，我們在 `form` 標籤新增一個 template 變數 `myForm` ，然後在下方新增一個 `pre` 標籤區塊並加上 Angular 的 expression 來顯示 `myForm` 的值，執行後的結果如下：
 
-{% asset_img angular2-form-template-driven/template-driven-1.gif "'初步建立的 template-driven form'" "'初步建立的 template-driven form'" %}
+![初步建立的 template-driven form](images/angular2-form-template-driven/template-driven-1.gif)
 
 ## 初始化表單預設值
 

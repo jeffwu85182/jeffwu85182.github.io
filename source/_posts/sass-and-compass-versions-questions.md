@@ -24,7 +24,7 @@ categories: [sass, Compass, Bourbon]
 gem install compass --pre
 ```
 
-![compass版本安裝與確認](http://user-image.logdown.io/user/8440/blog/8340/post/218090/qB6AqqgSSVguPjqZBpdg_test4.jpg)
+![compass版本安裝與確認](images/sass-and-compass-versions-questions/compass-version.jpg)
 
 
 如此一來就可以讓使用Bourbon的sass檔案順利進行編譯囉！
