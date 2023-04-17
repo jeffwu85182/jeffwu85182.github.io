@@ -1,0 +1,77 @@
+# main menu navigation
+menu:
+  Home: /
+  About: /about
+  Archive: /archives
+
+widgets:
+  - tag
+  - archive
+  - recent_posts
+  - category
+  - profile
+
+# social config
+social:
+  zhihu:
+  twitter: /
+  facebook: /
+  linkedin:
+  instagram: /
+  github: jeffwu85182
+
+user:
+  name: Jeff Wu
+  avatar:
+  location: Taipei, Taiwan
+  description: May the Force be with you
+  footnotes: # footnotes
+
+# documents: https://github.com/utterance/utterances
+# API config: https://utteranc.es/
+comment_utteranc:
+  enable: true
+  repo: jeffwu85182/jeffwu85182.github.io # your blog repo
+
+
+# documents: https://valine.js.org/quickstart.html
+comment_valine:
+  enable: false
+  appId:
+  appKey:
+
+comment_disqus:
+    enable: true
+    url:  http://blog.crazyalu.com/
+    name: crazyalu
+
+# dark
+# light
+# user-can-set
+appearance: auto # Default value is auto
+
+# Miscellaneous
+favicon: images/favicon.ico
+
+friend_links:
+  - title: Google
+    link: https://www.google.com/
+  - title: Github
+    link: https://www.github.com/
+  - title: V2EX
+    link: https://v2ex.com/
+  - title: Twitter
+    link: https://twitter.com/
+
+# Google Analytics
+ga_track_id: G-391C0PJRZ6
+ga_domain: https://jeffwu85182.github.io
+
+# Baidu Analytics
+ba_track_id:
+
+# picture of about page
+about_pic: about.png
+
+image_zoom:
+  enable: true
