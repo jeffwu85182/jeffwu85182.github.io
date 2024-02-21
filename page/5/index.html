@@ -1,0 +1,168 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Jeff's Note</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/widget-post-list.css"><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><article class="post-container is-flex is-justify-content-center section container is-max-widescreen pt-4 px-2"><div class="columns is-variable is-1-tablet is-3-desktop-only is-2-widescreen is-full-width"><section class="column"><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/09/25/quill-day-10/">Day 10：編輯內容的呈現 - Parchment 與 Blot</a></h2><time class="has-text-grey" datetime="2023-09-25T13:48:01.000Z">2023-09-25</time><p class="is-flex-grow-2 mt-2">今天我們將一同探討 Quill 背後的兩個關鍵概念：Blot 和 Parchment。雖然這些名詞可能聽起來有些陌生，但它們在 Quill 的運作中扮演了重要的角色。讓我們來了解一下，究竟 Blot 和 Parchment 是什麼，以及它們如何影響著 Quill 的編輯內容。
+什麼是 Parchment？Parchment 是 Quill 的文件模型，它是與 DOM (Document Object Model) 並行的樹狀結構，並提供了對內容編輯（例如 Quill）的功能。一個 Parchment 樹是由多個 Blot 組成的，這些 Blot 會反射對應的 DOM 節點。Blot 如同剛才提到的，它可以提供結構、格式與內容。換句話說，它們扮演著為文件元素提供實質性、樣式和功能的角色。除了 Blot 之外，..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/09/25/quill-day-10/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/09/24/quill-day-9/">Day 9：Quill Editor 的資料物件 - Delta (下)</a></h2><time class="has-text-grey" datetime="2023-09-24T00:42:46.000Z">2023-09-24</time><p class="is-flex-grow-2 mt-2">昨天探討了 Delta，初步有了一些概念，今天就來嘗試練習看看，為了方便查看，先新增一個 quill-editor.service，並將 Delta 相關的練習內容都放到這裡面。
+使用 new Delta() 操作在上一篇文章中，官方不建議手動建立 Delta 物件，應該要透過可連結 Deltas 物件的方法像是：insert()、delete()，和 keep() 等方法來建立新的 Delta。
+因此使用的操作方式會是每次都直接 new 一個 Delta，並把要進行的文本操作透過鏈式呼叫(Method Chaining) 的方式處理，最後再呼叫 quill.updateContents 方法並帶入新增的 helloWorldDelta：
+const helloWorldDelta = new Delta(..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/09/24/quill-day-9/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/09/23/quill-day-8/">Day 8：Quill Editor 的資料物件 - Delta (上)</a></h2><time class="has-text-grey" datetime="2023-09-23T11:56:20.000Z">2023-09-23</time><p class="is-flex-grow-2 mt-2">今天初步探討 Quill Editor 資料物件之一，Delta，就一起來了解一下吧。
+什麼是 Delta 物件？不要被 Delta 這酷酷的名字給嚇到，它其實是很單純的東西。
+首先我們將官網文件的描述翻譯來看：
+
+Delta 是一種簡單但富有表現力的格式，可用於描述 Quill 的內容和變化。這個格式是 JSON 的嚴格子集，可讀性高，並且機器也能容易解析。Delta 可以描述任何 Quill 文件，包含所有文字和格式資訊，並去除 HTML 的歧義與複雜性。
+
+Delta 是 Quill Editor 使用的資料物件，它同時也作為獨立的儲存庫，使 Delta 可以在 Quill 外的情境中被使用。主要用途在處理操作轉換（Operational Transform），並且可以套用到即時協同編輯的應用，像 G..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/09/23/quill-day-8/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/09/22/quill-day-7/">Day 7：Quill Editor 擴充自訂功能</a></h2><time class="has-text-grey" datetime="2023-09-22T15:47:43.000Z">2023-09-22</time><p class="is-flex-grow-2 mt-2">Quill 作為編輯器的核心優勢在於它提供了豐富的 API 與容易實現客製化的功能。當我們基於 Quill 的 API 實作功能時，可以包成一個 module 較方便使用。今天一起探討如何擴充 Quill 編輯器的功能，讓我們可以依照特定的需求實現並加入，使編輯器的功能更豐富以貼近專案的特殊需求。
+註冊 Quill 自訂模組假設我們需要新增一個能顯示編輯器當前字數的計數器，首先需要建立一個名為 counter 的 module： 
+// 建立自訂 Module
+createCustomModule() &amp;#123;
+    Quill.register(
+      &amp;#39;modules/counter&amp;#39;, // 自訂 module 名稱
+      function (quill: Quill..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/09/22/quill-day-7/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/2023/09/21/quill-day-6/200907493oFpjVVyUC.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/09/21/quill-day-6/"><img class="post-cover-img js-img-fadeIn" src="/2023/09/21/quill-day-6/200907493oFpjVVyUC.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/09/21/quill-day-6/">Day 6：Quill Editor 自訂工具列</a></h2><time class="has-text-grey" datetime="2023-09-21T14:30:20.000Z">2023-09-21</time><p class="is-flex-grow-2 mt-2">昨天我們知道如何設定編輯器的 CSS 樣式，並且修改既有的功能按鈕。今天接著研究要如何自訂工具列的內容以及加入自訂功能的按鈕。
+自訂工具列：Toolbar OptionsQuill Editor 的工具列有兩種設置方式，一種是定義 toolbarOption 物件，由於 Quill 內建相當豐富實用的功能，因此我們可以直接以陣列的方式設定想要加入的控制按鈕，陣列底下的每個元素也是陣列，用來表示一個群組，除了可以調整工具列的功能按鈕順序之外，我們也能以分組的方式將同類型的功能擺在一起。
+const toolbarOptions = &amp;#123;
+    container: [
+        [&amp;#39;bold&amp;#39;, &amp;#39;italic&amp;#39;, &amp;#39;underline&amp;#39;, &amp;#..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/09/21/quill-day-6/">Read more</a></section></article><section class="paginator is-flex is-justify-content-flex-end is-flex-wrap-wrap mt-5"><a class="extend prev" rel="prev" href="/page/4/"><i class="iconfont icon-prev has-text-grey"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="iconfont icon-next has-text-grey"></i></a></section></section><aside class="column is-hidden-mobile is-4-tablet is-3-widescreen"><style>.search-widget .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--second-text-color);
+}
+.search-widget .search-content {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 3px);
+    z-index: 2;
+
+    width: 100%;
+    height: 0;
+    max-height: 550px;
+
+    overflow: auto;
+    box-sizing: border-box;
+
+    background: var(--top-bar-bg-color);
+    backdrop-filter: blur(var(--backdropFilter));
+    -webkit-backdrop-filter: blur(var(--backdropFilter));
+
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-widget .search-content a:hover h5 {
+    color: #3273dc!important;
+}
+</style><main class="aside-card-container search-widget is-relative"><label for="searchInput"><div class="is-flex px-4" id="searchButton"><i class="iconfont icon--search1 mr-1"></i><input class="search-input is-flex-grow-1" id="searchInput" placeholder="Search everything.."></div></label><section class="search-content content" id="searchContent"></section></main><script>var searchDatabase = []
+var searchInputEl = document.getElementById('searchInput')
+var searchButtonEl = document.getElementById('searchButton')
+var searchResultEl = document.getElementById('searchContent')
+
+searchInputEl.oninput = function (evt) {
+    var searchValue = evt.srcElement.value
+    var haveSearchValue = Boolean(searchValue.trim())
+    if (!haveSearchValue) {
+        searchResultEl.style.height = 0
+        searchResultEl.innerHTML = null
+        return
+    }
+
+    var searchResults = searching(searchValue)
+
+    if (searchResults.length > 0) {
+        renderSearchResults(searchResults)
+    }
+}
+
+function renderSearchResults(results) {
+    searchResultEl.innerHTML = null
+    var fragment = document.createDocumentFragment()
+
+    results.forEach(function (item) {
+        var link = document.createElement('a')
+        var title = document.createElement('h5')
+        var content = document.createElement('p')
+
+        title.className = 'mb-1'
+        title.innerText = item.title
+        content.innerText = item.content
+
+        link.href = item.link
+        link.appendChild(title)
+        link.appendChild(content)
+        link.className = 'p-4 is-block'
+
+        fragment.appendChild(link)
+    })
+
+    searchResultEl.appendChild(fragment)
+    searchResultEl.style.height = 'auto'
+}
+
+function searching(inputText) {
+    var inputTexts = inputText.split(' ')
+    var searchResults = []
+    inputTexts.forEach(function (searchKey) {
+        var haveSearchValue = Boolean(searchKey.trim())
+        if (!haveSearchValue) return
+
+        var key = searchKey.toLowerCase()
+
+        for (var entry of searchDatabase) {
+            var title = entry.getElementsByTagName('title')[0].textContent
+            var link = entry.getElementsByTagName('link')[0].getAttribute('href')
+            var contentWithTags = entry.getElementsByTagName('content')[0].textContent
+            var rawContent = contentWithTags.trim().replace(/<[^>]+>/g, '').toLowerCase()
+
+            var LENGTH = 80
+            var finalContent = ''
+            var contentLength = rawContent.length
+            var searchResultIdx = rawContent.indexOf(key)
+
+            var startIdx = searchResultIdx - 20,
+                endIdx = startIdx + LENGTH
+
+            if (startIdx < 0) {
+                startIdx = 0
+                endIdx = 100
+            }
+
+            endIdx > contentLength && (endIdx = contentLength)
+
+            finalContent = rawContent.substring(startIdx, endIdx)
+
+            if (title.indexOf(key) > -1 || searchResultIdx > -1) {
+                searchResults.push({
+                    link: link,
+                    title: title,
+                    content: finalContent
+                })
+            }
+        }
+    })
+    return searchResults
+}
+
+searchButtonEl.onclick = function () {
+    if (searchDatabase.length > 0) return;
+
+    fetch(window.location.href + '/search.xml').then(res => res.text()).then(res => {
+        var domparser = new DOMParser
+        var doc = domparser.parseFromString(res, 'application/xml')
+        searchDatabase = doc.getElementsByTagName('search')[0].children
+    })
+}</script><main class="aside-card-container profile-widget"><!-- todo: 使用取色工具动态阴影--><section class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center"><section class="is-flex is-justify-content-center avatar is-clipped skeleton"><!-- debug images "https://api.ixiaowai.cn/gqapi/gqapi.php"--><img class="js-img-fadeIn" src="https://s.gravatar.com/avatar/d08075428662d37b51ef71ac4ddeaea3?s=320" alt="user avatar"></section><h3 class="user-name">Jeff Wu</h3><blockquote class="has-text-centered is-relative"><span style="margin-bottom: 5px;">Don't forget the original intention. Always keen on learning and exploring new things.</span></blockquote><address class="has-text-centered has-text-grey"><i class="iconfont icon-location" style="margin-right: 5px;"></i><span class="has-text-grey">Taipei, Taiwan</span></address></section><section class="sns-container is-flex is-justify-content-center is-align-items-center"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section></main><main class="aside-card-container recent-widget"><h3>Recent</h3><ul><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Da" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/09/25/quill-day-10/">Day 10：編輯內容的呈現 - Parchment 與 Blot</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-09-25T13:48:01.000Z">2023-09-25</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Da" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/09/24/quill-day-9/">Day 9：Quill Editor 的資料物件 - Delta (下)</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-09-24T00:42:46.000Z">2023-09-24</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Da" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/09/23/quill-day-8/">Day 8：Quill Editor 的資料物件 - Delta (上)</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-09-23T11:56:20.000Z">2023-09-23</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Da" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/09/22/quill-day-7/">Day 7：Quill Editor 擴充自訂功能</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-09-22T15:47:43.000Z">2023-09-22</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/2023/09/21/quill-day-6/200907493oFpjVVyUC.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/09/21/quill-day-6/">Day 6：Quill Editor 自訂工具列</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-09-21T14:30:20.000Z">2023-09-21</time></section></li></ul></main><main class="aside-card-container categories-widget category-page"><h3>Categories</h3><section><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML/">HTML</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Optimization/">Optimization</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SASS/">SASS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">1</span></li></ul></section></main><main class="aside-card-container archives-widget"><h3>Archives</h3><section><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">4</span></li></ul></section></main><main class="aside-card-container tag-widget"><h3>Tags</h3><section><a href="/tags/Angular%202"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 2</span></a><a href="/tags/Angular-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular-CLI</span></a><a href="/tags/Directive"><span class="tag post-item-tag" style="margin-bottom: 5px;">Directive</span></a><a href="/tags/Attribute%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Attribute Directives</span></a><a href="/tags/Structural%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Structural Directives</span></a><a href="/tags/Note"><span class="tag post-item-tag" style="margin-bottom: 5px;">Note</span></a><a href="/tags/Angular%2016"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 16</span></a><a href="/tags/SSR"><span class="tag post-item-tag" style="margin-bottom: 5px;">SSR</span></a><a href="/tags/Hydration"><span class="tag post-item-tag" style="margin-bottom: 5px;">Hydration</span></a><a href="/tags/Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Forms</span></a><a href="/tags/Model-Driven"><span class="tag post-item-tag" style="margin-bottom: 5px;">Model-Driven</span></a><a href="/tags/Firebase%20Functions"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Functions</span></a><a href="/tags/Firebase%20Hosting"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Hosting</span></a><a href="/tags/Angular%20Standalone%20Component"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular Standalone Component</span></a><a href="/tags/Template-Driven-Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Template-Driven-Forms</span></a><a href="/tags/css"><span class="tag post-item-tag" style="margin-bottom: 5px;">css</span></a><a href="/tags/atomic-css"><span class="tag post-item-tag" style="margin-bottom: 5px;">atomic-css</span></a><a href="/tags/capacitor"><span class="tag post-item-tag" style="margin-bottom: 5px;">capacitor</span></a><a href="/tags/hybrid%20app"><span class="tag post-item-tag" style="margin-bottom: 5px;">hybrid app</span></a><a href="/tags/ionic%204"><span class="tag post-item-tag" style="margin-bottom: 5px;">ionic 4</span></a><a href="/tags/Angular%20with%20cordova"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular with cordova</span></a><a href="/tags/Cordova%20environment%20prepare"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova environment prepare</span></a><a href="/tags/Cordova-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-CLI</span></a><a href="/tags/Cordova-Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-Android</span></a><a href="/tags/Cordova-iOS"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-iOS</span></a><a href="/tags/Phonegap%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">Phonegap plugin</span></a><a href="/tags/Push%20Notification"><span class="tag post-item-tag" style="margin-bottom: 5px;">Push Notification</span></a><a href="/tags/Azure%20Notification%20Hub"><span class="tag post-item-tag" style="margin-bottom: 5px;">Azure Notification Hub</span></a><a href="/tags/cordova%20plugin%20file"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin file</span></a><a href="/tags/file"><span class="tag post-item-tag" style="margin-bottom: 5px;">file</span></a><a href="/tags/Cordova%20Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova Android</span></a><a href="/tags/cordova%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin</span></a><a href="/tags/geolocation"><span class="tag post-item-tag" style="margin-bottom: 5px;">geolocation</span></a><a href="/tags/scrollTop"><span class="tag post-item-tag" style="margin-bottom: 5px;">scrollTop</span></a><a href="/tags/convert"><span class="tag post-item-tag" style="margin-bottom: 5px;">convert</span></a><a href="/tags/template%20issue"><span class="tag post-item-tag" style="margin-bottom: 5px;">template issue</span></a><a href="/tags/Dialog"><span class="tag post-item-tag" style="margin-bottom: 5px;">Dialog</span></a><a href="/tags/ngModel"><span class="tag post-item-tag" style="margin-bottom: 5px;">ngModel</span></a><a href="/tags/Angular%206"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 6</span></a><a href="/tags/angular/cli"><span class="tag post-item-tag" style="margin-bottom: 5px;">angular/cli</span></a><a href="/tags/ng%20update"><span class="tag post-item-tag" style="margin-bottom: 5px;">ng update</span></a><a href="/tags/Polyfill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Polyfill</span></a><a href="/tags/FuxkIE"><span class="tag post-item-tag" style="margin-bottom: 5px;">FuxkIE</span></a><a href="/tags/15th%2030%20Days%20Challenge"><span class="tag post-item-tag" style="margin-bottom: 5px;">15th 30 Days Challenge</span></a><a href="/tags/Quill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Quill</span></a><a href="/tags/github"><span class="tag post-item-tag" style="margin-bottom: 5px;">github</span></a><a href="/tags/sass"><span class="tag post-item-tag" style="margin-bottom: 5px;">sass</span></a><a href="/tags/extend"><span class="tag post-item-tag" style="margin-bottom: 5px;">extend</span></a><a href="/tags/Visual%20Studio%20Code"><span class="tag post-item-tag" style="margin-bottom: 5px;">Visual Studio Code</span></a><a href="/tags/VScode%20%E8%A8%AD%E5%AE%9A"><span class="tag post-item-tag" style="margin-bottom: 5px;">VScode 設定</span></a></section></main><main class="aside-card-container friend-widget"><h3>Friends</h3><section><a target="_blank" rel="noopener" href="https://www.google.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">CK's Notepad</span></a><a target="_blank" rel="noopener" href="https://blog.miniasp.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">The Will Will Web</span></a><a target="_blank" rel="noopener" href="https://jiaming0708.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Secret Note</span></a><a target="_blank" rel="noopener" href="https://blog.poychang.net/"><span class="tag post-item-tag" style="margin-bottom: 5px;">I am PC</span></a><a target="_blank" rel="noopener" href="https://dog0416.blogspot.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Duran 的技術冶煉廠</span></a><a target="_blank" rel="noopener" href="https://fullstackladder.dev/blog/"><span class="tag post-item-tag" style="margin-bottom: 5px;">全端開發人員天梯</span></a><a target="_blank" rel="noopener" href="https://kyleap.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">凱哥打扣</span></a></section></main></aside></div></article><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></body></html>

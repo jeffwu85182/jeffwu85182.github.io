@@ -1,0 +1,165 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Angular Directive 初探 - Part.3</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="前兩篇文章，Part.1 和 Part.2 的介紹，可以認識到如何寫一個簡單且富有彈性的 directive 並套用，這次來嘗試將 jQuery datepicker 的執行改成 directive ，並認識一下 Angular Directive 的 Decorator 吧！
+製作 jQuery datepicker 的 directive首先，npm 要先準備好 jquery 以及 bootstrap-datepicker，包含定義檔的部分：
+npm install jquery bootstrap @types/jquery @types/bootstrap-datepicker --save
+
+相依套件安裝完成後，到 tsconfig.app.ts 中，將 types 的陣列加上 “jquery” .."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Angular Directive 初探 - Part.3</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%BD%E4%BD%9C-jQuery-datepicker-%E7%9A%84-directive"><span class="toc-text">製作 jQuery datepicker 的 directive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%9C%E6%96%BC-Directive-decorator"><span class="toc-text">關於 Directive decorator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exportAs"><span class="toc-text">exportAs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Host"><span class="toc-text">Host</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-amp-Output"><span class="toc-text">Input &amp; Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Selector"><span class="toc-text">Selector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Angular%202"><i class="tag post-item-tag">Angular 2</i></a><a href="/tags/Directive"><i class="tag post-item-tag">Directive</i></a><a href="/tags/Attribute%20Directives"><i class="tag post-item-tag">Attribute Directives</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Angular Directive 初探 - Part.3</h1><time class="has-text-grey" datetime="2017-04-09T03:48:03.000Z">2017-04-09</time><article class="mt-2 post-content"><p>前兩篇文章，Part.1 和 Part.2 的介紹，可以認識到如何寫一個簡單且富有彈性的 directive 並套用，這次來嘗試將 jQuery datepicker 的執行改成 directive ，並認識一下 Angular Directive 的 <code>Decorator</code> 吧！</p>
+<h3 id="製作-jQuery-datepicker-的-directive"><a href="#製作-jQuery-datepicker-的-directive" class="headerlink" title="製作 jQuery datepicker 的 directive"></a>製作 jQuery datepicker 的 directive</h3><p>首先，npm 要先準備好 jquery 以及 bootstrap-datepicker，包含定義檔的部分：</p>
+<pre><code>npm install jquery bootstrap @types/jquery @types/bootstrap-datepicker --save
+</code></pre>
+<p>相依套件安裝完成後，到 tsconfig.app.ts 中，將 types 的陣列加上 “jquery” 字串，代表加入定義。或許你會有疑問，為什麼 <code>tsconfig.json</code> 中已經有設定 <code>typeRoots</code> 了，為何 <code>tsconfig.app.json</code> 還要再加上 “jquery”？</p>
+<p>雖然 <code>tsconfig.app.json</code> 繼承了 <code>tsconfig.json</code> 但這裡的 types 是空陣列，因此造成 tsconfig 的 <code>typeRoots</code> 不會讀進來，在編譯的過程中就會報錯，這還滿雷的…Orz 除了在 <code>tsconfig.app.json</code>補上 <code>types</code> 之外，你也可以直接刪除 <code>types</code>，如此一來就只會抓 <code>tsconfig.ts</code> 的 <code>typeRoots</code> 囉…</p>
+<p>npm, tsconfig 都準備好之後，把剛才安裝好的套件加入 Angular-CLI 的設定檔，主要是 jquery 的 js 以及 datepicker 的 css &amp; js 檔案要進行引入的動作：</p>
+<span id="more"></span>
+
+<pre><code class="json">&quot;styles&quot;: [
+        &quot;../node_modules/bootstrap/dist/css/bootstrap.css&quot;,
+        &quot;../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css&quot;,
+        &quot;styles.css&quot;
+],
+&quot;scripts&quot;: [
+  &quot;../node_modules/jquery/dist/jquery.js&quot;,
+  &quot;../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js&quot;
+],
+</code></pre>
+<p>接著透過 Angular CLI 新增一個 directive：</p>
+<pre><code>ng g directive directives/datepicker
+</code></pre>
+<p>實作 datepikcer directive：</p>
+<pre><code class="typescript">import &#123; Directive, ElementRef, NgZone &#125; from &#39;@angular/core&#39;;
+@Directive(&#123;
+  selector: &#39;[appDatepicker]&#39;,
+&#125;)
+export class DatepickerDirective &#123;
+  constructor(private _elementRef: ElementRef, private _ngZone: NgZone) &#123;
+    const date = new Date();
+    this._ngZone.run(() =&gt; &#123;
+      jQuery(this._elementRef.nativeElement)
+        .datepicker(&#123;
+          startDate: date,
+          todayBtn: &#39;linked&#39;,
+          keyboardNavigation: false,
+          forceParse: false,
+          autoclose: true,
+          format: &#39;yyyy/mm/dd&#39;,
+        &#125;)
+        .on(&#39;changeDate&#39;, function (e) &#123;
+          console.log(e.date);
+        &#125;);
+    &#125;);
+  &#125;
+&#125;
+</code></pre>
+<p>完成之後，在 template 中加入 directive 就會有效果出來囉！！！</p>
+<pre><code class="html">&lt;div&gt;
+  &lt;label for=&quot;myDate&quot;&gt;選擇時間&lt;/label&gt;
+  &lt;input
+    type=&quot;text&quot;
+    class=&quot;form-control&quot;
+    id=&quot;myDate&quot;
+    name=&quot;myDate&quot;
+    appDatepicker
+  /&gt;
+&lt;/div&gt;
+</code></pre>
+<p>我們也能夠透過之前提到的 <code>@HostListener</code>, <code>@Input</code> 讓 directive 可以存取參數或進行事件的處理，變得更有彈性，以上就是簡單的將第三方套件執行的程式把包裝成 directive，這麼做的好處就是可以和 Angular 較無直接關係的程式碼隔開，我們的 component 或 service 就不會變的太雜亂，套件的管理也能更容易去進行維護了。</p>
+<h3 id="關於-Directive-decorator"><a href="#關於-Directive-decorator" class="headerlink" title="關於 Directive decorator"></a>關於 Directive decorator</h3><p>Directive decorator 可以讓你將 class 標記為 directive 並提供 metadata，以確定如何在運行時處理，實例化和使用。Directives 可以讓我們把行為附加到 DOM 中的元素中。為了可以被其他的 directive、component 或 application 所使用，Directive 必須屬於在某一個 NgModule 下。若要明確指定 directive 是 NgModule 中的成員，你必須將 directive 加在 NgModule 的 <code>declaralations</code> 屬性中。</p>
+<p>除了透過 Directive decorator 指定的 metadata 配置之外，directive 可以藉由實作各種生命週期鉤子 ( Life-Cycle hooks ) 來控制執行時的行為。</p>
+<p>Directive Decorator 的 metadata 屬性包含了：</p>
+<ul>
+<li><strong>exportAs</strong> - Component 實體在 template 中匯出的名稱</li>
+<li><strong>host</strong> - 將 host element 綁定的事件, DOM 或 HTML 的屬性比對到 class 中的屬性</li>
+<li><strong>inputs</strong> - 列出提供給 directive 輸入時作為資料綁定用的 class 屬性</li>
+<li><strong>outputs</strong> - 列出其他可以訂閱輸出事件的 class 屬性</li>
+<li><strong>providers</strong> - 列出這個 directive 及底下的 directive 可用的 providers</li>
+<li><strong>queries</strong> - 設定可以被注入到這個 directive 的 queries</li>
+<li><strong>selector</strong> - 用來提供在 template 中能辨識 directive 的 css selector</li>
+</ul>
+<h3 id="exportAs"><a href="#exportAs" class="headerlink" title="exportAs"></a>exportAs</h3><p>在 directive decorator 中加上 <code>exportAs</code> 屬性，並自訂名稱，我們就拿之前的<a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/angularDirectiveResearch">範例</a>的 highlight directive 當作練習，加上 <code>exportAs:&#39;appHighlight&#39;</code> 我們一樣取名為 appHighlight。</p>
+<pre><code class="typescript">@Directive(&#123;
+  selector: &#39;[appHighlight]&#39;,
+  exportAs: &#39;appHighlight&#39;
+&#125;)
+</code></pre>
+<p>接著直接在這個 directive 新增一個方法叫 <code>sayHello()</code>：</p>
+<pre><code class="typescript">sayHello() &#123;
+  alert(&#39;Hello!!!&#39;);
+&#125;
+</code></pre>
+<p>我們先不做太複雜的處理，單純的 alert 就好，完成後到 template 的部分，將有套 appHighlight directive 的元素後面加上範本參考變數並給予剛剛設定好的 exportAs 名稱：</p>
+<pre><code class="html">&lt;span appHighlight bgColor=&quot;tomato&quot; #jeff=&quot;appHighlight&quot;&gt; this is span 1 &lt;/span&gt;
+</code></pre>
+<p>這邊的變數名稱我就先取自己的名字 <code>#jeff</code>，為了驗證是否確實有資料，可以到 appComponent 來做確認，app component 的部分，從 <code>@angular/core</code> import <code>ViewChild</code>, <code>AfterViewInit</code>，並且將 HighlightDirective 也 import 進來，等等要派上用場：</p>
+<pre><code class="typescript">import &#123; Component, ViewChild, AfterViewInit &#125; from &#39;@angular/core&#39;;
+import &#123; HighlightDirective &#125; from &#39;./directives/highlight.directive&#39;;
+</code></pre>
+<p>import 之後，先在 class 中加上 <code>@ViewChild</code> 來取得我們的範本變數 <code>jeff</code>：</p>
+<pre><code class="typescript">@ViewChild(&#39;jeff&#39;) myJeff: HighlightDirective;
+</code></pre>
+<p>為了有提示可方便參考，我們指定透過 ViewChild 取得的範本變數 <code>jeff</code> 的屬性， <code>myJeff</code> 型別為 <code>HighlightDirective</code> ，這個型別需要 import HighlightDirective 作為參考，所以上一個步驟就先 import 了。</p>
+<p>要取得 directive 的實體， AppComponent Class 需要實作 AfterViewInit，為什麼呢？之前的文章有稍微提到 directive 的生命週期，它跟 Component 一樣擁有生命週期，但 <strong>directive 會隨著套用的元素誕生而初始化，也會隨著套用的元素消失而毀滅</strong>，如果直接在 component 的 <code>constructor()</code> 或 <code>ngOnInit()</code> 是取不到的，因此要在 AppComponent 取得 directive 的實體，一定要在 View 初始化之後，所以就要實作這個生命週期掛鉤，在這個階段才取得到：</p>
+<pre><code class="typescript">import &#123; Component, ViewChild, AfterViewInit &#125; from &#39;@angular/core&#39;;
+import &#123; HighlightDirective &#125; from &#39;./directives/highlight.directive&#39;;
+
+@Component(&#123;
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.css&#39;],
+&#125;)
+export class AppComponent implements AfterViewInit &#123;
+  @ViewChild(&#39;jeff&#39;) myJeff: HighlightDirective;
+
+  title = &#39;app works!&#39;;
+
+  ngAfterViewInit() &#123;
+    console.log(&#39;this is jeff&#39;, this.myJeff);
+  &#125;
+
+  callHelloByHighlight() &#123;
+    this.myJeff.sayHello();
+  &#125;
+&#125;
+</code></pre>
+<p>最後建立一個 <code>callHelloByHighlight()</code> 的方法，裡面先 alert 就好。接著再回到 template 的部分，我們加一個按鈕上去，並在 <code>click</code> 的時候呼叫 <code>callHelloByHighligh()</code>：</p>
+<pre><code class="html">&lt;div&gt;
+  &lt;button (click)=&quot;callHelloByHighlight()&quot;&gt;
+    click this button to call directive method.
+  &lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+<p>重整之後，點擊按鈕，就可以呼叫 directive 實體中的方法囉！</p>
+<h3 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h3><p>Directives 的 metadata Host 屬性可綁定目標元素的事件 ( Event )、DOM 或 HTML 的屬性 ( Property or Attributes ) ，其實就是 <code>@HostListener()</code> &amp; <code>@HostBinding()</code> ，寫在 metadata 是較早期的寫法，如果屬性很多的話，建議直接使用 @HostListener() &amp; @HostBinding()，避免 metadata 太大包，要進行追蹤比較不容易，雖然也有 F12 能用就是了…但用 decorator 比較清楚，這點是確定的。</p>
+<pre><code class="typescript">@Directive(&#123;
+  selector: &#39;[tohValidator2]&#39;,
+  host: &#123;
+    &#39;attr.role&#39;: &#39;button&#39;,
+    &#39;(mouseenter)&#39;: &#39;onMouseEnter()&#39;,
+  &#125;,
+&#125;)
+export class Validator2Directive &#123;
+  role = &#39;button&#39;;
+  onMouseEnter() &#123;
+    // do work
+  &#125;
+&#125;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/style-guide.html#!#06-03">參考資料 - Angular StyleGuide</a></p>
+<h3 id="Input-amp-Output"><a href="#Input-amp-Output" class="headerlink" title="Input &amp; Output"></a>Input &amp; Output</h3><p>其實就是 <code>@Input</code> 和 <code>@Output</code>，這也是早期的寫法了，為了方便屬性的管理，建議還是使用 decorator 將屬性寫在 Class 中比較適合。</p>
+<h3 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h3><p>提供在 template 中進行辨識的 CSS selector，確定有這個 selector 才會進行套用的動作，Selector 可以是多個或是有條件性的，例如：</p>
+<pre><code class="typescript">selector: &#39;[appHighlight], span.needHighlight&#39;;
+</code></pre>
+<p>這代表說只要有套用 appHighlight attribute 或是 html class 名稱為 <code>needHighlight</code> 的元素，都會有效果。</p>
+<h3 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h3><p>透過這次的練習，我們學會要如何存取 directive 的實體，只要拿到實體物件之後，想要做什麼基本上都不會有太大的問題，就看自己的想像力囉 XD</p>
+<p>參考資料</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/style-guide.html#!#06-03">Angular.io Style Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/api/core/index/ViewChild-decorator.html">Angular ViewChild decorator</a></li>
+<li><a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/api/core/index/Directive-decorator.html">Angular Directive decorator</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/angularDirectiveResearch">練習範例</a></li>
+</ul>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/04/11/angular-directive-research-part-4/" title="Angular Directive 初探 - Part.4"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Angular Directive 初探 - Part.4</span></a><a class="button is-default" href="/2017/04/08/angular-directive-reaserch-part-2/" title="Angular Directive 初探 - Part.2"><span class="has-text-weight-semibold">Next: Angular Directive 初探 - Part.2</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

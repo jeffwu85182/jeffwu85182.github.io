@@ -1,0 +1,59 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>使用原生 HTML Dialog</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="
+關於 Modal 與 Dialog在今日的網站開發上，使用彈窗式的介面來呈現資訊只要是接觸過網站開發的人應該都不陌生，而在過去我們對於彈窗式介面的實現方式，通常是透過 JavaScript 控制 class 來達成，但這樣的方式在維護上會有一些問題，例如：對於 Modal 或 Dialog 的顯示位置我們都需要另外寫一份 CSS 去設計，需要使用 .open 之類的 CSS class 來控制開關，或者需要額外的元素實現 Modal 的背景，而這樣的實現成本比較高，而且也不易維護。而在 HTML5 中，我們可以透過 dialog 標籤來實現彈窗式介面，這樣的實現方式不僅簡單，而且也不需要透過 JS 來控制 CSS Class，接下來就讓我們來看看如何使用 dialog element。
+
+
+Modal 與.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">使用原生 HTML Dialog</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%9C%E6%96%BC-Modal-%E8%88%87-Dialog"><span class="toc-text">關於 Modal 與 Dialog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Modal-%E8%88%87-Dialog-%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="toc-text">Modal 與 Dialog 的差異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Dialog"><span class="toc-text">使用 Dialog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dialog-%E7%9A%84-JS-%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="toc-text">Dialog 的 JS 操作方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dialog-%E7%9A%84-CSS-%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="toc-text">Dialog 的 CSS 操作方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dialog-%E7%9A%84%E4%BA%8B%E4%BB%B6"><span class="toc-text">Dialog 的事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Note"><i class="tag post-item-tag">Note</i></a><a href="/tags/Dialog"><i class="tag post-item-tag">Dialog</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">使用原生 HTML Dialog</h1><time class="has-text-grey" datetime="2023-05-09T07:02:08.000Z">2023-05-09</time><article class="mt-2 post-content"><p><img src="/images/html-dialog/cover.webp" alt="HTML Dialog"></p>
+<h2 id="關於-Modal-與-Dialog"><a href="#關於-Modal-與-Dialog" class="headerlink" title="關於 Modal 與 Dialog"></a>關於 Modal 與 Dialog</h2><p>在今日的網站開發上，使用彈窗式的介面來呈現資訊只要是接觸過網站開發的人應該都不陌生，而在過去我們對於彈窗式介面的實現方式，通常是透過 JavaScript 控制 class 來達成，但這樣的方式在維護上會有一些問題，例如：對於 Modal 或 Dialog 的顯示位置我們都需要另外寫一份 CSS 去設計，需要使用 <code>.open</code> 之類的 CSS class 來控制開關，或者需要額外的元素實現 Modal 的背景，而這樣的實現成本比較高，而且也不易維護。而在 HTML5 中，我們可以透過 <code>dialog</code> 標籤來實現彈窗式介面，這樣的實現方式不僅簡單，而且也不需要透過 JS 來控制 CSS Class，接下來就讓我們來看看如何使用 dialog element。</p>
+<span id="more"></span>
+
+<h2 id="Modal-與-Dialog-的差異"><a href="#Modal-與-Dialog-的差異" class="headerlink" title="Modal 與 Dialog 的差異"></a>Modal 與 Dialog 的差異</h2><p>Modal 是一種介面的設計模式，而 Dialog 則是一種介面的元素，Modal 通常會使用 Dialog 來實現，但 Dialog 並不一定是 Modal，例如：我們可以透過 Dialog 來實現一個提示訊息的介面，而這個介面並不是 Modal，因為它並不會阻止使用者對其他元素進行操作，而 Modal 則是會阻止使用者對其他元素進行操作，直到 Modal 關閉為止。<br></p>
+<blockquote>
+<p>兩者最大的差異在於：Modal 會阻止使用者對其他元素進行操作，而 Dialog 則不會。對我來說，Modal 是一個完全阻隔的彈窗內容並且顯示在畫面上的中央，而 Dialog 比較像是一個提示訊息的介面。</p>
+</blockquote>
+<h2 id="使用-Dialog"><a href="#使用-Dialog" class="headerlink" title="使用 Dialog"></a>使用 Dialog</h2><p>要使用 Dialog 很簡單，只需要在 HTML 中加入 <code>&lt;dialog&gt;</code> 元素即可，例如：</p>
+<pre><code class="html">&lt;dialog open&gt;
+  &lt;p&gt;Greetings, one and all!&lt;/p&gt;
+  &lt;form method=&quot;dialog&quot;&gt;
+    &lt;button&gt;OK&lt;/button&gt;
+    &lt;button (click)=&quot;closeDialog()&quot;&gt;Cancel&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+</code></pre>
+<p><code>open</code> attribute 會讓 Dialog 在載入時就顯示出來，而 form 中的 method 屬性則是用來指定 Dialog 的行為，預設值為 <code>dialog</code>，也就是當使用者點擊 form 中的 button 時，Dialog 會關閉，如果我們將 method 屬性設定為 <code>get</code>，則會將 form 中的資料以 GET 的方式送出，而如果設定為 <code>post</code>，則會以 POST 的方式送出，這樣的設定方式和一般的 form 是一樣的。</p>
+<h2 id="Dialog-的-JS-操作方法"><a href="#Dialog-的-JS-操作方法" class="headerlink" title="Dialog 的 JS 操作方法"></a>Dialog 的 JS 操作方法</h2><p>要在 JavaScript 操作 Dialog 或 Modal，我們可以透過 <code>show()</code> 來顯示 Dialog，而 <code>showModal()</code> 則是以 Modal 方式呈現，兩者皆可使用 <code>close()</code> 方法來關閉 Modal 與 Dialog：</p>
+<pre><code class="js">const dialog = document.querySelector(&#39;dialog&#39;);
+function openDialog() &#123;
+  dialog.showModal(); // for modal
+  // dialog.show(); // for dialog
+&#125;
+function closeDialog() &#123;
+  dialog.close();
+&#125;
+</code></pre>
+<h2 id="Dialog-的-CSS-操作方法"><a href="#Dialog-的-CSS-操作方法" class="headerlink" title="Dialog 的 CSS 操作方法"></a>Dialog 的 CSS 操作方法</h2><p>關於 Style 的部分，Dialog 有一些預設的樣式，例如：<code>showModal()</code> 會自動置中，並且有陰影效果，這些預設的樣式讓我們只需要專注在介面呈現的風格，我們也可以透過 CSS 來進行修改，假設要調整 Modal 的陰影效果我們可以使用 <code>::backdrop</code> 調整：</p>
+<pre><code class="css">dialog::backdrop &#123;
+  background-color: rgba(0, 0, 0, 0.5);
+&#125;
+</code></pre>
+<h2 id="Dialog-的事件"><a href="#Dialog-的事件" class="headerlink" title="Dialog 的事件"></a>Dialog 的事件</h2><p>Dialog 也有一些事件可以使用，例如：<code>close</code> 事件，當 Dialog 關閉時觸發，而 <code>cancel</code> 事件則是當使用者點擊 Dialog 中的取消按鈕時觸發，而 <code>submit</code> 事件則是當使用者點擊 Dialog 中的確認按鈕時觸發：</p>
+<pre><code class="js">const dialog = document.querySelector(&#39;dialog&#39;);
+dialog.addEventListener(&#39;close&#39;, () =&gt; &#123;
+  console.log(&#39;Dialog closed&#39;);
+&#125;);
+dialog.addEventListener(&#39;cancel&#39;, () =&gt; &#123;
+  console.log(&#39;Dialog cancelled&#39;);
+&#125;);
+dialog.addEventListener(&#39;submit&#39;, () =&gt; &#123;
+  console.log(&#39;Dialog submitted&#39;);
+&#125;);
+</code></pre>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>如果舊版的瀏覽器不支援 Dialog，可以透過 <a target="_blank" rel="noopener" href="https://github.com/GoogleChrome/dialog-polyfill">dialog-polyfill</a> 來實現，根據 README 裡面的描述可以支援到 IE9 以上的瀏覽器。使用之前也可以上 <a target="_blank" rel="noopener" href="https://caniuse.com/dialog">Can I use</a> 來查看瀏覽器的支援度。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>使用 HTML 原生的 Dialog 可以讓我們更能專注於畫面的設計，同時也帶來有語意化的架構確保可用性及可訪問性。避免產生不必要的 CSS 樣式來管理 Dialog 的開關或位置，使用起來更直覺且易於維護。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a target="_blank" rel="noopener" href="https://web-platform-yvpddf.stackblitz.io/">實作範例</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">MDN - The Dialog element</a><br><a target="_blank" rel="noopener" href="https://blog.webdevsimplified.com/2023-04/html-dialog/">Modals Will Never Be The Same - HTML dialog Element</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/05/13/angular-ssr-firebase/" title="把 Angular SSR 應用部屬到 Firebase"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 把 Angular SSR 應用部屬到 Firebase</span></a><a class="button is-default" href="/2023/05/08/angular-hydration-intro/" title="關於 Angular SSR 與 Hydration"><span class="has-text-weight-semibold">Next: 關於 Angular SSR 與 Hydration</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

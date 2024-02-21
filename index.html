@@ -1,0 +1,166 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Jeff's Note</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/widget-post-list.css"><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><article class="post-container is-flex is-justify-content-center section container is-max-widescreen pt-4 px-2"><div class="columns is-variable is-1-tablet is-3-desktop-only is-2-widescreen is-full-width"><section class="column"><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/2023/10/15/quill-day-30/20090749bmGrHQyGj4.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/10/15/quill-day-30/"><img class="post-cover-img js-img-fadeIn" src="/2023/10/15/quill-day-30/20090749bmGrHQyGj4.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/10/15/quill-day-30/">Day 30：使用 Parchment 實現類似 Medium 的編輯器 - Videos &amp; Tweets</a></h2><time class="has-text-grey" datetime="2023-10-15T15:05:24.000Z">2023-10-15</time><p class="is-flex-grow-2 mt-2">今天來到了挑戰的最後一天，接著把剩下的 Videos 和 Tweets 等自訂 Blot 體驗一遍。
+Videos我們將以和 images 的實現方式來實現 Videos。從第一個直覺或許可以使用 HTML 的 &amp;lt;video&amp;gt; 標籤，但我們無法用這種方式來播放 Youtube 的影片，考慮到 Youtube 影片是目前主流看影片的其中一種方式，我們就用 &amp;lt;iframe&amp;gt; 標籤來實現。如果希望多個 Blot 使用相同的標籤，除了 tagName 之外，我們還可以使用 className，下一個 Tweets 練習會示範這個部分。
+另外，我們將支援對寬度與高度，作為未註冊的 Formats。特定於 Embeds 的 Formats 不需要單獨註冊，只要它們與已註冊的 Formats 沒有..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/10/15/quill-day-30/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/2023/10/14/quill-day-29/20090749xs4eCKsO7y.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/10/14/quill-day-29/"><img class="post-cover-img js-img-fadeIn" src="/2023/10/14/quill-day-29/20090749xs4eCKsO7y.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/10/14/quill-day-29/">Day 29：使用 Parchment 實現類似 Medium 的編輯器 - Dividers &amp; Images</a></h2><time class="has-text-grey" datetime="2023-10-14T07:32:26.000Z">2023-10-14</time><p class="is-flex-grow-2 mt-2">昨天體驗了基本的行內格式 Blot 以及區塊格式 Blot，今天繼續實現類似 Medium 編輯器的最後四個部分，分別為分隔線、圖片、影片、以及推文的自訂功能實現。
+分隔線 (Dividers)接下來的步驟中，我們將實作第一個所謂的「葉子 Blot (Leaf Blot) 」。不同於先前我們練習過的 Blot，這些主要是負責文本格式化—例如定義文字的外觀或調整排列，並實作format()方法。Leaf Blot 的主要職責則是提供特定的內容，並透過實作 value() 方法來達成。
+Leaf Blot 可以是文本 (Text) 型態或嵌入 (Embed) 型態的 Blot。在本例中，我們會實作一個屬於嵌入型態的 Blot，即分隔線 (Divider)。值得注意的是，一旦 Embed Blot 建立，其內含的..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/10/14/quill-day-29/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/2023/10/13/quill-day-28/20090749XSOo5OU7wF.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/10/13/quill-day-28/"><img class="post-cover-img js-img-fadeIn" src="/2023/10/13/quill-day-28/20090749XSOo5OU7wF.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/10/13/quill-day-28/">Day 28：使用 Parchment 實現類似 Medium 的編輯器 - Basic Formatting &amp; myBlot</a></h2><time class="has-text-grey" datetime="2023-10-13T14:53:54.000Z">2023-10-13</time><p class="is-flex-grow-2 mt-2">昨天我們新增了一個元件並初始化 Quill 的核心，今天繼續實現 Medium 編輯器的練習。
+實作基礎格式我們之前提到過，Inline 不貢獻任何格式。這是為 Inline 基礎類別所制定的例外，而不是規則。基本的 block Blot 和區塊級的元素 (Block level element) 的運作方式相同。要實作粗體和斜體，我們只需要繼承 Inline，設定 blotName 和 tagName，並註冊到 Quill 中即可。有關繼承和靜態方法和變數的內容介紹可以參考 Parchment 的介紹。
+import Quill from &amp;#39;quill&amp;#39;;
+
+const Inline = Quill.import(&amp;#39;blots/inline&amp;#39;);
+
+export class..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/10/13/quill-day-28/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/2023/10/12/quill-day-27/20090749CWYQwIo4Xl.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2023/10/12/quill-day-27/"><img class="post-cover-img js-img-fadeIn" src="/2023/10/12/quill-day-27/20090749CWYQwIo4Xl.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/10/12/quill-day-27/">Day 27：使用 Parchment 實現類似 Medium 的編輯器 - 準備工作</a></h2><time class="has-text-grey" datetime="2023-10-12T13:46:08.000Z">2023-10-12</time><p class="is-flex-grow-2 mt-2">昨天透過 Parchement 新增了三種不同的 Attributor，今天來看要如何在編輯器上運用。官方文件介紹嘗試實現一個類似 Medium 的功能編輯器，今天就來逐步練習看看。
+實現 Medium 編輯器為了提供一致的編輯體驗，我們需要同時具有一致的資料及可預測的行為，然而這兩項是 DOM 都沒有的。現代編輯器的解決方案是維護自己的文件模型來表示其內容。對於 Quill 來說，Parchment 就是這樣的一個解決方案。它在自己的 library 中有組織的架構，並有屬於自己的 API。透過 Parchment，我們就可以自定義 Quill 能夠識別的內容與格式，或者加入全新的格式。
+在官網這份指南中，我們將使用 Parchment 和 Quill 提供的基礎模組來複製 Medium 上的編輯器。我們..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/10/12/quill-day-27/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2023/10/11/quill-day-26/">Day 26：關於 Pachment 的 Attributors</a></h2><time class="has-text-grey" datetime="2023-10-11T14:30:57.000Z">2023-10-11</time><p class="is-flex-grow-2 mt-2">之前有探討過 Parchment 與 Blot，而 Parchment 還有一個屬性器 (Atrributors)，今天就來看一下關於 Attributor 的介紹以及使用方式。
+Attributor 是另一種更輕量的表示格式的方式。與其對應的就是 DOM attribute。就像 DOM 屬性與節點的關係一樣，屬性也屬於 Blot。在 Inline 或 Block blot 上呼叫 formats() 如果有對應的 DOM 節點以及 DOM 節點 attribute 則將回傳其表示的格式。
+Attributor Class首先我們來看一下 Attributor 的介面：
+class Attributor &amp;#123;
+  attrName: string;
+  keyName: string;
+  sco..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2023/10/11/quill-day-26/">Read more</a></section></article><section class="paginator is-flex is-justify-content-flex-end is-flex-wrap-wrap mt-5"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-next has-text-grey"></i></a></section></section><aside class="column is-hidden-mobile is-4-tablet is-3-widescreen"><style>.search-widget .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--second-text-color);
+}
+.search-widget .search-content {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 3px);
+    z-index: 2;
+
+    width: 100%;
+    height: 0;
+    max-height: 550px;
+
+    overflow: auto;
+    box-sizing: border-box;
+
+    background: var(--top-bar-bg-color);
+    backdrop-filter: blur(var(--backdropFilter));
+    -webkit-backdrop-filter: blur(var(--backdropFilter));
+
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-widget .search-content a:hover h5 {
+    color: #3273dc!important;
+}
+</style><main class="aside-card-container search-widget is-relative"><label for="searchInput"><div class="is-flex px-4" id="searchButton"><i class="iconfont icon--search1 mr-1"></i><input class="search-input is-flex-grow-1" id="searchInput" placeholder="Search everything.."></div></label><section class="search-content content" id="searchContent"></section></main><script>var searchDatabase = []
+var searchInputEl = document.getElementById('searchInput')
+var searchButtonEl = document.getElementById('searchButton')
+var searchResultEl = document.getElementById('searchContent')
+
+searchInputEl.oninput = function (evt) {
+    var searchValue = evt.srcElement.value
+    var haveSearchValue = Boolean(searchValue.trim())
+    if (!haveSearchValue) {
+        searchResultEl.style.height = 0
+        searchResultEl.innerHTML = null
+        return
+    }
+
+    var searchResults = searching(searchValue)
+
+    if (searchResults.length > 0) {
+        renderSearchResults(searchResults)
+    }
+}
+
+function renderSearchResults(results) {
+    searchResultEl.innerHTML = null
+    var fragment = document.createDocumentFragment()
+
+    results.forEach(function (item) {
+        var link = document.createElement('a')
+        var title = document.createElement('h5')
+        var content = document.createElement('p')
+
+        title.className = 'mb-1'
+        title.innerText = item.title
+        content.innerText = item.content
+
+        link.href = item.link
+        link.appendChild(title)
+        link.appendChild(content)
+        link.className = 'p-4 is-block'
+
+        fragment.appendChild(link)
+    })
+
+    searchResultEl.appendChild(fragment)
+    searchResultEl.style.height = 'auto'
+}
+
+function searching(inputText) {
+    var inputTexts = inputText.split(' ')
+    var searchResults = []
+    inputTexts.forEach(function (searchKey) {
+        var haveSearchValue = Boolean(searchKey.trim())
+        if (!haveSearchValue) return
+
+        var key = searchKey.toLowerCase()
+
+        for (var entry of searchDatabase) {
+            var title = entry.getElementsByTagName('title')[0].textContent
+            var link = entry.getElementsByTagName('link')[0].getAttribute('href')
+            var contentWithTags = entry.getElementsByTagName('content')[0].textContent
+            var rawContent = contentWithTags.trim().replace(/<[^>]+>/g, '').toLowerCase()
+
+            var LENGTH = 80
+            var finalContent = ''
+            var contentLength = rawContent.length
+            var searchResultIdx = rawContent.indexOf(key)
+
+            var startIdx = searchResultIdx - 20,
+                endIdx = startIdx + LENGTH
+
+            if (startIdx < 0) {
+                startIdx = 0
+                endIdx = 100
+            }
+
+            endIdx > contentLength && (endIdx = contentLength)
+
+            finalContent = rawContent.substring(startIdx, endIdx)
+
+            if (title.indexOf(key) > -1 || searchResultIdx > -1) {
+                searchResults.push({
+                    link: link,
+                    title: title,
+                    content: finalContent
+                })
+            }
+        }
+    })
+    return searchResults
+}
+
+searchButtonEl.onclick = function () {
+    if (searchDatabase.length > 0) return;
+
+    fetch(window.location.href + '/search.xml').then(res => res.text()).then(res => {
+        var domparser = new DOMParser
+        var doc = domparser.parseFromString(res, 'application/xml')
+        searchDatabase = doc.getElementsByTagName('search')[0].children
+    })
+}</script><main class="aside-card-container profile-widget"><!-- todo: 使用取色工具动态阴影--><section class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center"><section class="is-flex is-justify-content-center avatar is-clipped skeleton"><!-- debug images "https://api.ixiaowai.cn/gqapi/gqapi.php"--><img class="js-img-fadeIn" src="https://s.gravatar.com/avatar/d08075428662d37b51ef71ac4ddeaea3?s=320" alt="user avatar"></section><h3 class="user-name">Jeff Wu</h3><blockquote class="has-text-centered is-relative"><span style="margin-bottom: 5px;">Don't forget the original intention. Always keen on learning and exploring new things.</span></blockquote><address class="has-text-centered has-text-grey"><i class="iconfont icon-location" style="margin-right: 5px;"></i><span class="has-text-grey">Taipei, Taiwan</span></address></section><section class="sns-container is-flex is-justify-content-center is-align-items-center"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section></main><main class="aside-card-container recent-widget"><h3>Recent</h3><ul><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/2023/10/15/quill-day-30/20090749bmGrHQyGj4.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/10/15/quill-day-30/">Day 30：使用 Parchment 實現類似 Medium 的編輯器 - Videos &amp; Tweets</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-10-15T15:05:24.000Z">2023-10-15</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/2023/10/14/quill-day-29/20090749xs4eCKsO7y.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/10/14/quill-day-29/">Day 29：使用 Parchment 實現類似 Medium 的編輯器 - Dividers &amp; Images</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-10-14T07:32:26.000Z">2023-10-14</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/2023/10/13/quill-day-28/20090749XSOo5OU7wF.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/10/13/quill-day-28/">Day 28：使用 Parchment 實現類似 Medium 的編輯器 - Basic Formatting &amp; myBlot</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-10-13T14:53:54.000Z">2023-10-13</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/2023/10/12/quill-day-27/20090749CWYQwIo4Xl.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/10/12/quill-day-27/">Day 27：使用 Parchment 實現類似 Medium 的編輯器 - 準備工作</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-10-12T13:46:08.000Z">2023-10-12</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Da" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2023/10/11/quill-day-26/">Day 26：關於 Pachment 的 Attributors</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2023-10-11T14:30:57.000Z">2023-10-11</time></section></li></ul></main><main class="aside-card-container categories-widget category-page"><h3>Categories</h3><section><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML/">HTML</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Optimization/">Optimization</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SASS/">SASS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">1</span></li></ul></section></main><main class="aside-card-container archives-widget"><h3>Archives</h3><section><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">4</span></li></ul></section></main><main class="aside-card-container tag-widget"><h3>Tags</h3><section><a href="/tags/Angular%202"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 2</span></a><a href="/tags/Angular-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular-CLI</span></a><a href="/tags/Directive"><span class="tag post-item-tag" style="margin-bottom: 5px;">Directive</span></a><a href="/tags/Attribute%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Attribute Directives</span></a><a href="/tags/Structural%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Structural Directives</span></a><a href="/tags/Note"><span class="tag post-item-tag" style="margin-bottom: 5px;">Note</span></a><a href="/tags/Angular%2016"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 16</span></a><a href="/tags/SSR"><span class="tag post-item-tag" style="margin-bottom: 5px;">SSR</span></a><a href="/tags/Hydration"><span class="tag post-item-tag" style="margin-bottom: 5px;">Hydration</span></a><a href="/tags/Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Forms</span></a><a href="/tags/Model-Driven"><span class="tag post-item-tag" style="margin-bottom: 5px;">Model-Driven</span></a><a href="/tags/Firebase%20Functions"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Functions</span></a><a href="/tags/Firebase%20Hosting"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Hosting</span></a><a href="/tags/Angular%20Standalone%20Component"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular Standalone Component</span></a><a href="/tags/Template-Driven-Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Template-Driven-Forms</span></a><a href="/tags/css"><span class="tag post-item-tag" style="margin-bottom: 5px;">css</span></a><a href="/tags/atomic-css"><span class="tag post-item-tag" style="margin-bottom: 5px;">atomic-css</span></a><a href="/tags/capacitor"><span class="tag post-item-tag" style="margin-bottom: 5px;">capacitor</span></a><a href="/tags/hybrid%20app"><span class="tag post-item-tag" style="margin-bottom: 5px;">hybrid app</span></a><a href="/tags/ionic%204"><span class="tag post-item-tag" style="margin-bottom: 5px;">ionic 4</span></a><a href="/tags/Angular%20with%20cordova"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular with cordova</span></a><a href="/tags/Cordova%20environment%20prepare"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova environment prepare</span></a><a href="/tags/Cordova-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-CLI</span></a><a href="/tags/Cordova-Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-Android</span></a><a href="/tags/Cordova-iOS"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-iOS</span></a><a href="/tags/Phonegap%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">Phonegap plugin</span></a><a href="/tags/Push%20Notification"><span class="tag post-item-tag" style="margin-bottom: 5px;">Push Notification</span></a><a href="/tags/Azure%20Notification%20Hub"><span class="tag post-item-tag" style="margin-bottom: 5px;">Azure Notification Hub</span></a><a href="/tags/cordova%20plugin%20file"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin file</span></a><a href="/tags/file"><span class="tag post-item-tag" style="margin-bottom: 5px;">file</span></a><a href="/tags/Cordova%20Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova Android</span></a><a href="/tags/cordova%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin</span></a><a href="/tags/geolocation"><span class="tag post-item-tag" style="margin-bottom: 5px;">geolocation</span></a><a href="/tags/scrollTop"><span class="tag post-item-tag" style="margin-bottom: 5px;">scrollTop</span></a><a href="/tags/convert"><span class="tag post-item-tag" style="margin-bottom: 5px;">convert</span></a><a href="/tags/template%20issue"><span class="tag post-item-tag" style="margin-bottom: 5px;">template issue</span></a><a href="/tags/Dialog"><span class="tag post-item-tag" style="margin-bottom: 5px;">Dialog</span></a><a href="/tags/ngModel"><span class="tag post-item-tag" style="margin-bottom: 5px;">ngModel</span></a><a href="/tags/Angular%206"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 6</span></a><a href="/tags/angular/cli"><span class="tag post-item-tag" style="margin-bottom: 5px;">angular/cli</span></a><a href="/tags/ng%20update"><span class="tag post-item-tag" style="margin-bottom: 5px;">ng update</span></a><a href="/tags/Polyfill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Polyfill</span></a><a href="/tags/FuxkIE"><span class="tag post-item-tag" style="margin-bottom: 5px;">FuxkIE</span></a><a href="/tags/15th%2030%20Days%20Challenge"><span class="tag post-item-tag" style="margin-bottom: 5px;">15th 30 Days Challenge</span></a><a href="/tags/Quill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Quill</span></a><a href="/tags/github"><span class="tag post-item-tag" style="margin-bottom: 5px;">github</span></a><a href="/tags/sass"><span class="tag post-item-tag" style="margin-bottom: 5px;">sass</span></a><a href="/tags/extend"><span class="tag post-item-tag" style="margin-bottom: 5px;">extend</span></a><a href="/tags/Visual%20Studio%20Code"><span class="tag post-item-tag" style="margin-bottom: 5px;">Visual Studio Code</span></a><a href="/tags/VScode%20%E8%A8%AD%E5%AE%9A"><span class="tag post-item-tag" style="margin-bottom: 5px;">VScode 設定</span></a></section></main><main class="aside-card-container friend-widget"><h3>Friends</h3><section><a target="_blank" rel="noopener" href="https://www.google.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">CK's Notepad</span></a><a target="_blank" rel="noopener" href="https://blog.miniasp.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">The Will Will Web</span></a><a target="_blank" rel="noopener" href="https://jiaming0708.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Secret Note</span></a><a target="_blank" rel="noopener" href="https://blog.poychang.net/"><span class="tag post-item-tag" style="margin-bottom: 5px;">I am PC</span></a><a target="_blank" rel="noopener" href="https://dog0416.blogspot.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Duran 的技術冶煉廠</span></a><a target="_blank" rel="noopener" href="https://fullstackladder.dev/blog/"><span class="tag post-item-tag" style="margin-bottom: 5px;">全端開發人員天梯</span></a><a target="_blank" rel="noopener" href="https://kyleap.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">凱哥打扣</span></a></section></main></aside></div></article><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></body></html>

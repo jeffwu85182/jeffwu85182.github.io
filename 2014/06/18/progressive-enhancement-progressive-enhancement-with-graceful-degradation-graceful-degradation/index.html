@@ -1,0 +1,63 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>漸進增強 (progressive enhancement)與優美退化 (graceful degradation) </title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="#1.觀念部分在動手開發軟體時，通常我們會先考慮的問題就是使用者將在何種設備、系統、平台以及這些係同平台的版本使用它，最後決定一個方向，開始開發。以開發網站為例，目標使用者可能會使用IE, Chrome, Firefox 甚至是行動裝置上瀏覽器來使用這個網站可能問題如下：
+
+是否支援所有瀏覽器？
+是否針對先進瀏覽器增強使用經驗？
+主要功能支援就好？
+完全支援開發成本比較高？
+需要顧慮到這麼多瀏覽器好麻煩？
+
+這些問題通常有兩種作法，分別為「優雅降級」、「漸進增強」。以下分別會介紹兩者的概念，以及它們之間的不同到最後實際應用時我們該如何決策。
+
+
+
+#何謂優雅降級 (Graceful Degradation)
+
+Progressive enhancement is a strategy for web des.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">漸進增強 (progressive enhancement)與優美退化 (graceful degradation) </p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">漸進增強 (progressive enhancement)與優美退化 (graceful degradation) </h1><time class="has-text-grey" datetime="2014-06-17T22:43:00.000Z">2014-06-18</time><article class="mt-2 post-content"><p>#1.觀念部分<br>在動手開發軟體時，通常我們會先考慮的問題就是使用者將在何種設備、系統、平台以及這些係同平台的版本使用它，最後決定一個方向，開始開發。<br>以開發網站為例，目標使用者可能會使用IE, Chrome, Firefox 甚至是行動裝置上瀏覽器來使用這個網站<br>可能問題如下：</p>
+<ul>
+<li>是否支援所有瀏覽器？</li>
+<li>是否針對先進瀏覽器增強使用經驗？</li>
+<li>主要功能支援就好？</li>
+<li>完全支援開發成本比較高？</li>
+<li>需要顧慮到這麼多瀏覽器好麻煩？</li>
+</ul>
+<p>這些問題通常有兩種作法，分別為「優雅降級」、「漸進增強」。<br>以下分別會介紹兩者的概念，以及它們之間的不同到最後實際應用時我們該如何決策。</p>
+<span id="more"></span>
+
+
+<p>#何謂優雅降級 (Graceful Degradation)</p>
+<blockquote>
+<p><em>Progressive enhancement is a strategy for web design that emphasizes accessibility, semantic HTML markup, and external stylesheet and scripting technologies. - wiki</em></p>
+</blockquote>
+<p><strong>優雅降級（Graceful Degradation）</strong>就是在一開始建構一個系統或網站時，就針對最新、最完善的環境來設計，然後針對其它環境進行測時與修復。使用這個方案時，我們首先會挑選一個較完善的平台完成所有的功能和經驗，然後再針對無法支援所有功能的平台或環境撰寫候選方案，讓那些較舊的平台不致於無法使用主要的功能。</p>
+<p>這種作法是在主要的環境上<br><strong>提供「最好的使用者經驗」，「簡陋卻無妨 (poor, but passable)」</strong><br>是看待那些<strong>被認為過時或功能有缺失的平台</strong> 的方式。</p>
+<p>Craig Buckler在Sitepoint上也提出類似的看法</p>
+<blockquote>
+<p><em>Graceful degradation is one solution. It is the practice of building a web site or application so it provides a good level of user experience in modern browsers. However, it will degrade gracefully for those using older browsers. The system may not be as pleasant or as pretty, but the basic functionality will work on older systems. - Craig Buckler</em></p>
+</blockquote>
+<p>#何謂漸進增強 (Progressive Enhancement)</p>
+<blockquote>
+<p><em>Progressive enhancement is similar concept to graceful degradation but in reverse. The web site or application would establish a base-level of user experience for most browsers. More advanced functionality would then be added when a browser supports it. - Craig Buckler</em></p>
+</blockquote>
+<p><strong>漸進增強(Progressive Enhancement)</strong><br>就是從最基本的功能出發，在保證系統在任何環境中的可用性的基礎上，逐步增加功能及提高使用者經驗。<br><strong>漸進增強</strong>首先考慮到的是一般性，必須提供所有的平台完整的功能，然後再去針對較新的平台進行改良與優化。<br>簡單來說，<strong>先求有、再求好</strong></p>
+<p>上述兩種做法的選擇，主要在於視當時的需求情況來進行選擇，有好有壞。</p>
+<p>例如建立一個完美支援所有平台的應用程式是一個理想的情況，然而那是不太可能的。<br>開發過程中有技術、預算、工作時程等問題，那麼要做的就是去「需求評估」，從需求開始。<br>如果要開發一個電子商務平台，使用「漸進增強」可能會是個好的方法；<br>如果要開發線上互動會議系統，完美的平台支援相對就沒那麼重要了。</p>
+<p>#成本的花費<br>使用<strong>漸進增強</strong>的方法需要更多的時間、人力、資源開發，初期開發成本較高，但是能提供更好的穩定性以及平台支援，以長期來說反而減少維護、開發成本。</p>
+<p>使用<strong>優雅降級</strong>的方法，開發初期僅需要把所有火力集中在一個平台上，迅速的開發出產品的雛形，進行市場試水溫的測試，對於功能尚未確定的產品來說，使用優雅降級的方式也許能夠節省資源不必要的浪費。</p>
+<p>#參考資料</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Progressive_enhancement">Progressive_enhancement Wiki</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.sitepoint.com/progressive-enhancement-graceful-degradation-basics/">Progressive Enhancement and Graceful Degradation: an Overview</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.sitepoint.com/progressive-enhancement-graceful-degradation-choice/">Progressive Enhancement and Graceful Degradation: Making a Choice</a></li>
+<li><a target="_blank" rel="noopener" href="http://fatesinger.com/archives/764.html">fatesinger</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.candoudou.com/archives/481">web前端開發</a></li>
+<li><a target="_blank" rel="noopener" href="http://yrzhll.com/blog/2013/01/06/web/">yrzhll.com</a></li>
+<li><a target="_blank" rel="noopener" href="http://hanazawakana.iteye.com/blog/1711556">優雅降級和漸進增強 - 血鐵藍獅</a></li>
+<li><a target="_blank" rel="noopener" href="http://augus-blog.logdown.com/posts/143403-graceful_degradation_and_progressive_enhancement">Augus’s Blog</a></li>
+</ul>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2014/06/19/about-semantic-html/" title="介紹 Semantic HTML"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 介紹 Semantic HTML</span></a><a class="button is-default" href="/2014/06/17/sublime-text-2-plugins/" title="Sublime Text 2 常用插件"><span class="has-text-weight-semibold">Next: Sublime Text 2 常用插件</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

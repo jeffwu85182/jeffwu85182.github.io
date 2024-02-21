@@ -1,0 +1,250 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>[Cordova Week-4] Cordova File System</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="前言開發 App 的時候，時常會遇到要處理裝置中的圖片或檔案，一陣子沒有碰了，因此這次就來聊聊 Cordova App 中的 File System！Cordova 針對 File System 提供了核心套件 ( Core Plugin ) - cordova-plugin-file，主要實作了檔案操作相關的 API 使我們能讀寫裝置中的檔案，不同的平台，提供的屬性或方法都不盡相同，我們先從 Android 的部分開始介紹。
+安裝套件透過 Cordova CLI 進行安裝：
+$ cordova plugin add cordova-plugin-file
+
+在執行時期，若有正確引入 cordova.js，加入 cordova-plugin-file 後，會在全域屬性中找到 cordova.file 物件。.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">[Cordova Week-4] Cordova File System</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="toc-text">安裝套件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8F%B4%E7%9A%84%E5%B9%B3%E5%8F%B0"><span class="toc-text">支援的平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Entry%EF%BC%9ADirectoryEntry-amp-FileEntry"><span class="toc-text">Entry：DirectoryEntry &amp; FileEntry</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8-Types"><span class="toc-text">引用 Types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E5%AE%9A%E5%A5%97%E4%BB%B6-%E5%8F%AF%E9%81%B8%E6%93%87"><span class="toc-text">設定套件 (可選擇)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android"><span class="toc-text">Android</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS"><span class="toc-text">iOS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%AE%E9%8C%84%E5%AF%A6%E9%AB%94-DirectoryEntry-Instance"><span class="toc-text">初始化目錄實體 ( DirectoryEntry Instance )</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%8F%96%E6%AA%94%E6%A1%88"><span class="toc-text">存取檔案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E6%AA%94%E6%A1%88"><span class="toc-text">建立檔案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%80%E5%8F%96%E6%AA%94%E6%A1%88"><span class="toc-text">讀取檔案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%AA%E9%99%A4%E6%AA%94%E6%A1%88"><span class="toc-text">刪除檔案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-%E7%9B%B8%E9%97%9C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-text">Android 相關注意事項</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-%E6%8C%81%E7%BA%8C%E5%AD%98%E5%8F%96%E7%9A%84%E4%BD%8D%E7%BD%AE%E6%B1%BA%E5%AE%9A"><span class="toc-text">Android 持續存取的位置決定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%9E%E8%BF%B4%E8%99%95%E7%90%86-Android-assets-%E7%B7%A9%E6%85%A2%E5%95%8F%E9%A1%8C"><span class="toc-text">遞迴處理 Android_assets 緩慢問題</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-Marshmallow-android-6-0-%E7%89%88%E6%9C%AC%E6%AC%8A%E9%99%90%E5%95%8F%E9%A1%8C"><span class="toc-text">Android Marshmallow (android 6.0) 版本權限問題</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%8C%AF%E8%AA%A4%E4%BB%A3%E7%A2%BC%E8%88%87%E6%84%8F%E7%BE%A9"><span class="toc-text">錯誤代碼與意義</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/cordova%20plugin%20file"><i class="tag post-item-tag">cordova plugin file</i></a><a href="/tags/file"><i class="tag post-item-tag">file</i></a><a href="/tags/Cordova%20Android"><i class="tag post-item-tag">Cordova Android</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">[Cordova Week-4] Cordova File System</h1><time class="has-text-grey" datetime="2018-05-07T04:25:30.000Z">2018-05-07</time><article class="mt-2 post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>開發 App 的時候，時常會遇到要處理裝置中的圖片或檔案，一陣子沒有碰了，因此這次就來聊聊 Cordova App 中的 File System！Cordova 針對 File System 提供了核心套件 ( Core Plugin ) - <code>cordova-plugin-file</code>，主要實作了檔案操作相關的 API 使我們能讀寫裝置中的檔案，不同的平台，提供的屬性或方法都不盡相同，我們先從 Android 的部分開始介紹。</p>
+<h2 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h2><p>透過 Cordova CLI 進行安裝：</p>
+<pre><code class="bash">$ cordova plugin add cordova-plugin-file
+</code></pre>
+<p>在執行時期，若有正確引入 cordova.js，加入 <code>cordova-plugin-file</code> 後，會在全域屬性中找到 cordova.file 物件。所以我們可以在 javascript 的部分加入事件監聽 ( Event Listener )，並 console.log 物件確認是否有成功加入：</p>
+<pre><code class="javascript">document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() &#123;
+    console.log(cordova.file);
+&#125;
+</code></pre>
+<h2 id="支援的平台"><a href="#支援的平台" class="headerlink" title="支援的平台"></a>支援的平台</h2><p>根據套件 Repo 提供的 <code>README</code>，目前支援的平台如下：</p>
+<ul>
+<li>Android</li>
+<li>iOS</li>
+<li>OS X</li>
+<li>Windows</li>
+<li>Browser</li>
+</ul>
+<p>其中 Ｗindows 平台目前不支援 <code>FileReader.readAsArrayBuffer</code> 以及 <code>FileWriter.write(blob)</code> 的方法。 但這次的介紹主軸在於 Android &amp; iOS，因此這部分有個基本的了解即可。</p>
+<span id="more"></span>
+
+<h2 id="Entry：DirectoryEntry-amp-FileEntry"><a href="#Entry：DirectoryEntry-amp-FileEntry" class="headerlink" title="Entry：DirectoryEntry &amp; FileEntry"></a>Entry：DirectoryEntry &amp; FileEntry</h2><p>在開始之前，需要先了解一下兩個名詞，主要在進行存取的時候一定會需要使用的入口 ( Entry ) 物件。</p>
+<ul>
+<li>DirectoryEntry：目錄的入口，透過 <code>window.requestFileSystem</code> 或 <code>resolveLocalFileSystemURL</code> 取得。</li>
+<li>FileEntry：檔案入口，透過 <code>directoryEntry.getFile()</code> 取得，若可取得即代表檔案有存在。<ul>
+<li>若檔案存在則能順利取得物件實體，否則會收到錯誤 <code>FileError &#123;code: 1&#125;</code>，即 <code>NOT_FOUND_ERR</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="引用-Types"><a href="#引用-Types" class="headerlink" title="引用 Types"></a>引用 Types</h2><p>由於我們使用 Angular + Cordova 進行 Hybrid App 開發，寫 Angular 習慣使用 <code>TypeScript</code>，負責維護 Cordova 核心套件的團隊也針對套件提供了好用的定義檔，我們只需要引入到 tsconfig.json (tsconfig.app.json) 即可：</p>
+<pre><code class="json">&#123;
+  &quot;extends&quot;: &quot;../tsconfig.json&quot;,
+  &quot;compilerOptions&quot;: &#123;
+    &quot;outDir&quot;: &quot;../out-tsc/app&quot;,
+    &quot;baseUrl&quot;: &quot;./&quot;,
+    &quot;module&quot;: &quot;es2015&quot;,
+    &quot;types&quot;: [
+      &quot;../hello/plugins/phonegap-plugin-push/types&quot;,
+      &quot;../hello/plugins/cordova-plugin-device/types&quot;,
+      &quot;../hello/plugins/cordova-plugin-file/types&quot;
+    ]
+  &#125;,
+  &quot;exclude&quot;: [&quot;test.ts&quot;, &quot;**/*.spec.ts&quot;]
+&#125;
+</code></pre>
+<p>範例的 Cordova 專案建立在 angular 專案根目錄下，利用相對路徑，進入 Cordova 專案目錄下的 <code>node_modules</code>，在套件加入的時候， <code>node_module</code> 會同時產生加入的套件，因此可以在這個目錄下看到加入過的套件，底下都會有 <code>types</code> 目錄，而裡面的檔案就是帶給我們更多方便的 types。</p>
+<h2 id="設定套件-可選擇"><a href="#設定套件-可選擇" class="headerlink" title="設定套件 (可選擇)"></a>設定套件 (可選擇)</h2><p>可透過 config.xml 新增標籤設定，限定特定位置開放存取操作，標籤中的 value 可參考上方 file-system layout 的項目列出來並以逗號隔開，代表只有列出的項目有安裝並開放存取。而在預設的情況下所有的 file-system root 都是啟用的。</p>
+<pre><code>&lt;preference name=&quot;iosExtraFilesystems&quot; value=&quot;library,library-nosync,documents,documents-nosync,cache,bundle,root&quot; /&gt;
+&lt;preference name=&quot;AndroidExtraFilesystems&quot; value=&quot;files,files-external,documents,sdcard,cache,cache-
+</code></pre>
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ul>
+<li><code>files</code>: App 內部的檔案存取目錄</li>
+<li><code>files-external</code>: App 外部檔案存取目錄</li>
+<li><code>sdcard</code>: 全域的外部存取目錄（若有裝的話則是 SD 卡的根目錄），必須先取得 <code>android.permission.WRITE_EXTERNAL_STORAGE</code> 權限才能使用。</li>
+<li><code>cache</code>: App 內部的快取目錄</li>
+<li><code>cache-external</code>: App 外部的快取目錄</li>
+<li><code>assets</code>: App 打包的檔案資料 (唯讀)</li>
+<li><code>root</code>: 整個裝置的 file-system</li>
+</ul>
+<p>Android 也支援一個特殊的 file-system，名叫 <code>documents</code>，這代表是在 <code>files</code> 的 file-system 根目錄下的 <code>Documents</code> 的子目錄名稱。</p>
+<h3 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h3><ul>
+<li><code>library</code>: App 的 <code>Library</code> 目錄</li>
+<li><code>documents</code>: App 的 <code>Documents</code> 目錄</li>
+<li><code>cache</code>: App 的 <code>Cache</code> 目錄</li>
+<li><code>bundle</code>: App 的 <code>bundle</code> 目錄，是 App 在磁碟中本身的位置 (唯讀)</li>
+<li><code>root</code>: 整個裝置的 file-system</li>
+</ul>
+<p>在預設的情況 <code>library</code> 與 <code>documents</code> 目錄可以同步到 iCloud ，我們也可以要求兩個 file-system，<code>library-nosync</code> 與 <code>documents-nosync</code>，代表這兩個 file-system 中不會同步到 iCloud 的目錄。</p>
+<h2 id="初始化目錄實體-DirectoryEntry-Instance"><a href="#初始化目錄實體-DirectoryEntry-Instance" class="headerlink" title="初始化目錄實體 ( DirectoryEntry Instance )"></a>初始化目錄實體 ( DirectoryEntry Instance )</h2><p>每次操作檔案或目錄時，我們需要透過物件實體進行操作，因此需要先進行初始化以取得物件實體，由於一開始是從 <code>cordova.file.externalDataDirectory</code> 取得，可以確認是 <code>DirectoryEntry</code> 而不是 <code>FileEntry</code>，如下的範例，並嘗試使用 Observable 實作：</p>
+<pre><code class="typescript">initRootDirectoryEntry() &#123;
+    this.resolveLocalFileSystemURL()
+      .pipe(map(fs =&gt; (this.rootDirectoryEntry = fs)))
+      .subscribe();
+&#125;  
+private resolveLocalFileSystemURL(): Observable&lt;DirectoryEntry&gt; &#123;
+    return Observable.create((observer: Observer&lt;DirectoryEntry&gt;) =&gt; &#123;
+      window.resolveLocalFileSystemURL(
+        cordova.file.externalDataDirectory,
+        fs =&gt; &#123;
+          console.log(`resolved fs`, fs);
+          this.title = &#39;file system is resolved&#39;;
+          // this.rootDirectoryEntry = &lt;DirectoryEntry&gt;fs;
+          observer.next(&lt;DirectoryEntry&gt;fs);
+        &#125;,
+        err =&gt; &#123;
+          console.log(`resolve error`, err);
+          observer.error(err);
+        &#125;
+      );
+    &#125;);
+  &#125;
+</code></pre>
+<p>由於 TypeScript 提供了強型別的概念，這段程式碼直接引用的話，在開發時期，會遇到 <code>cannot find name cordova</code> 的問題，這時候只需要在檔案的最上方新增一行宣告即可使用：</p>
+<pre><code class="typescript">declare const cordova: Cordova;
+</code></pre>
+<p>至於 cordova.file 有哪些空間可以使用，可參考文件 <a target="_blank" rel="noopener" href="https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/#file-system-layouts">File-System-Layouts</a> 的部分，有整理名稱與對應的裝置路徑。</p>
+<h2 id="存取檔案"><a href="#存取檔案" class="headerlink" title="存取檔案"></a>存取檔案</h2><p>存取檔案的方式是利用 <code>Entry</code> 提供的方法 <code>getFile()</code> 取得，若有檔案確實存在則會取得 FileEntry，反之則會收到錯誤訊息，若在 <code>getFile()</code> 加入設定參數 <code>&#123;create: true&#125;</code>，即使沒有檔案存在則一樣會建立檔案。</p>
+<pre><code class="typescript">createFile() &#123;
+    this.rootDirectoryEntry.getFile(
+        &#39;test.txt&#39;,
+        &#123; create: true &#125;, // 若 create 為 flase，當檔案不存在時會發出錯誤。
+        fileEntry =&gt; &#123;
+            console.log(&#39;fileEntry is file?&#39; + fileEntry.isFile.toString());
+            this.writeFile(fileEntry, null);
+            this.myFileEntry = fileEntry;
+        &#125;,
+        error =&gt; console.log(`createFile Error`, error)
+    );
+&#125;
+</code></pre>
+<h2 id="建立檔案"><a href="#建立檔案" class="headerlink" title="建立檔案"></a>建立檔案</h2><p>建立檔案的方式與存取檔案一樣都是透過 <code>getFile</code> 方法進行，取得 <code>FileEntry</code> 後寫入檔案內容，寫入的方式是透過 <code>FileEntry</code> 提供的 <code>createWriter</code> 帶入 Callback Function，並在各個事件例如 <code>onwritteend</code>, <code>onerror</code> 實作對應的處理，最後則呼叫 <code>write()</code> 並帶入 <code>dataObj</code>：</p>
+<pre><code class="typescript"> createFile() &#123;
+    this.rootDirectoryEntry.getFile(
+      &#39;test.txt&#39;,
+      &#123; create: true &#125;,
+      fileEntry =&gt; &#123;
+        console.log(&#39;fileEntry is file?&#39; + fileEntry.isFile.toString());
+        this.writeFile(fileEntry, null);
+        this.myFileEntry = fileEntry;
+      &#125;,
+      error =&gt; console.log(`createFile Error`, error)
+    );
+  &#125;
+
+  private writeFile(fileEntry: FileEntry, dataObj) &#123;
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(fileWriter =&gt; &#123;
+      fileWriter.onwriteend = () =&gt; &#123;
+        console.log(&#39;Successful file write...&#39;);
+        this.readFile(fileEntry);
+      &#125;;
+
+      fileWriter.onerror = e =&gt; &#123;
+        console.log(&#39;Failed file write: &#39; + e.toString());
+      &#125;;
+
+      // If data object is not passed in,
+      // create a new Blob instead.
+      if (!dataObj) &#123;
+        dataObj = new Blob([&#39;some file data&#39;], &#123; type: &#39;text/plain&#39; &#125;);
+      &#125;
+
+      fileWriter.write(dataObj);
+    &#125;);
+  &#125;
+</code></pre>
+<h2 id="讀取檔案"><a href="#讀取檔案" class="headerlink" title="讀取檔案"></a>讀取檔案</h2><p>在寫入檔案的範例中，或許有注意到 <code>this.readFile</code> 方法的呼叫，這個是我們要自己實作一個讀取檔案的方法，一樣透過 <code>FileEntry</code> 進行，並取得 <code>file</code> 後 new 一個 <code>FileReader</code>，並註冊事件方法在 <code>onloadend</code>，最後再選用讀取的方法例如 <code>readAsText()</code> 並帶入取得的 <code>file</code> 物件：</p>
+<pre><code class="typescript">private readFile(fileEntry: FileEntry) &#123;
+    fileEntry.file(
+        file =&gt; &#123;
+            const reader = new FileReader();
+
+            reader.onloadend = result =&gt; &#123;
+                console.log(&#39;Successful file read: &#39;, result);
+                // displayFileData(fileEntry.fullPath + &quot;: &quot; + this.result);
+            &#125;;
+
+            reader.readAsText(file);
+        &#125;,
+        readFileError =&gt; console.log(`readFileError`, readFileError)
+    );
+&#125;
+</code></pre>
+<h2 id="刪除檔案"><a href="#刪除檔案" class="headerlink" title="刪除檔案"></a>刪除檔案</h2><p>透過 <code>FileEntry</code> 提供的 <code>remove()</code> 方法即可刪除檔案：</p>
+<pre><code class="typescript">deleteFile() &#123;
+    this.myFileEntry.remove(
+        () =&gt; console.log(`remove sucess`),
+        error =&gt; console.log(`remove error`, error)
+    );
+&#125;
+</code></pre>
+<p>從上述的例子中，有些有用 <code>private</code> 有些則沒有，主要區別提供 UI 呼叫的公開方法及 <code>component</code> 使用的私有方法。</p>
+<h2 id="Android-相關注意事項"><a href="#Android-相關注意事項" class="headerlink" title="Android 相關注意事項"></a>Android 相關注意事項</h2><p>套件的說明文件中其中有一個段落在描述各平台的 <code>Quirks</code>，翻成中文是指『怪癖』，這邊我們就當作有些小奇葩的地方要留意囉。</p>
+<h3 id="Android-持續存取的位置決定"><a href="#Android-持續存取的位置決定" class="headerlink" title="Android 持續存取的位置決定"></a>Android 持續存取的位置決定</h3><p>在 Android 裝置上有許多可以持續儲存的空間，可以參考 <a target="_blank" rel="noopener" href="http://developer.android.com/guide/topics/data/data-storage.html">Android 官網文件</a> 延伸討論其可行性。先前的版本套件會在啟動的時候選擇暫存與永久檔案個別的位置，根據裝置是否有宣告安裝了SD卡（或等效的儲存分區），若有安裝 SD 卡，或有較大的內部儲存空間時，則會將檔案存取設定在該空間的根目錄上。換句話說，所有的 Cordova 應用都能看到所有在這張卡上的檔案，若有這樣的疑慮則要多留意了。</p>
+<p>若 SD 卡無法使用時，之前的版本套件會將資料在 <code>/ data / data / &lt;packageId&gt;</code>下存取，這雖然能將各應用隔離，但還是有可能導致在不同的使用者間分享資料。</p>
+<p>現在可以決定是否針對舊版的判斷邏輯來選擇要存取的空間，只需要透過以下兩行的其中一行加入到 Cordova 專案根目錄中的 <code>config.xml</code> 即可：</p>
+<pre><code class="xml">&lt;preference name=&quot;AndroidPersistentFileLocation&quot; value=&quot;Internal&quot; /&gt;
+&lt;preference name=&quot;AndroidPersistentFileLocation&quot; value=&quot;Compatibility&quot; /&gt;
+</code></pre>
+<p>若沒有加入上述的其中一行時，預設的行為是 <code>Internal</code>，若有加入標籤但 <code>value</code> 卻不是這兩個的其中一個，則會導致 App 無法啟動，若是專案是早期的版本，並使用 <code>3.0.0</code> 之前版本的套件，而且已經發佈給使用者的話，就要將標籤加入至設定檔，並設定值為 <code>Compatibility</code>。若沒有這樣設定，直接切換到 <code>Internal</code> 的話，使用者更新之後可能會無法存取到先前操作所留下的檔案，這要視使用者的裝置而定。反之若是新的專案，則建議直接使用 <code>Internal</code> 囉。</p>
+<h3 id="遞迴處理-Android-assets-緩慢問題"><a href="#遞迴處理-Android-assets-緩慢問題" class="headerlink" title="遞迴處理 Android_assets 緩慢問題"></a>遞迴處理 Android_assets 緩慢問題</h3><p>若碰到需要處理列出 <code>android_assets</code> 資料夾相關遞迴操作時，會發現執行速度非常緩慢的情況，因此套件的 <code>src/android</code> 目錄下有提供 <code>build-extras.gradle</code> 的檔案，將檔案加至 Cordova platform android 根目錄即可提升速度，但 cordova-android 版本至少要 <code>4.0.0</code> 以上。筆者是還沒遇過這樣的操作需求，有遇過的大大可以分享一下。</p>
+<h3 id="Android-Marshmallow-android-6-0-版本權限問題"><a href="#Android-Marshmallow-android-6-0-版本權限問題" class="headerlink" title="Android Marshmallow (android 6.0) 版本權限問題"></a>Android Marshmallow (android 6.0) 版本權限問題</h3><p>當 Android 6.0，也就是棉花糖的版本中，預設的情況下是擁有 <code>cordova.file.applicationStorageDirectory</code> 以及 <code>cordova.file.externalApplicationStorageDirectory</code> 的讀寫權限的，套件並不需要針對這兩個存取空間去請求存取操作的權限，除非外部儲存空間並沒有安裝，由於系統限制的關係，當沒有安裝外部儲存時，就會跳出 <code>cordova.file.externalApplicationStorageDirectory</code> 空間的存取權限請求。筆者想嘗試還原情境，但試不出來，參考<a target="_blank" rel="noopener" href="https://github.com/Microsoft/cordova-plugin-code-push/issues/57">這篇討論文</a>，應該是要實體的裝置執行時才會遇到了。</p>
+<h2 id="錯誤代碼與意義"><a href="#錯誤代碼與意義" class="headerlink" title="錯誤代碼與意義"></a>錯誤代碼與意義</h2><p>當有執行過程產生錯誤時，會丟出下方列表中的錯誤：</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Constant</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>NOT_FOUND_ERR</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>SECURITY_ERR</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ABORT_ERR</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>NOT_READABLE_ERR</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ENCODING_ERR</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>NO_MODIFICATION_ALLOWED_ERR</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>INVALID_STATE_ERR</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>SYNTAX_ERR</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>INVALID_MODIFICATION_ERR</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>QUOTA_EXCEEDED_ERR</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>TYPE_MISMATCH_ERR</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>PATH_EXISTS_ERR</code></td>
+</tr>
+</tbody></table>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/06/03/cordova-week-5/" title="[Cordova Week-5] Cordova Plugin Geolocation"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: [Cordova Week-5] Cordova Plugin Geolocation</span></a><a class="button is-default" href="/2018/05/05/ng-update/" title="升級! 全新進化 Angular 6！"><span class="has-text-weight-semibold">Next: 升級! 全新進化 Angular 6！</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

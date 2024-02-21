@@ -1,0 +1,63 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Sass環境建置紀錄</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="最近開始練習 Compass + Sass 的練習，記錄一下如何在 Windows 系統下建置 Sass 開發環境。
+首先，安裝 Ruby
+Sass 與 Compass 是用 ruby 開發的，在 windows 的環境下，
+就必須先到他的官網安裝最新的 ruby，http://rubyinstaller.org/downloads/
+接著安裝 Sass、compass
+在開始工作列程式搜尋欄位輸入「CMD」後開啟「命令提示字元」，輸入以下指令後按 ENTER。
+gem install compass
+
+compass 安裝完成之後接著安裝 sass
+
+
+gem install sass
+
+建立新專案
+先進入要建立專案的資料夾
+接著輸入指令 (以 project001 名稱為例)
+compass creat.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Sass環境建置紀錄</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Sass環境建置紀錄</h1><time class="has-text-grey" datetime="2014-08-04T18:58:00.000Z">2014-08-05</time><article class="mt-2 post-content"><p>最近開始練習 Compass + Sass 的練習，記錄一下如何在 Windows 系統下建置 Sass 開發環境。</p>
+<p><strong>首先，安裝 Ruby</strong></p>
+<p>Sass 與 Compass 是用 ruby 開發的，在 windows 的環境下，</p>
+<p>就必須先到他的官網安裝最新的 ruby，<a target="_blank" rel="noopener" href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a></p>
+<p><strong>接著安裝 Sass、compass</strong></p>
+<p>在開始工作列程式搜尋欄位輸入「CMD」後開啟「命令提示字元」，輸入以下指令後按 ENTER。</p>
+<pre><code>gem install compass
+</code></pre>
+<p>compass 安裝完成之後接著安裝 sass</p>
+<span id="more"></span>
+
+<pre><code>gem install sass
+</code></pre>
+<p><strong>建立新專案</strong></p>
+<p>先進入要建立專案的資料夾</p>
+<p>接著輸入指令 (以 project001 名稱為例)</p>
+<pre><code>compass create project001
+</code></pre>
+<p>完成之後可以在資料夾看到新增好的專案及檔案。</p>
+<p><strong>Subelime Text package control 安裝 sass snippets &amp; compass</strong></p>
+<p>接著開啟 Sublime Text 編輯器，按 <code>Ctrl + Shift +P</code> 鍵，再輸入<code>install</code>。</p>
+<p>當安裝完成後，下方就會出現成功的訊息，再重覆以上步驟，分別再安裝 SASS snippets、Compass 二個套件。</p>
+<p><strong>在 Sublime Text 使用 Sass：</strong></p>
+<p>都完成上述步驟之後，就可以開始寫 sass 囉！</p>
+<p>首先，進到 Sublime Text 後，再選擇 Project &#x2F; Add Folder to Project (項目 &gt; 增加資料夾到項目)選項。<br><img src="/images/sass-record-of-built-environment/add-item-to-folder.jpg"></p>
+<p>然後選擇剛所建立好的專案目錄。</p>
+<p>選擇完畢後，再選擇 View &#x2F; Show Side Bar (檢視 &gt; 顯示&#x2F;隱藏側邊攔)選項。<br><img src="/images/sass-record-of-built-environment/hide-side-bar.jpg"></p>
+<p>接著左側就會出現專案的目錄，sass 是儲放原始檔的目錄，而 stylesheets 是轉存好的 css 檔。</p>
+<p>按<code>Alt+Shift+2</code>，將畫面一分為二，再個別載入檔案，一個是原檔，另一個是編譯後的 CSS 檔。</p>
+<p>開啟命令視窗，進入該專案的目錄下，再輸入 compass watch 指令，並請勿關閉此視窗，由於它會自動監控，</p>
+<p>每當 Sublime Text 一儲存時，就會立即編譯成 css 檔。這時可看到，右邊立即就會呈現出，左邊所寫的結果。</p>
+<p><strong>千萬要記得，別關掉命令視窗，否則會無法即時的進行編譯!</strong></p>
+<p>而要停止監控(watch)的話，在命令提示視窗打<code>ctrl+c</code>就可以停止。</p>
+<p><strong>config.rb 設定</strong></p>
+<p>如果希望 sass 編譯出來的 css 不要有註解，那就打開根目錄的 config.rb，</p>
+<p>將# line_comments &#x3D; false 前面的#號拿掉就不會產生出註解。<br><img src="/images/sass-record-of-built-environment/remove-comment.jpg"></p>
+<p>裡面會有四行以下的預設設定碼，如果你放 CSS 的資料夾名稱為 CSS，便把 stylesheets 名稱改為 CSS，</p>
+<p>這樣 Sass 編譯出來的 CSS 就會在 CSS 資料夾，而不會 style 裡面。</p>
+<p><strong>注意</strong>：當修改 config 設定後，要重新在命令提示字元 watch 資料夾一次，設定才會生效。</p>
+<p>資料來源：<a target="_blank" rel="noopener" href="http://www.minwt.com/html/10003.html">梅問題教學網</a>、<a target="_blank" rel="noopener" href="http://ithelp.ithome.com.tw/question/10128634">30 天掌握 Sass 語法</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2014/08/08/sass-and-compass-versions-questions/" title="Sass版本與Compass版本的相依問題"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Sass版本與Compass版本的相依問題</span></a><a class="button is-default" href="/2014/07/14/javascriptthis-use-finishing/" title=" Javascript：this用法整理"><span class="has-text-weight-semibold">Next:  Javascript：this用法整理</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

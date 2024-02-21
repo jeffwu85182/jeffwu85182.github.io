@@ -1,0 +1,77 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Day 11：讀 Quill Editor API 技術文件 - Content (上)</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="今天開始來細看 Quill Editor 的技術文件，看看 Quill 有哪些方法可以使用。同時也準備了範例練習，實際呼叫並觀察也許會比較有感覺。這會是一段細節探索的旅程。
+關於 Source在閱讀技術文件的時候，有部分的 function 會提供 Source 的參數名稱，稍微研究了一下。
+
+API：當更改的事件來自 API 的呼叫，例如直接用 JavaScript 呼叫 Instance 的 function
+User：當變更來自使用者的操作時，例如：使用者在編輯器打字輸入內容、貼上圖片或是修改文字樣式。
+Silent：此選項允許我們在不觸發任何 Quill 事件的情況下進行更改。這在某些情況下很實用，例如，我們想要在不通知其他程式的情況下更新編輯器的內容。
+
+大部分的情況是不需要自訂設定這些值，只有在.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Day 11：讀 Quill Editor API 技術文件 - Content (上)</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%9C%E6%96%BC-Source"><span class="toc-text">關於 Source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deleteText%EF%BC%9A%E5%9C%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%88%AA%E9%99%A4%E6%96%87%E5%AD%97"><span class="toc-text">deleteText：在指定位置刪除文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getContents%EF%BC%9A%E7%8D%B2%E5%8F%96%E7%B7%A8%E8%BC%AF%E5%99%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E8%88%87%E9%95%B7%E5%BA%A6%E7%9A%84%E5%85%A7%E5%AE%B9"><span class="toc-text">getContents：獲取編輯器指定位置與長度的內容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getLength%EF%BC%9A%E7%8D%B2%E5%8F%96%E7%B7%A8%E8%BC%AF%E5%99%A8%E5%85%A7%E5%AE%B9%E7%9A%84%E9%95%B7%E5%BA%A6"><span class="toc-text">getLength：獲取編輯器內容的長度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getText%EF%BC%9A%E7%8D%B2%E5%8F%96%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E8%88%87%E9%95%B7%E5%BA%A6%E7%9A%84%E6%96%87%E6%9C%AC%E5%85%A7%E5%AE%B9"><span class="toc-text">getText：獲取指定位置與長度的文本內容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%9C%E8%A8%98"><span class="toc-text">雜記</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Day 11：讀 Quill Editor API 技術文件 - Content (上)</h1><time class="has-text-grey" datetime="2023-09-26T13:54:11.000Z">2023-09-26</time><article class="mt-2 post-content"><p>今天開始來細看 Quill Editor 的技術文件，看看 Quill 有哪些方法可以使用。同時也準備了範例練習，實際呼叫並觀察也許會比較有感覺。這會是一段細節探索的旅程。</p>
+<h2 id="關於-Source"><a href="#關於-Source" class="headerlink" title="關於 Source"></a>關於 <code>Source</code></h2><p>在閱讀技術文件的時候，有部分的 <code>function</code> 會提供 <code>Source</code> 的參數名稱，稍微研究了一下。</p>
+<ul>
+<li>API：當更改的事件來自 API 的呼叫，例如直接用 JavaScript 呼叫 Instance 的 function</li>
+<li>User：當變更來自使用者的操作時，例如：使用者在編輯器打字輸入內容、貼上圖片或是修改文字樣式。</li>
+<li>Silent：此選項允許我們在不觸發任何 Quill 事件的情況下進行更改。這在某些情況下很實用，例如，我們想要在不通知其他程式的情況下更新編輯器的內容。</li>
+</ul>
+<p>大部分的情況是不需要自訂設定這些值，只有在較特殊的情況下，需要額外設置以更精確的控制編輯的行為。例如：</p>
+<pre><code class="typescript">// 使用 &#39;api&#39; 作為 source，代表這個更改是由 API 控制的
+quill.format(&#39;bold&#39;, true, &#39;api&#39;); 
+
+// 使用 &#39;user&#39; 作為 source，代表這個更改是模擬使用者操作
+quill.format(&#39;italic&#39;, true, &#39;user&#39;); 
+</code></pre>
+<p>透過這樣的分別使用，我們可以在事件監聽或其他處理邏輯中區分更改的來源，進而執行不同的操作或處理。例如我們只對使用者所做的更改進行特定的處理，並忽略由 API 控制的更改。透過 <code>source</code> 的設置就讓我們滿足這樣的需求。</p>
+<h2 id="deleteText：在指定位置刪除文字"><a href="#deleteText：在指定位置刪除文字" class="headerlink" title="deleteText：在指定位置刪除文字"></a>deleteText：在指定位置刪除文字</h2><p>刪除的來源可以是從 <code>user</code>, <code>api</code> 或 <code>silent</code>。當編輯器狀態為 disabled 時，會直接忽略掉從 <code>user</code> 來的呼叫</p>
+<p>方法：</p>
+<pre><code class="typescript">deleteText(index: Number, length: Number, source: String = &#39;api&#39;): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.deleteText(4, 6) // 從第 4 個位置，刪除長度 6 的內容
+</code></pre>
+<h2 id="getContents：獲取編輯器指定位置與長度的內容"><a href="#getContents：獲取編輯器指定位置與長度的內容" class="headerlink" title="getContents：獲取編輯器指定位置與長度的內容"></a>getContents：獲取編輯器指定位置與長度的內容</h2><p>獲取編輯器的內容以及格式資料，收到的是 Delta 物件。可選參數有兩個：</p>
+<ul>
+<li><code>index</code>：指定獲取內容的起始索引，預設是從 <code>0</code></li>
+<li><code>length</code>：指定要獲取內容的長度，預設 <code>remaining</code> 是指從起始索引後的剩餘內容</li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">getContents(index: Number = 0, length: Number = remaining): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">// 獲取完整內容的 Delta
+const delta = quill.getContents();
+
+// 獲取部分內容的 Delta
+const delta = quill.getContents(27, 5);
+</code></pre>
+<h2 id="getLength：獲取編輯器內容的長度"><a href="#getLength：獲取編輯器內容的長度" class="headerlink" title="getLength：獲取編輯器內容的長度"></a>getLength：獲取編輯器內容的長度</h2><p>獲取編輯器內容的長度。<strong>需要注意的是，即使 Quill 為空，仍然有一個由 ‘\n’ 表示的空行，因此 getLength 將返回 1</strong>。</p>
+<p>方法：</p>
+<pre><code class="typescript">getLength(): Number
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">const length = quill.getLength();
+</code></pre>
+<h2 id="getText：獲取指定位置與長度的文本內容"><a href="#getText：獲取指定位置與長度的文本內容" class="headerlink" title="getText：獲取指定位置與長度的文本內容"></a>getText：獲取指定位置與長度的文本內容</h2><p>獲取編輯器的字串內容，非字串的內容會直接省略，因此返回的字串長度可能會比呼叫 <code>getLength</code> 回傳的編輯器長度短些。這邊一樣要留意的是，即使編輯器是空的沒有內容，仍然會留一個空行，所以在這樣的情況將會返回 <code>\n</code>。</p>
+<ul>
+<li><code>index</code>：指定獲取內容的起始索引，預設是從 <code>0</code></li>
+<li><code>length</code>：指定要獲取內容的長度，預設 <code>remaining</code> 是指從起始索引後的剩餘內容</li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">getText(index: Number = 0, length: Number = remaining): String
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">// 獲取從 0 開始，長度為 10 的文本內容
+const text = quill.getText(0, 10);
+</code></pre>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天開始仔細閱讀技術文件，會相對的比較乏味，但是能徹底的去看每個方法及參數要如何使用，知道自己有哪些武器可以用，對於特殊的需求也比較能找到合適的方法來實現。</p>
+<h4 id="雜記"><a href="#雜記" class="headerlink" title="雜記"></a>雜記</h4><p>由於中秋節快到了，開始收到各種月餅禮盒，周遭也開始出現柚子，雖然還沒開始烤肉，但希望中秋之後別長太多肥肉出來，剛轉換跑道一陣子，還在適應節奏的階段，需要找到合適的運動時間，目前看來只剩下早上了，下班後加上通勤時間到健身房，運動完回家洗完澡也差不多到睡覺的時間了，最近嘗試調整起床的時間，先從六點半開始觀察看看囉…XD</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/quill-editor-todo/commit/1f147960445f8f26c42cc653221d10e7443cabdc">今日份的練習</a></li>
+<li><a target="_blank" rel="noopener" href="https://quilljs.com/docs/api/#content">API - Quill Rich Text Editor (quilljs.com)</a></li>
+</ul>
+<p>文章同步發表於<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10328811">2023 iThome 鐵人賽</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/09/27/quill-day-12/" title="Day 12：讀 Quill Editor API 技術文件 - Content (下)"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Day 12：讀 Quill Editor API 技術文件 - Content (下)</span></a><a class="button is-default" href="/2023/09/25/quill-day-10/" title="Day 10：編輯內容的呈現 - Parchment 與 Blot"><span class="has-text-weight-semibold">Next: Day 10：編輯內容的呈現 - Parchment 與 Blot</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

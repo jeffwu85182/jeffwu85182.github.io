@@ -1,0 +1,169 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>[Cordova Week-5] Cordova Plugin Geolocation</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="前言來到了第五週，這次要介紹的功能也是時常會用到的，衛星定位功能，無論是在生活還是實務中，一定會用到的功能，因此 Cordova 官方也將 cordova-plugin-geolocation 列為核心套件並持續提供維護。套件支援的平台有 Windows, Android 以及 iOS，這次一樣針對 Android &amp;amp; iOS 的部分來做介紹。
+安裝方式安裝方式與前面幾篇介紹的一樣，透過 cordova cli 安裝套件：
+$ cordova plugin add cordova-plugin-geolocation
+
+初始化在安裝並建置完成之後，套件會建立全域的物件 navigator 下的一個 geolocation 屬性，雖然是全域屬性，但與其它套件一樣，要在 deviceready 觸發之後.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">[Cordova Week-5] Cordova Plugin Geolocation</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="toc-text">安裝方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-Method"><span class="toc-text">方法 ( Method )</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator-geolocation-getCurrentPosition"><span class="toc-text">navigator.geolocation.getCurrentPosition</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#iOS-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-text">iOS 注意事項</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-text">Android 注意事項</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator-geolocation-watchPosition"><span class="toc-text">navigator.geolocation.watchPosition</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E5%82%B3%E5%80%BC"><span class="toc-text">回傳值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator-geolocation-clearWatch"><span class="toc-text">navigator.geolocation.clearWatch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E9%97%9C%E7%89%A9%E4%BB%B6%E4%BB%8B%E7%B4%B9"><span class="toc-text">相關物件介紹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#geolocationOptions"><span class="toc-text">geolocationOptions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Position"><span class="toc-text">Position</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%AC%E6%80%A7"><span class="toc-text">屬性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Coordinates"><span class="toc-text">Coordinates</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%AC%E6%80%A7-1"><span class="toc-text">屬性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85-1"><span class="toc-text">Android 注意事項</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PositionError"><span class="toc-text">PositionError</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%AC%E6%80%A7-2"><span class="toc-text">屬性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E6%95%B8"><span class="toc-text">常數</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/cordova%20plugin"><i class="tag post-item-tag">cordova plugin</i></a><a href="/tags/geolocation"><i class="tag post-item-tag">geolocation</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">[Cordova Week-5] Cordova Plugin Geolocation</h1><time class="has-text-grey" datetime="2018-06-03T07:52:20.000Z">2018-06-03</time><article class="mt-2 post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>來到了第五週，這次要介紹的功能也是時常會用到的，衛星定位功能，無論是在生活還是實務中，一定會用到的功能，因此 Cordova 官方也將 <code>cordova-plugin-geolocation</code> 列為核心套件並持續提供維護。套件支援的平台有 Windows, Android 以及 iOS，這次一樣針對 Android &amp; iOS 的部分來做介紹。</p>
+<h2 id="安裝方式"><a href="#安裝方式" class="headerlink" title="安裝方式"></a>安裝方式</h2><p>安裝方式與前面幾篇介紹的一樣，透過 cordova cli 安裝套件：</p>
+<pre><code class="bash">$ cordova plugin add cordova-plugin-geolocation
+</code></pre>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>在安裝並建置完成之後，套件會建立全域的物件 <code>navigator</code> 下的一個 <code>geolocation</code> 屬性，雖然是全域屬性，但與其它套件一樣，要在 <code>deviceready</code> 觸發之後才能開始使用，因此可以透過事件監聽的方式 console.log 物件：</p>
+<pre><code class="javascript">document.addEventListener(&quot;deviceready&quot;, onDeviceReady, false);
+function onDeviceReady() &#123;
+    console.log(&quot;navigator.geolocation works well&quot;);
+&#125;
+</code></pre>
+<span id="more"></span>
+
+
+
+<h2 id="方法-Method"><a href="#方法-Method" class="headerlink" title="方法 ( Method )"></a>方法 ( Method )</h2><p><code>cordova-plugin-geolocation</code> 提供的方法有以下三個：</p>
+<ul>
+<li>navigator.geolocation.getCurrentPosition</li>
+<li>navigator.geolocation.watchPosition</li>
+<li>navigator.geolocation.clearWatch</li>
+</ul>
+<h3 id="navigator-geolocation-getCurrentPosition"><a href="#navigator-geolocation-getCurrentPosition" class="headerlink" title="navigator.geolocation.getCurrentPosition"></a>navigator.geolocation.getCurrentPosition</h3><p>當成功取得裝置目前的位置資訊時會觸發 <code>geolocationSuccess</code> callback，並帶 <code>Position</code> 物件作為參數，若發生錯誤則會觸發 <code>geolocationError</code> callback 並帶有 <code>PositionError</code> 物件作為參數：</p>
+<pre><code class="javascript">navigator.geolocation.getCurrentPosition(geolocationSuccess,
+                                         [geolocationError],
+                                         [geolocationOptions]);
+</code></pre>
+<ul>
+<li><strong>geolocationSuccess</strong>: 會帶入目前位置的 callback function</li>
+<li><strong>geolocationError</strong>: <em>(Optional)</em> 當錯誤發生時會執行的 callback</li>
+<li><strong>geolocationOptions</strong>: <em>(Optional)</em> 地理位置相關的選項設定</li>
+</ul>
+<p>範例：</p>
+<pre><code class="javascript">// onSuccess Callback
+    // This method accepts a Position object, which contains the
+    // current GPS coordinates
+    //
+    var onSuccess = function(position) &#123;
+        alert(&#39;Latitude: &#39;          + position.coords.latitude          + &#39;\n&#39; +
+              &#39;Longitude: &#39;         + position.coords.longitude         + &#39;\n&#39; +
+              &#39;Altitude: &#39;          + position.coords.altitude          + &#39;\n&#39; +
+              &#39;Accuracy: &#39;          + position.coords.accuracy          + &#39;\n&#39; +
+              &#39;Altitude Accuracy: &#39; + position.coords.altitudeAccuracy  + &#39;\n&#39; +
+              &#39;Heading: &#39;           + position.coords.heading           + &#39;\n&#39; +
+              &#39;Speed: &#39;             + position.coords.speed             + &#39;\n&#39; +
+              &#39;Timestamp: &#39;         + position.timestamp                + &#39;\n&#39;);
+    &#125;;
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) &#123;
+        alert(&#39;code: &#39;    + error.code    + &#39;\n&#39; +
+              &#39;message: &#39; + error.message + &#39;\n&#39;);
+    &#125;
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+</code></pre>
+<h4 id="iOS-注意事項"><a href="#iOS-注意事項" class="headerlink" title="iOS 注意事項"></a>iOS 注意事項</h4><p>從 iOS 10 開始，若嘗試存取隱私敏感資料，則必須在 <code>info.plist</code> 提供使用說明，當系統提示使用者是否允許存取時，使用說明就會顯示在權限允許確認的視窗中描述。但如果沒有加入使用說明，App 會在顯示是否允許的視窗之前直接閃退，而且 Apple 也會拒絕沒有提供敏感資料使用說明的 App 上架。</p>
+<p>這個套件加入資料存取使用說明的方式如下：</p>
+<ul>
+<li><code>NSLocationWhenInUseUsageDescription</code> 是描述存取使用者位置的原因。</li>
+</ul>
+<p>要將使用說明加入 <code>info.plist</code> 中，可以在 <code>config.xml</code> 中加入 <code>edit-config</code> 標籤：</p>
+<pre><code class="xml">&lt;edit-config target=&quot;NSLocationWhenInUseUsageDescription&quot; file=&quot;*-Info.plist&quot; mode=&quot;merge&quot;&gt;
+    &lt;string&gt;需要存取位的說明放在這裡&lt;/string&gt;
+&lt;/edit-config&gt;
+</code></pre>
+<h4 id="Android-注意事項"><a href="#Android-注意事項" class="headerlink" title="Android 注意事項"></a>Android 注意事項</h4><p>若 Geolocation service 被關閉，且有設定 <code>timeout</code> 的話，則會觸發 <code>onError</code> callback，若沒有設定 <code>timeout</code> 則不會觸發 callback，因此若要在定位服務被關閉時執行相關動作，則需要留意是否有設定 <code>timeout</code>。</p>
+<h3 id="navigator-geolocation-watchPosition"><a href="#navigator-geolocation-watchPosition" class="headerlink" title="navigator.geolocation.watchPosition"></a>navigator.geolocation.watchPosition</h3><p>當檢測到位置發生變化時，回傳裝置目前的位置。當裝置檢測到新的位置時，則觸發 <code>geolocationSuccess</code> callback 並帶著 <code>Position</code> 物件作為參數執行；若發生錯誤，則觸發 <code>geolocationError</code> callback 並帶著 <code>PositionError</code> 物件作為參數執行。</p>
+<pre><code class="javascript">var watchId = navigator.geolocation.watchPosition(geolocationSuccess,
+                                                  [geolocationError],
+                                                  [geolocationOptions]);
+</code></pre>
+<p>和 <code>getCurrentPosition</code> 相同，可帶入三個參數，個別為：成功取得位置時 (<code>geolocationSuccess</code>)、發生錯誤時 ( <code>geolocationError</code>) 與套件設定物件 (<code>geolocationOptions</code>)。</p>
+<h4 id="回傳值"><a href="#回傳值" class="headerlink" title="回傳值"></a>回傳值</h4><p>這個方法呼叫執行後會回傳一個字串，主要是持續監視位置改變的 <code>watch id</code>，此 <code>id</code> 可用在當我們要停止持續追蹤時呼叫用的，也就是第三個方法 <code>clearWatch</code> 呼叫時作為參數帶入執行。</p>
+<pre><code class="javascript">// onSuccess Callback
+//   This method accepts a `Position` object, which contains
+//   the current GPS coordinates
+//
+function onSuccess(position) &#123;
+    var element = document.getElementById(&#39;geolocation&#39;);
+    element.innerHTML = &#39;Latitude: &#39;  + position.coords.latitude      + &#39;&lt;br /&gt;&#39; +
+        &#39;Longitude: &#39; + position.coords.longitude     + &#39;&lt;br /&gt;&#39; +
+        &#39;&lt;hr /&gt;&#39;      + element.innerHTML;
+&#125;
+
+// onError Callback receives a PositionError object
+//
+function onError(error) &#123;
+    alert(&#39;code: &#39;    + error.code    + &#39;\n&#39; +
+          &#39;message: &#39; + error.message + &#39;\n&#39;);
+&#125;
+
+// Options: throw an error if no update is received every 30 seconds.
+//
+var watchID = navigator.geolocation.watchPosition(onSuccess, onError, &#123; timeout: 30000 &#125;);
+</code></pre>
+<h3 id="navigator-geolocation-clearWatch"><a href="#navigator-geolocation-clearWatch" class="headerlink" title="navigator.geolocation.clearWatch"></a>navigator.geolocation.clearWatch</h3><p>藉由 <code>watchID</code> 參數傳入並呼叫，以停止追蹤裝置的位置變化。其參數是由 <code>watchPosition</code> 呼叫後回傳的值。</p>
+<pre><code class="javascript">navigator.geolocation.clearWatch(watchID);
+</code></pre>
+<p>範例：</p>
+<pre><code class="javascript">// Options: watch for changes in position, and use the most
+// accurate position acquisition method available.
+//
+var watchID = navigator.geolocation.watchPosition(onSuccess, onError, &#123; enableHighAccuracy: true &#125;);
+
+// ...later on...
+
+navigator.geolocation.clearWatch(watchID);
+</code></pre>
+<h2 id="相關物件介紹"><a href="#相關物件介紹" class="headerlink" title="相關物件介紹"></a>相關物件介紹</h2><h3 id="geolocationOptions"><a href="#geolocationOptions" class="headerlink" title="geolocationOptions"></a>geolocationOptions</h3><p>在呼叫 <code>getCurrentPosition</code> 與 <code>watchPosition</code> 兩個方法時，帶入的第三個參數 <code>geolocationOptions</code> 主要有以下幾個屬性可設定：</p>
+<pre><code class="javascript">&#123; maximumAge: 3000, timeout: 5000, enableHighAccuracy: true &#125;;
+</code></pre>
+<ul>
+<li><strong>enableHighAccuracy</strong>：提供使 App 取得準確度更高的提示，預設的情況，裝置是藉由網路為基礎的方法取得 <code>Position</code>，設定此屬性為 <code>true</code> 以提醒可選用精度更高的方式，例如衛星定位。（Boolean）</li>
+<li><strong>timeout</strong>：允許等待傳入參數並執行 <code>navigator.geolocation.getCurrentPosition</code> 或 <code>navigator.geolocation.watchPosition</code> 中的 <code>geolocationSuccess</code> callback 的最長時間（毫秒），若在設定的時間內未觸發 <code>geolocationSuccess</code> 則會帶入 <code>PositionError.TIMEOUT</code> 的錯誤碼，觸發 <code>geolocationError</code> callback，要注意到若是呼叫 <code>geolocation.watchPosition</code>，只要每次超過設定的時間就會觸發 <code>geolocationError</code>。(Number)</li>
+<li><strong>maximumAge</strong>: 設定位置暫存時間，以毫秒為單位，預設為0，該值為0時，定位時會重新獲取一個新的 <code>Position</code> 物件；若有設定值則會在設定的時間內回傳上一次的暫存 <code>Position</code> 物件，如果超過設定的時間，則重新取得。 (Number)</li>
+</ul>
+<h3 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h3><p>由 <code>geolocation</code> API 所建立的物件，包含了位置 ( Position ) 的座標與時間戳。</p>
+<h4 id="屬性"><a href="#屬性" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>coords</strong>: 一組位置的座標資訊。</li>
+<li><strong>timestamp</strong>: 建立座標資訊的時間戳。</li>
+</ul>
+<h3 id="Coordinates"><a href="#Coordinates" class="headerlink" title="Coordinates"></a>Coordinates</h3><p><code>Coordinates</code> 物件包含一組描述位置的地理坐標屬性並存在 <code>Position</code> 物件下，當請求位置的 callback 發生時，會作為參數帶入。</p>
+<h4 id="屬性-1"><a href="#屬性-1" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>latitude</strong>: 緯度 <em>(Number)</em></li>
+<li><strong>longitude</strong>: 經度 <em>(Number)</em></li>
+<li><strong>altitude</strong>: 高度 <em>(Number)</em></li>
+<li><strong>accuracy</strong>: 座標經緯度的準確程度，單位為公尺 <em>(Number)</em></li>
+<li><strong>altitudeAccuracy</strong>: 座標高度的準確程度，單位為公尺 <em>(Number)</em></li>
+<li><strong>heading</strong>: 面對行徑的方向，以北為起始點順時針計算的度數 <em>(Number)</em></li>
+<li><strong>speed</strong>: 裝置目前的移動速度，單位為每秒公尺 <em>(Number)</em></li>
+</ul>
+<h4 id="Android-注意事項-1"><a href="#Android-注意事項-1" class="headerlink" title="Android 注意事項"></a>Android 注意事項</h4><p><strong>altitudeAccuracy</strong>: 不支援 Android，會回傳 <code>null</code>.</p>
+<h3 id="PositionError"><a href="#PositionError" class="headerlink" title="PositionError"></a>PositionError</h3><p><code>PositionError</code> 物件會在 navigator.geolocation 發生錯誤時作為參數傳入 <code>geolocationError</code> callback 並觸發。</p>
+<h4 id="屬性-2"><a href="#屬性-2" class="headerlink" title="屬性"></a>屬性</h4><ul>
+<li><strong>code</strong>: 如下列，預先定義好的錯誤代碼</li>
+<li><strong>message</strong>: 描述關於錯誤發生的訊息內容</li>
+</ul>
+<h4 id="常數"><a href="#常數" class="headerlink" title="常數"></a>常數</h4><ul>
+<li><pre><code>PositionError.PERMISSION_DENIED
+</code></pre>
+<ul>
+<li>當使用者不允許 App 存取座標資訊時會回傳，視平台而定。</li>
+</ul>
+</li>
+<li><pre><code>PositionError.POSITION_UNAVAILABLE
+</code></pre>
+<ul>
+<li>當裝置無法取得座標時會回傳，一般來說都是未連接網路或沒有啟用定位功能。</li>
+</ul>
+</li>
+<li><pre><code>PositionError.TIMEOUT
+</code></pre>
+<ul>
+<li>當裝置無法在指定的時間 ( <code>geolocationOptions</code> 中的 <code>timeout</code> ) 內取得座標資訊時回傳，若是透過 <code>navigator.geolocation.watchPosition</code> 方式取得，則在每次設定的 <code>timeout</code> 發生時，都會藉由 <code>geolocationError</code> callback 帶入並觸發。</li>
+</ul>
+</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a target="_blank" rel="noopener" href="https://github.com/apache/cordova-plugin-geolocation">apache&#x2F;cordova-plugin-geolocation</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/12/03/capacitor-intro/" title="Capacitor - The Native Bridge for Cross-Platform Web Apps"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Capacitor - The Native Bridge for Cross-Platform Web Apps</span></a><a class="button is-default" href="/2018/05/07/cordova-week-4/" title="[Cordova Week-4] Cordova File System"><span class="has-text-weight-semibold">Next: [Cordova Week-4] Cordova File System</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

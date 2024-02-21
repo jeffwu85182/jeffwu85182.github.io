@@ -1,0 +1,57 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Jeff's Note</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/widget-post-list.css"><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><span>Categories · SASS</span></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><article class="post-container is-flex is-justify-content-center section container is-max-widescreen pt-4 px-2"><div class="columns is-variable is-1-tablet is-3-desktop-only is-2-widescreen is-full-width"><section class="column"><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2014/08/13/using-sass-mixin-saves-repeating-the-time-writing-the-same-css-style/">Sass筆記「@mixin」介紹：節省重複撰寫CSS樣式的時間</a></h2><time class="has-text-grey" datetime="2014-08-12T23:13:00.000Z">2014-08-13</time><p class="is-flex-grow-2 mt-2">撰寫 CSS 的時候，時常會遇到一種情況：
+在開發多種 CSS 樣式時，會將第一次寫的程式碼複製貼上後，再進行修改，
+日後樣式需要整個大修時(例：圓形改方形)，又必須將所有 CSS 重新逐一修正，非常不方便。
+使用 Sass @mixin 的話，上述的問題可輕鬆解決，同時還可傳入多個變數進去。
+我們先來看下面的 code：</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2014/08/13/using-sass-mixin-saves-repeating-the-time-writing-the-same-css-style/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/sass"><i class="tag post-item-tag">sass</i></a><a href="/tags/extend"><i class="tag post-item-tag">extend</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2014/08/12/using-sass-extend-painless-merging-css-styles/">Sass筆記「@extend」介紹：無痛合併CSS樣式</a></h2><time class="has-text-grey" datetime="2014-08-11T19:51:00.000Z">2014-08-12</time><p class="is-flex-grow-2 mt-2">在撰寫 CSS 過程中，為了避免 CSS 太龐大，當我們有用到相同的樣式時，
+都會將它合併起來如下：
+/* 第200行位置 */
+.header h1,
+.content h1,
+.footer h1 &amp;#123;
+  font-size: 20px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+&amp;#125;
+/* 第400行位置 */
+.header h1 &amp;#123;
+  color: black;
+&amp;#125;
+/* 第1000行位置 */
+.content h1 &amp;#123;
+  color: green;
+&amp;#125;
+/* 第N000行位置 */
+.footer &amp;#123;
+  color: pink;
+&amp;#125;
+
+但這樣子會有個麻煩的地方是，假設..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2014/08/12/using-sass-extend-painless-merging-css-styles/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/images/sass-and-compass-versions-questions/compass-version.jpg" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2014/08/08/sass-and-compass-versions-questions/"><img class="post-cover-img js-img-fadeIn" src="/images/sass-and-compass-versions-questions/compass-version.jpg" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2014/08/08/sass-and-compass-versions-questions/">Sass版本與Compass版本的相依問題</a></h2><time class="has-text-grey" datetime="2014-08-07T23:30:00.000Z">2014-08-08</time><p class="is-flex-grow-2 mt-2">今天想嘗試 Sass framework ，Bourbon !!
+但是在編譯的過程中遇到了一些問題，就是 sass 已經更新到 3.3 版了，compass 仍然使用 3.2 版，於是上網四處找資料。
+在經過苦痛的 google 搜尋之後，才發現原來 compass 有對應的 sass 版本相依，由於沒有裝 compass 相關 app，
+所以不清楚是不是可以直接在哪邊做 sass 版本的修改。</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2014/08/08/sass-and-compass-versions-questions/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/images/sass-record-of-built-environment/add-item-to-folder.jpg" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2014/08/05/sass-record-of-built-environment/"><img class="post-cover-img js-img-fadeIn" src="/images/sass-record-of-built-environment/add-item-to-folder.jpg" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2014/08/05/sass-record-of-built-environment/">Sass環境建置紀錄</a></h2><time class="has-text-grey" datetime="2014-08-04T18:58:00.000Z">2014-08-05</time><p class="is-flex-grow-2 mt-2">最近開始練習 Compass + Sass 的練習，記錄一下如何在 Windows 系統下建置 Sass 開發環境。
+首先，安裝 Ruby
+Sass 與 Compass 是用 ruby 開發的，在 windows 的環境下，
+就必須先到他的官網安裝最新的 ruby，http://rubyinstaller.org/downloads/
+接著安裝 Sass、compass
+在開始工作列程式搜尋欄位輸入「CMD」後開啟「命令提示字元」，輸入以下指令後按 ENTER。
+gem install compass
+
+compass 安裝完成之後接著安裝 sass</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2014/08/05/sass-record-of-built-environment/">Read more</a></section></article></section><aside class="column is-hidden-mobile is-4-tablet is-3-widescreen"><div style="position: sticky; top: 50px;"><main class="aside-card-container categories-widget category-page"><h3>Categories</h3><section><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML/">HTML</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Optimization/">Optimization</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SASS/">SASS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">1</span></li></ul></section></main></div></aside></div></article><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></body></html>

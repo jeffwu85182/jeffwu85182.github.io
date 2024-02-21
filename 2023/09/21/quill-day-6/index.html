@@ -1,0 +1,91 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Day 6：Quill Editor 自訂工具列</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="昨天我們知道如何設定編輯器的 CSS 樣式，並且修改既有的功能按鈕。今天接著研究要如何自訂工具列的內容以及加入自訂功能的按鈕。
+自訂工具列：Toolbar OptionsQuill Editor 的工具列有兩種設置方式，一種是定義 toolbarOption 物件，由於 Quill 內建相當豐富實用的功能，因此我們可以直接以陣列的方式設定想要加入的控制按鈕，陣列底下的每個元素也是陣列，用來表示一個群組，除了可以調整工具列的功能按鈕順序之外，我們也能以分組的方式將同類型的功能擺在一起。
+const toolbarOptions = &amp;#123;
+    container: [
+        [&amp;#39;bold&amp;#39;, &amp;#39;italic&amp;#39;, &amp;#39;underline&amp;#39;, &amp;#.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Day 6：Quill Editor 自訂工具列</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E8%A8%82%E5%B7%A5%E5%85%B7%E5%88%97%EF%BC%9AToolbar-Options"><span class="toc-text">自訂工具列：Toolbar Options</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E8%87%AA%E5%AE%9A%E7%BE%A9%E6%8C%89%E9%88%95"><span class="toc-text">加入自定義按鈕</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%87%AA%E8%A8%82%E6%8C%89%E9%88%95%E5%8A%9F%E8%83%BD"><span class="toc-text">使用自訂按鈕功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E8%A8%82%E5%B7%A5%E5%85%B7%E5%88%97%EF%BC%9AHTML"><span class="toc-text">自訂工具列：HTML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%9C%E8%A8%98"><span class="toc-text">雜記</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Day 6：Quill Editor 自訂工具列</h1><time class="has-text-grey" datetime="2023-09-21T14:30:20.000Z">2023-09-21</time><article class="mt-2 post-content"><p>昨天我們知道如何設定編輯器的 CSS 樣式，並且修改既有的功能按鈕。今天接著研究要如何自訂工具列的內容以及加入自訂功能的按鈕。</p>
+<h2 id="自訂工具列：Toolbar-Options"><a href="#自訂工具列：Toolbar-Options" class="headerlink" title="自訂工具列：Toolbar Options"></a>自訂工具列：Toolbar Options</h2><p>Quill Editor 的工具列有兩種設置方式，一種是定義 <code>toolbarOption</code> 物件，由於 Quill 內建相當豐富實用的功能，因此我們可以直接以陣列的方式設定想要加入的控制按鈕，陣列底下的每個元素也是陣列，用來表示一個群組，除了可以調整工具列的功能按鈕順序之外，我們也能以分組的方式將同類型的功能擺在一起。</p>
+<pre><code class="typescript">const toolbarOptions = &#123;
+    container: [
+        [&#39;bold&#39;, &#39;italic&#39;, &#39;underline&#39;, &#39;strike&#39;], // 預設的工具按鈕
+        [&#123; header: 1 &#125;, &#123; header: 2 &#125;], // 預設的工具按鈕
+        [&#123; list: &#39;ordered&#39; &#125;, &#123; list: &#39;bullet&#39; &#125;], // 預設的工具按鈕
+        [&#123; script: &#39;sub&#39; &#125;, &#123; script: &#39;super&#39; &#125;], // 預設的工具按鈕
+        [&#123; indent: &#39;-1&#39; &#125;, &#123; indent: &#39;+1&#39; &#125;], // 預設的工具按鈕
+        [&#123; direction: &#39;rtl&#39; &#125;], // 預設的工具按鈕
+        [&#123; size: [&#39;small&#39;, false, &#39;large&#39;, &#39;huge&#39;] &#125;], // false 是 normal
+        [&#123; header: [1, 2, 3, 4, 5, 6, false] &#125;], // 預設的工具按鈕
+        [&#123; color: [] &#125;, &#123; background: [] &#125;], // 預設的工具按鈕
+        [&#123; font: [] &#125;], // 預設的工具按鈕
+        [&#39;image&#39;, &#39;customButton&#39;], // 自定義與內建工具按鈕
+        [&#39;clean&#39;], // 預設的工具按鈕
+    ],
+&#125;
+</code></pre>
+<p>另外需要留意的部分像是 <code>size</code> 以及 <code>header</code>，分別是文字的大小以及標題層級，兩者都與字體大小有關，陣列中有設定值是 <code>false</code> ，在畫面渲染之後，可以看到下拉清單會表示 <code>Normal</code>，意思是移除該樣式，僅顯示原本的大小。</p>
+<p><img src="/2023/09/21/quill-day-6/200907493oFpjVVyUC.png" alt="toolbar options"></p>
+<p>例如原本選擇了一段文字並設定 <code>header</code> 為 <code>1</code>，意思就是把選取的範圍文字套上 <code>&lt;h1&gt;</code> 標籤，這時的字體是呈現大標題的樣式，接著我們再把一樣的選取範圍切換到 <code>Normal</code>，原本的 <code>H1</code> 標題樣式就會被移除，回到原始的文字狀態。</p>
+<h2 id="加入自定義按鈕"><a href="#加入自定義按鈕" class="headerlink" title="加入自定義按鈕"></a>加入自定義按鈕</h2><p>接著我們嘗試新增一個 <code>customButton</code> 的自訂按鈕，並透過 <code>toolbar</code> 物件下的 <code>handlers</code> 屬性註冊按鈕的自訂函式，這個函式主要處理按下按鈕後的操作。我們可以在 <code>handlers</code> 中實作我們需要的功能，例如插入特定的內容、修改編輯器文本內容…等等。另外 <code>toolbar</code> 也提供了群組按鈕的設定，例如要將相同類型的按鈕放一起，直接放在同一個陣列即可。</p>
+<h2 id="使用自訂按鈕功能"><a href="#使用自訂按鈕功能" class="headerlink" title="使用自訂按鈕功能"></a>使用自訂按鈕功能</h2><p>在 <code>quillConfig</code> 的 <code>toolbar</code> 中加入自訂功能按鈕的名稱及對應的 <code>handler</code>，並且設定按鈕的 icon：</p>
+<pre><code class="typescript">const quillConfig = &#123;
+  modules: &#123;
+    toolbar: &#123;
+      container: [
+        // ...其他按鈕
+        [&#39;image&#39;, &#39;customButton&#39;], // 自定義的工具按鈕群組
+      ],
+      handlers: &#123;
+        &quot;customButton&quot;: () =&gt; console.log(&#39;handle custom button&#39;)
+      &#125;
+    &#125;,
+    theme: &#39;snow&#39;,
+  &#125;
+&#125;;
+
+// 使用 font awesome 自訂按鈕 icon
+const icons = Quill.import(&#39;ui/icons&#39;);
+icons[&#39;customButton&#39;] = &#39;&lt;i class=&quot;fa-regular fa-star&quot;&gt;&lt;/i&gt;&#39;;
+</code></pre>
+<h2 id="自訂工具列：HTML"><a href="#自訂工具列：HTML" class="headerlink" title="自訂工具列：HTML"></a>自訂工具列：HTML</h2><p>我們也可以自訂工具列的 HTML，在初始化的時候，Quill 會根據 <code>toolbar</code> 屬性給的工具列容器選擇器進行內建功能的事件綁定，我們也可以自訂額外的按鈕或元件在上面。例如：</p>
+<pre><code class="html">&lt;div #toolbar&gt;
+  &lt;span class=&quot;ql-formats&quot;&gt;
+    &lt;button class=&quot;ql-bold&quot;&gt;Bold&lt;/button&gt;
+    &lt;button class=&quot;ql-italic&quot;&gt;Italic&lt;/button&gt;
+    &lt;button class=&quot;ql-link&quot;&gt;Link&lt;/button&gt;
+    &lt;button class=&quot;ql-list&quot; value=&quot;bullet&quot;&gt;Ul&lt;/button&gt;
+  &lt;/span&gt;
+
+  &lt;!-- customButton --&gt;
+  &lt;span class=&quot;ql-formats&quot;&gt;
+    &lt;button class=&quot;ql-customButton&quot; [title]=&quot;&#39;Custom Button&#39;&quot;&gt;
+      Custom Button
+    &lt;/button&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<p>在 Component 初始化的時候帶入指定的容器，這邊我們一樣透過 <code>@ViewChild</code> 來獲取 HTML，同時也將對應的 <code>handlers</code> 加上來模擬觸發按鈕的時候進行的操作：</p>
+<pre><code class="typescript">@ViewChild(&#39;editor&#39;) editor!: ElementRef;
+@ViewChild(&#39;toolbar&#39;) toolbar!: ElementRef;
+// ...
+const quill = new Quill(this.editor.nativeElement, &#123; 
+  modules: &#123; 
+    // toolbar: toolbarOptions,
+    toolbar: &#123;
+      container: this.toolbar.nativeElement,
+      handlers: &#123;
+        customButton: () =&gt; console.log(&#39;handle custom button&#39;),
+      &#125;,
+    &#125;,
+  &#125; 
+&#125;);
+</code></pre>
+<p>重新整理之後可以看到工具列變成自訂的 HTML 內容：<br><img src="/2023/09/21/quill-day-6/20090749mykJprNm2j.png" alt="自訂的 HTML 內容"></p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們了解到工具列的設定，Quill 提供了這兩種設定方式，在大部分的情況下，我們可以選擇定義 <code>toolbarOption</code> 物件的方式，將想要使用的內建功能分門別類組成不同的群組後編排順序，當遇到較特殊的情況，只設定顯示以及順序無法滿足需求的時候，我們可以直接以 HTML 的方式完全自訂一個工具列，並按照需求加入額外的介面或其他功能。</p>
+<h4 id="雜記"><a href="#雜記" class="headerlink" title="雜記"></a>雜記</h4><p>昨天下班的時候路過南港展覽館，發現今天突然好多人，而且感覺就不是剛下班的樣子，也看到許多代客寄物的小攤，看到告示牌才知道，原來今天展覽館有舉辦演唱會，外頭都是排隊的人潮。可以看到很多元的打扮風格，不過人真的是多到差點進不去捷運站。到了隔天上班的時候發現展覽館外圍地上一堆垃圾，有沒喝完的飲料，更多的是抽完菸的菸蒂，對於厭惡抽菸的我來說，很久沒看到這麼精彩的景象了，還是希望民眾參加演唱會之後，也別忘了把垃圾帶走，抽完菸的菸蒂熄滅之後也順手丟到垃圾桶吧。真心覺得素質還有待提升QQ</p>
+<p>文章同步發表於<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10324342">2023 iThome 鐵人賽</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/09/22/quill-day-7/" title="Day 7：Quill Editor 擴充自訂功能"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Day 7：Quill Editor 擴充自訂功能</span></a><a class="button is-default" href="/2023/09/20/quill-day-5/" title="Day 5：自訂 Quill Editor 外觀樣式"><span class="has-text-weight-semibold">Next: Day 5：自訂 Quill Editor 外觀樣式</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

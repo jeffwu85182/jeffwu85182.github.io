@@ -1,0 +1,159 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title> Javascript：this用法整理</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="看到不錯的文章，轉貼過來紀錄做個分享。轉貼來源：https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this
+常用 Javascript 的人都知道，［this 這個關鍵字在一個函式內究竟指向誰］的這個問題很令人頭大，這裡整理了一下 Javascript 中 this 的指向的五種不同情況，其中前三種屬於基本的情況，而後兩種情況可基於前三種情況的方式來進行思考。
+#1.this 指向於調用該函式之物件
+如果你有學過 C&amp;#x2F;C++，你可能會記得一個物件內的成員函式裡的 this 指的即是該成員函式所在之物件，但在 Javascript 裡則有那麼些許不同，Javascript 裡的 this 看的是究竟是誰調用該函式，而不是看該函式.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center"> Javascript：this用法整理</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle"> Javascript：this用法整理</h1><time class="has-text-grey" datetime="2014-07-14T05:04:00.000Z">2014-07-14</time><article class="mt-2 post-content"><p>看到不錯的文章，轉貼過來紀錄做個分享。<br>轉貼來源：<a target="_blank" rel="noopener" href="https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this">https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this</a></p>
+<p>常用 Javascript 的人都知道，［this 這個關鍵字在一個函式內究竟指向誰］的這個問題很令人頭大，這裡整理了一下 Javascript 中 this 的指向的五種不同情況，其中前三種屬於基本的情況，而後兩種情況可基於前三種情況的方式來進行思考。</p>
+<p>#1.this 指向於調用該函式之物件</p>
+<p>如果你有學過 C&#x2F;C++，你可能會記得一個物件內的成員函式裡的 this 指的即是該成員函式所在之物件，但在 Javascript 裡則有那麼些許不同，Javascript 裡的 this 看的是究竟是誰調用該函式，而不是看該函式被定義在哪個物件內，這個大原則抓到了，基本上就已經可以探知 this 的奧秘了。底下寫一下這種情況的公式與範例：</p>
+<span id="more"></span>
+
+<p>公式</p>
+<pre><code>物件.函式(); //函式內的this指向該物件
+</code></pre>
+<p>範例</p>
+<pre><code class="js">var obj = &#123;
+  x: 20,
+  f: function () &#123;
+    console.log(this.x);
+  &#125;,
+&#125;;
+
+obj.f(); //由於調用f函式時，點前面物件為obj，故f內的this指向obj，則輸出為20。
+
+obj.innerobj = &#123;
+  x: 30,
+  f: function () &#123;
+    console.log(this.x);
+  &#125;,
+&#125;;
+
+obj.innerobj.f(); //由於調用f函式時，點前面物件為obj.innerobj，故f內的this指向obj.innerobj，則輸出為30。
+</code></pre>
+<p>#2.this 指向全域物件(瀏覽器：window 物件、node.js：GLOBAL 物件)</p>
+<p>如果調用函式的前方並未有物件，則函式內 this 就指向全域物件。在瀏覽器內全域物件為 window 物件，而在 node.js 中全域物件則為 GLOBAL 物件。底下一樣寫一下這種情況的公式與範例：</p>
+<p>公式</p>
+<pre><code>函式(); //函式內的this指向全域物件
+</code></pre>
+<p>範例</p>
+<pre><code class="js">var x = 10;
+var f = function () &#123;
+  console.log(this.x);
+&#125;;
+
+f(); /*由於調用f函式時，前方並未有[物件.]的形式，故f內的this指向全域物件，則輸出全域變數的x(10)。*/
+</code></pre>
+<p>##<i>例外：在使用 node.js 時，若使用 node file.js 這樣的方式執行 js 檔，並不會讓宣告的全域變數掛在全域物件上(意指會利用 function 將 code 整個包起來執行)，故輸出應為 undefined。</i></p>
+<p>#前兩種情況常見誤導範例 ##範例一、物件之成員函式內有函式</p>
+<pre><code class="js">var x = 10;
+var obj = &#123;
+  x: 20,
+  f: function () &#123;
+    console.log(this.x);
+    var foo = function () &#123;
+      console.log(this.x);
+    &#125;;
+    foo(); // (2)
+  &#125;,
+&#125;;
+
+obj.f(); // (1)
+</code></pre>
+<p>這個範例會輸出多少呢？別忘記大原則，在 Javascript 裡的 this 看的是究竟是誰調用該函式，故並不會輸出 20 20，而是輸出 20 10，為什麼呢？因為(1)obj.f()調用時，f 前面物件為 obj，故 f 內的 this 指向 obj。但因為調用 f 內的(2)foo 函式時是用 foo()，調用的前方並未有物件，故 foo 內的 this 指向全域物件，所以輸出會是全域變數的 x 的值。</p>
+<p>若要讓 foo 內使用 obj.x 的值，解法如下：</p>
+<pre><code class="js">var x = 10;
+var obj = &#123;
+  x: 20,
+  f: function () &#123;
+    console.log(this.x);
+    var that = this; //使用that保留在這個函式內的this
+    var foo = function () &#123;
+      console.log(that.x);
+    &#125;; //使用that取得obj
+    foo();
+  &#125;,
+&#125;;
+
+obj.f();
+</code></pre>
+<p>##範例二、借用函式</p>
+<pre><code class="js">var x = 10;
+var obj = &#123;
+  x: 20,
+  f: function () &#123;
+    console.log(this.x);
+  &#125;,
+&#125;;
+
+obj.f(); // (1)
+
+var fOut = obj.f;
+fOut(); //(2)
+
+var obj2 = &#123;
+  x: 30,
+  f: obj.f,
+&#125;;
+
+obj2.f(); // (3)
+</code></pre>
+<p>範例中三次調用之函式的 this 所指向的物件為何，不知道各位能不能看得出來。雖然用的是同一個函式，但是因為調用的不同，故 this 所指向的物件就不同。(1)obj.f()的 f 所指向的是 obj，這比較沒有問題，輸出的會是 20；而(2)fOut()裡的 this，則是因為調用時前方無物件，則 this 所指的是全域物件，輸出的會是 10；最後(3)obj2.f()則是 obj2 去呼叫 f，故 f 內的 this 指向的是 obj2，輸出的會是 30。</p>
+<p>#3.this 指向利用 call 或 apply 所指派給 this 的物件<br>有個方法可以更動前兩種敘述所讓 this 指派的值，就是利用 call 與 apply。call 與 apply 都是呼叫該函式並讓該函式的 this 指向給予 call 或 apply 的第一個參數。至於 call 和 apply 的差別則是在於其後面給予被調用之函式的參數放入的方法不同，一個是直接攤平放在第二個以後的參數；一個是直接放入一個裡面放要給予之參數的陣列。底下一樣看一下公式和範例：</p>
+<p>公式</p>
+<pre><code>(A物件.)函式.call(B物件,參數1,參數2,參數3, ......); //函式的this指向B物件(若B物件為null，則指向全域物件)
+(A物件.)函式.apply(B物件,[參數1,參數2,參數3, ......]); //函式的this指向B物件(若B物件為null，則指向全域物件)
+</code></pre>
+<p>範例</p>
+<pre><code>var obj = &#123;
+    x: 20;
+    f: function()&#123; console.log(this.x); &#125;
+&#125;;
+
+var obj2 = &#123;
+    x: 30;
+&#125;;
+
+obj1.f.call(obj2); //利用call指派f的this為指向obj2，故輸出為30
+</code></pre>
+<p>#4.this 指向 new 所產生之新物件<br>若將函式當作建構式(constructor)來用，則內部的 this 則指向於 new 所產生之新物件。<br>公式</p>
+<pre><code>new 建構式(); //建構式內之this指向new所產生之新物件
+</code></pre>
+<p>範例</p>
+<pre><code class="js">function Monster() &#123;
+  this.hp = 100;
+&#125;
+
+var monster = new Monster(); //Monster的this指向new出來之新物件並回傳回來，new的寫法就類似於下面的寫法。
+var monster = (function () &#123;
+  var _new = &#123; constructor: Monster, __proto__: Monster.prototype &#125;; //在IE內可能不相似
+  _new.constructor(); //這也是為何說可以利用前三種情況來變化的原因，constructor呼叫時，this指向的即是_new這個物件。
+  return _new;
+&#125;)();
+</code></pre>
+<p>#5.callback 函式內的 this 會指向於調用放入該 callback 的函式之 this 所指向之物件<br>先想想在 jQuery 中，我們若要讓#button 這個元素被 click 的時候，內容改為“Clicked”這樣的字串，該如何寫呢？</p>
+<pre><code class="js">$(&#39;#button&#39;).click(function () &#123;
+  this.html(&#39;Clicked&#39;);
+&#125;);
+</code></pre>
+<p>此時這個 this 居然會指向$(‘#button’)這個物件，感覺很自然，但實際想想會覺得很神奇。假設你寫一個 function，它可以吃一個 function，並在裡面呼叫傳入的 function，你該怎麼寫呢？</p>
+<pre><code class="js">var f = function(innerf)&#123;
+    //前面的處理
+    innerf(arg1, arg2, arg3, ......);
+    //後面的處理
+&#125;
+</code></pre>
+<p>但如果這樣寫的話，innerf 裡的 this 根據前述規則就應該是全域物件了！那為什麼常常別人實作的 callback 函式可讓 this 指向於調用放入該 callback 的函式之 this 所指向之物件呢？這表示大家實作上會遵守一個規則，會將自己的 this 傳給 callback 當作它的 this 來用！這也是為什麼我說這個情況其實也是前三種情況的變化而已了！所以上面的 code 應該改成如下的形式會比較好：</p>
+<pre><code class="js">var f = function(innerf)&#123;
+    //前面的處理
+    innerf.call(this, arg1, arg2, arg3, ......);
+    //或是innerf.apply(this, [arg1, arg2, arg3, ......])
+    //後面的處理
+&#125;
+</code></pre>
+<p>來源：<a target="_blank" rel="noopener" href="https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this">https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2014/08/05/sass-record-of-built-environment/" title="Sass環境建置紀錄"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Sass環境建置紀錄</span></a><a class="button is-default" href="/2014/06/24/how-to-optimize-a-site-for-assets-and-resources/" title="如何優化一個網站的靜態檔案 (assets) 和資源 (resources)？"><span class="has-text-weight-semibold">Next: 如何優化一個網站的靜態檔案 (assets) 和資源 (resources)？</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

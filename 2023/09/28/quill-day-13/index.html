@@ -1,0 +1,135 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Day 13：讀 Quill Editor API 技術文件 - Formatting</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="繼昨天的 Contents 相關的 API，今天來看看 Formatting 的部分。
+format根據使用者當前選擇的字串套用文字格式，回傳的 Delta 代表變更的內容。當使用者選擇字串長度為 0 時，代表是游標的狀態，對應的文字樣式則會變成啟動狀態，使用者接下來輸入的內容則會套用啟動的文字樣式。Source 一樣可以設定 user，api 或 silent。當呼叫的時候如果編輯器為禁用(disabled) 狀態，則會直接略過 source 為 user 的呼叫。
+
+source 預設是 api
+
+方法：
+format(name: String, value: any, source: String = &amp;#39;api&amp;#39;): Delta
+
+範例：
+quill.format(&amp;#39;color.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Day 13：讀 Quill Editor API 技術文件 - Formatting</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#format"><span class="toc-text">format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#formatLine"><span class="toc-text">formatLine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#format-VS-formatLine"><span class="toc-text">format VS formatLine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#formatText"><span class="toc-text">formatText</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getFormat"><span class="toc-text">getFormat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#removeFormat"><span class="toc-text">removeFormat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%9C%E8%A8%98"><span class="toc-text">雜記</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Day 13：讀 Quill Editor API 技術文件 - Formatting</h1><time class="has-text-grey" datetime="2023-09-28T15:36:23.000Z">2023-09-28</time><article class="mt-2 post-content"><p>繼昨天的 Contents 相關的 API，今天來看看 Formatting 的部分。</p>
+<h2 id="format"><a href="#format" class="headerlink" title="format"></a>format</h2><p>根據使用者當前選擇的字串套用文字格式，回傳的 Delta 代表變更的內容。當使用者選擇字串長度為 <code>0</code> 時，代表是游標的狀態，對應的文字樣式則會變成啟動狀態，使用者接下來輸入的內容則會套用啟動的文字樣式。<code>Source</code> 一樣可以設定 <code>user</code>，<code>api</code> 或 <code>silent</code>。當呼叫的時候如果編輯器為禁用(disabled) 狀態，則會直接略過 <code>source</code> 為 <code>user</code> 的呼叫。</p>
+<ul>
+<li><code>source</code> 預設是 <code>api</code></li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">format(name: String, value: any, source: String = &#39;api&#39;): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.format(&#39;color&#39;, &#39;red&#39;);
+quill.format(&#39;align&#39;, &#39;right&#39;);
+</code></pre>
+<h2 id="formatLine"><a href="#formatLine" class="headerlink" title="formatLine"></a>formatLine</h2><p>將選到的行數套用樣式，回傳的 Delta 代表變更的內容。關於可使用的樣式有哪些，可以參考官網文件 <a target="_blank" rel="noopener" href="https://quilljs.com/docs/formats/">formats</a>描述。這個方法主要是處理區塊 (block) 樣式，當呼叫的時候如果帶入的樣式是屬於行內 (inline) 樣式，則會沒有效果。要移除格式的話直接在 <code>value</code> 的參數傳入 <code>false</code> 即可。另外套用區塊樣式的時候，可能會在套用後導致使用者當前的選擇被取消，並且游標移動到新的位置。</p>
+<ul>
+<li><code>source</code> 預設是 <code>api</code></li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">formatLine(index: Number, length: Number, source: String = &#39;api&#39;): Delta
+
+formatLine(index: Number, length: Number, format: String, value: any, source: String = &#39;api&#39;): Delta 
+
+formatLine(index: Number, length: Number, formats: &#123; [String]: any &#125;, source: String = &#39;api&#39;): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.setText(&#39;Hello\nWorld!\n&#39;);
+quill.formatLine(1, 2); // 沒有給樣式的話，預設套用的樣式是 bold
+quill.formatLine(1, 2, &#39;align&#39;, &#39;right&#39;); // 第一行置右
+quill.formatLine(4, 4, &#39;align&#39;, &#39;center&#39;); // 兩行都置中
+
+// 套用多個區塊樣式
+quill.formatLine(0, 5, &#123;
+  list: &#39;bullet&#39;,
+  align: &#39;right&#39;,
+&#125;);
+</code></pre>
+<h2 id="format-VS-formatLine"><a href="#format-VS-formatLine" class="headerlink" title="format VS formatLine"></a>format VS formatLine</h2><p>最主要的差別就是 <code>format</code> 用在更改選取範圍內的特定格式，例如字體大小、顏色、粗體等。而 <code>formatLine</code> 處理的是整行的樣式，例如列表、對齊方式等。</p>
+<h2 id="formatText"><a href="#formatText" class="headerlink" title="formatText"></a>formatText</h2><p>一樣是在編輯器針對選定的範圍套用文字的樣式，回傳的是內容變更的 Delta，如果要移除文字樣式，則直接在對應樣式的值帶入 <code>false</code> 即可移除。如果是操作 block 相關的樣式，使用者的選擇範圍可能不會保留。<code>Source</code> 的來源有 <code>user</code>，<code>api</code>，以及 <code>silent</code>，當編輯器為 <code>disabled</code> 狀態則會直接無視 <code>source</code> 為 <code>user</code> 的呼叫。</p>
+<ul>
+<li><code>source</code> 預設是 <code>api</code></li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">formatText(index: Number, length: Number, source: String = &#39;api&#39;): Delta 
+
+formatText(index: Number, length: Number, format: String, value: any, source: String = &#39;api&#39;): Delta
+
+formatText(index: Number, length: Number, formats: &#123; [String]: any &#125;, source: String = &#39;api&#39;): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.setText(&#39;Hello\nWorld!\n&#39;);
+quill.formatText(0, 5, &#39;bold&#39;, true); // 將 Hello 設為粗體
+quill.formatText(0, 5, &#123; // 將 Hello 解除粗體，並設為藍色 
+  &#39;bold&#39;: false, 
+  &#39;color&#39;: &#39;rgb(0, 0, 255)&#39;  
+&#125;);
+quill.formatText(5, 1, &#39;align&#39;, &#39;right&#39;); // 將 Hello 的那一行置右
+</code></pre>
+<h2 id="getFormat"><a href="#getFormat" class="headerlink" title="getFormat"></a>getFormat</h2><p>這個方法可以讓我們查詢特定範圍內文字的格式。如果範圍內的所有文字共用相同的格式，則會回傳該格式。如果有不同的真值 (truthy value)，則會回傳所有的真值在陣列中。當不帶參數呼叫此方法，將針對當前使用者選取的範圍進行操作。</p>
+<ul>
+<li><code>source</code> 預設是 <code>api</code></li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">getFormat(range: Range = current): &#123; [String]: any &#125;
+getFormat(index: Number, length: Number = 0): &#123; [String]: any &#125;
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">// 假設設定一段文字 Hello World!，並設定樣式
+quill.setText(&#39;Hello World!&#39;);
+quill.formatText(0, 2, &#39;bold&#39;, true);
+quill.formatText(1, 2, &#39;italic&#39;, true);
+quill.getFormat(0, 2); // &#123; bold: true &#125;
+quill.getFormat(1, 1); // &#123; bold: true, italic: true &#125;
+
+quill.formatText(0, 2, &#39;color&#39;, &#39;red&#39;);
+quill.formatText(2, 1, &#39;color&#39;, &#39;blue&#39;);
+quill.getFormat(0, 3); // &#123; color: [&#39;red&#39;, &#39;blue&#39;] &#125;
+
+quill.setSelection(3);
+quill.getFormat(); // &#123; italic: true, color: &#39;blue&#39; &#125;
+
+quill.format(&#39;strike&#39;, true);
+quill.getFormat(); // &#123; italic: true, color: &#39;blue&#39;, strike: true &#125;
+
+quill.formatLine(0, 1, &#39;align&#39;, &#39;right&#39;);
+quill.getFormat(); // &#123; italic: true, color: &#39;blue&#39;, strike: true, // align: &#39;right&#39; &#125;
+</code></pre>
+<h2 id="removeFormat"><a href="#removeFormat" class="headerlink" title="removeFormat"></a>removeFormat</h2><p>將選定的範圍內刪除所有的格式及嵌入內容，並回復到沒有格式的狀態。回傳的 Delta 代表變更的操作，如果範圍內包含到 block format，也會一併移除。因此使用者的選取狀態可能不會被保留。<code>Source</code> 可以是 <code>user</code>，<code>api</code> 或 <code>silent</code>。當編輯器為 <code>disabled</code> 狀態時，<code>source</code> 為 <code>user</code> 的呼叫將會被忽略。</p>
+<ul>
+<li><code>source</code> 預設是 <code>api</code></li>
+</ul>
+<p>方法：</p>
+<pre><code class="typescript">removeFormat(index: Number, length: Number, source: String = &#39;api&#39;): Delta
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.setContents([
+  &#123; insert: &#39;Hello&#39;, &#123; bold: true &#125; &#125;,
+  &#123; insert: &#39;\n&#39;, &#123; align: &#39;center&#39; &#125; &#125;,
+  &#123; insert: &#123; formula: &#39;x^2&#39; &#125; &#125;,
+  &#123; insert: &#39;\n&#39;, &#123; align: &#39;center&#39; &#125; &#125;,
+  &#123; insert: &#39;World&#39;, &#123; italic: true &#125;&#125;,
+  &#123; insert: &#39;\n&#39;, &#123; align: &#39;center&#39; &#125; &#125;
+]);
+
+quill.removeFormat(3, 7);
+// 編輯器在執行之後內容會變成
+// [
+// &#123; insert: &#39;Hel&#39;, &#123; bold: true &#125; &#125;,
+// &#123; insert: &#39;lo\n\nWo&#39; &#125;,
+// &#123; insert: &#39;rld&#39;, &#123; italic: true &#125;&#125;,
+// &#123; insert: &#39;\n&#39;, &#123; align: &#39;center&#39; &#125; &#125;
+// ]
+</code></pre>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天嘗試使用格式化相關的 API，基本上使用的方式都差不多，但我們還沒討論到 Format 還有哪些可以使用，剛才的介紹中也有提到<a target="_blank" rel="noopener" href="https://quilljs.com/docs/formats/">這篇文件</a>有列出所有支援的格式，要找時間來實驗看看並感受一下。</p>
+<h4 id="雜記"><a href="#雜記" class="headerlink" title="雜記"></a>雜記</h4><p>明天就開始一小段假期，不過按照往年的慣例，都會先回去宜蘭開車回台南拜拜，希望這次塞車不要塞的太久QQ，儘管早上四點半就起床，五點就出門了，到了七八點還是會開始塞。印象中過台中之前都滿大的機會遇到塞車的情況，還好可以跟弟弟輪流開，不至於累到不行 XD </p>
+<p>祝中秋佳節愉快 :)</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/quill-editor-todo/commit/275e5d30a3206460dfbca1cc292dda0f6d5f15f5">今日份的練習</a></li>
+<li><a target="_blank" rel="noopener" href="https://quilljs.com/docs/api/#format">API - Quill Rich Text Editor (quilljs.com)</a></li>
+</ul>
+<p>文章同步發表於<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10330316">2023 iThome 鐵人賽</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/09/29/quill-day-14/" title="Day 14：讀 Quill Editor API 技術文件 - Selection"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Day 14：讀 Quill Editor API 技術文件 - Selection</span></a><a class="button is-default" href="/2023/09/27/quill-day-12/" title="Day 12：讀 Quill Editor API 技術文件 - Content (下)"><span class="has-text-weight-semibold">Next: Day 12：讀 Quill Editor API 技術文件 - Content (下)</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

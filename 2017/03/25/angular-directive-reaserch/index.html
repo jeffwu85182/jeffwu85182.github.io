@@ -1,0 +1,98 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Angular Directive 初探 - Part.1</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="最近買了一本中國的 Angular 2 簡體書，想看看有別於自己的角度，如何介紹 Angular ，再加上想深入研究 directive 的部分，因此除了 Angular 官網，也參考了這本書的部分內容，希望對大家有所幫助。
+Directive 又翻做 “指令”，但我還是習慣直接叫 directive
+在 Angular 的世界中，directive 扮演相當重要的角色之一，它可以在特定的 DOM 元素上執行，進而擴充這個元素的功能，為元素增加新的方法。而我們最常用的元件 ( Component )，基本上就是一個帶有 template 的 directive，它繼承了 directive，是 directive 的一個子類別，通常用來打造 UI 的部分。
+在開始介紹 directive 之前，稍微複習一下.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Angular Directive 初探 - Part.1</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Directives-%E6%A6%82%E8%BF%B0"><span class="toc-text">Directives 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84-Attribute-Directive"><span class="toc-text">建立一個簡單的 Attribute Directive</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%82%BA%E4%BD%95%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%8F%96%E4%BD%9C-%E2%80%9Chighlight%E2%80%9D"><span class="toc-text">為何不直接取作 “highlight” ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%A6%E4%BD%9C-highlightDirective-%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">實作 highlightDirective 的功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A5%97%E7%94%A8-Attribute-Directive"><span class="toc-text">套用 Attribute Directive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Angular%202"><i class="tag post-item-tag">Angular 2</i></a><a href="/tags/Directive"><i class="tag post-item-tag">Directive</i></a><a href="/tags/Attribute%20Directives"><i class="tag post-item-tag">Attribute Directives</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Angular Directive 初探 - Part.1</h1><time class="has-text-grey" datetime="2017-03-25T08:19:01.000Z">2017-03-25</time><article class="mt-2 post-content"><p>最近買了一本中國的 Angular 2 簡體書，想看看有別於自己的角度，如何介紹 Angular ，再加上想深入研究 directive 的部分，因此除了 Angular 官網，也參考了這本書的部分內容，希望對大家有所幫助。</p>
+<p><em>Directive 又翻做 “指令”，但我還是習慣直接叫 directive</em></p>
+<p>在 Angular 的世界中，directive 扮演相當重要的角色之一，它可以在特定的 DOM 元素上執行，進而擴充這個元素的功能，為元素增加新的方法。而我們最常用的元件 ( Component )，基本上就是一個帶有 template 的 directive，它繼承了 directive，是 directive 的一個子類別，通常用來打造 UI 的部分。</p>
+<p>在開始介紹 directive 之前，稍微複習一下 HTML 的相關內容。</p>
+<span id="more"></span>
+
+<p>HTML 檔是一個純文字檔，包含了 HTML 元素、CSS 樣式以及 JavaScript 程式碼。而 HTML 元素指的是從開始標籤到結束標籤的所有程式碼，元素的內容是開始標籤與結束標間之間的內容，例如：</p>
+<table>
+<thead>
+<tr>
+<th align="left">開始標籤</th>
+<th align="left">元素內容</th>
+<th align="left">結束標籤</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>&lt;a href=&quot;www.google.com&quot;&gt;</code></td>
+<td align="left">Hello World</td>
+<td align="left"><code>&lt;/a&gt;</code></td>
+</tr>
+</tbody></table>
+<p>HTML 標籤可以設定屬性，屬性為 HTML 元素提供了更多附加資訊。屬性一般以 <code>Property=&quot;Value&quot;</code> 的形式出現，例如 <code>href=&quot;www.google.com&quot;</code> 有時候也會只有 <code>Property</code> 而沒有 <code>Value</code> ，例如我們常用的 Input 若要設為必填項目，就會加上一個 <code>required</code> 屬性。</p>
+<p>超連結標籤建立了一個前往其他頁面的連接，<code>href</code> 作為超連結標籤的屬性，定義了連接的目標位置。以上述為例，當使用者點擊這個超連結時，瀏覽器的 URL 會變成 <code>www.google.com</code> 並且連到 Google 的首頁。這樣的一個操作過程，主要是瀏覽器依照 HTML 的標準來進行解析，知道 <code>&lt;a&gt;</code> 標籤宣告了一個超連結，href 屬性則指定了連結的目標。Angular 中 directive 的使用方式和 HTML 元素中屬性的使用方式類似，我們可透過自定義的 <code>CustomHighlightDirective</code>來為元素加上背景色，範例如下：</p>
+<pre><code class="html">&lt;a href=&quot;http://google.com&quot; custom-highlight&gt; Google &lt;/a&gt;
+</code></pre>
+<p>先不管 custom-hightlight directive 的實作內容，從上方的範例我們可得知，只要在標籤加上屬性，就可以實現你想要的功能，這就是 directive 基本的使用方式，是不是超威的阿！ XDD</p>
+<h3 id="Directives-概述"><a href="#Directives-概述" class="headerlink" title="Directives 概述"></a>Directives 概述</h3><p>在 Angular 的世界中，Directives 有分三種類型：</p>
+<ol>
+<li>元件 ( Components ) — 擁有 template 的 directives</li>
+<li>結構類 directive ( Structural directives ) — 改變 view 的結構</li>
+<li>屬性類 directive ( Attribute directives ) — 改變元素 ( Element )、元件 ( Component) 或另一個 directive 的外觀或行為</li>
+</ol>
+<p><code>Components</code> 是最常見的 directive， Angular 開發的應用程式基本上就是一群 Component 所組起來的。而結構類 directive 則是藉由加入及移除 DOM 元素 ( Element ) 來改變 DOM layout，最常見的  <a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/template-syntax.html#ngFor">NgFor</a>  及  <a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/template-syntax.html#ngIf">NgIf</a> 就是結構型 directive。屬性類 directive 顧名思義，使用方式就像 element 的 attribute 一樣，舉例來說，在官網  <a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/template-syntax.html">Template Syntax</a>  這篇文章中提到內建的  <a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/template-syntax.html#ngStyle">NgStyle</a> directive 就是屬性類 directive，可實現同時改變多個元素的樣式。</p>
+<h3 id="建立一個簡單的-Attribute-Directive"><a href="#建立一個簡單的-Attribute-Directive" class="headerlink" title="建立一個簡單的 Attribute Directive"></a>建立一個簡單的 Attribute Directive</h3><p>首先我們透過 angular-cli 進行練習，輸入指令 <code>ng g d directives/highlight</code> 就可快速建立 directive 囉！<br>建立好 directive 之後，可以看到 directive 的內容如下：</p>
+<pre><code class="typescript">import &#123; Directive &#125; from &#39;@angular/core&#39;;
+
+@Directive(&#123;
+  selector: &#39;[appHighlight]&#39;,
+&#125;)
+export class HighlightDirective &#123;
+  constructor() &#123;&#125;
+&#125;
+</code></pre>
+<p>從 <code>@angular/core</code> 將 <code>Directive</code> import 進來，這樣才能使用 Directive 的 <code>decorator</code>，目前的 decorator metadata 只有 selector 的部分設為 <code>[appHighlight]</code> 。<code>@Directive</code> 需要透過 CSS selector 來協助辨識在 template 中與 directive 有關聯的 HTML，這裡 Attribute 當作 CSS selector 使用的方式為名稱的前後加上中括號例如： <code>[AttributeName]</code> 。意思是在 Angular 的專案底下，無論是哪個 component 的 template，若要使用 highlightDirective，必須在 element 中加上 appHighlight 的 attribute 才會有作用。</p>
+<pre><code class="html">&lt;span appHighlight&gt;這樣才會有作用喔！&lt;/span&gt;
+</code></pre>
+<h4 id="為何不直接取作-“highlight”"><a href="#為何不直接取作-“highlight”" class="headerlink" title="為何不直接取作 “highlight” ?"></a>為何不直接取作 “highlight” ?</h4><p>的確， <code>highlight</code> 的命名比 <code>appHighlight</code> 更簡潔且能正常執行，在實務上最好還是加上前綴，確保不會和標準的 HTML attribute 發生衝突，這也能降低在使用第三方套件時發生命名衝突的風險。此外，我們自訂的前綴不能用 <strong>ng</strong> 作為開頭，因為這是 Angular 自己要用的，如果跟著用 ng 作為前綴的話，也可能會造成 bug 導致除錯的困難，因此 Angular-CLI 很貼心的（真的太貼心惹~），一開始任何的 component 或 directive 在建立時 selector 都會自動加上前綴，為了就是避免我們自己埋了地雷卻不知道的窘境發生。</p>
+<p>如果你沒修改過 <code>.angular-cli.json</code> 中 prefix 設定，預設的 prefix 是 app，因此在透過 CLI 產生的 directive selector 預設都是 app 開頭的，接著在 <code>constructor </code> 將 <code>ElementRef</code> 進行注入的動作（ 參考下方範例 ），藉此存取目標的 DOM Element。</p>
+<p><em>關於 decorator 想深入了解，可參考 Kevin Yang 的文章 <a target="_blank" rel="noopener" href="http://blog.kevinyang.net/2017/01/30/angular2-decorators/">自訂 Decorators</a></em></p>
+<h4 id="實作-highlightDirective-的功能"><a href="#實作-highlightDirective-的功能" class="headerlink" title="實作 highlightDirective 的功能"></a>實作 highlightDirective 的功能</h4><p>直接看 code 吧：</p>
+<pre><code class="typescript">import &#123; Directive, ElementRef, OnInit &#125; from &#39;@angular/core&#39;;
+
+@Directive(&#123;
+  selector: &#39;[appHighlight]&#39;,
+&#125;)
+export class HighlightDirective implements OnInit &#123;
+  constructor(private _el: ElementRef) &#123;
+    // 注入 elementRef 就可以取得 DOM
+    console.log(&#39;directive init,&#39;, this._el);
+  &#125;
+
+  ngOnInit() &#123;
+    // 設定 CSS 樣式
+    this._el.nativeElement.style.backgroundColor = &#39;orange&#39;;
+    this._el.nativeElement.style.color = &#39;white&#39;;
+    this._el.nativeElement.style.display = &#39;inline-block&#39;;
+    this._el.nativeElement.style.width = &#39;120px&#39;;
+    this._el.nativeElement.style.height = &#39;40px&#39;;
+    this._el.nativeElement.style.textAlign = &#39;center&#39;;
+    this._el.nativeElement.style.lineHeight = &#39;2.5&#39;;
+  &#125;
+&#125;
+</code></pre>
+<p>上面這段程式碼基本上就是注入 <code>ElementRef</code> 後即可存取目標的 DOM，藉此進行操作，既然我們是要做一個 highlight 的功能，我們只需要針對目標設定 CSS 樣式即可，樣式的設定方式透過上方的範例可以知道，在注入的 elementRef 中，帶有 nativeElement 的屬性，這個屬性可以讓我們進行 DOM 的存取及操作。</p>
+<p>這時你或許會有一些疑問，style 的屬性名稱怎麼跟 CSS 的不太一樣，這邊帶一個觀念，英文的 Property 及 Attribute 我們中文翻譯都叫做<strong>屬性</strong>。但事實上這兩個指的完全是不同的東西，來看這擷取自 stackoverflow 的一段回文：</p>
+<blockquote>
+<p><strong>Attributes</strong> are defined by <strong>HTML</strong>.<br><strong>Properties</strong> are defined by <strong>DOM</strong>.</p>
+</blockquote>
+<p><em>Some HTML attributes have 1:1 mapping onto properties. <strong>id</strong> is one example of such. Some do not (e.g. the <code>value attribute</code> specifies the initial value of an input, but the <code>value property</code> specifies the <strong>current</strong> value).</em></p>
+<p>Attributes 是從 HTML 定義來的，而 Properties 則是從 DOM 定義，有些 HTML attributes 的屬性是 1:1 的比對到 DOM 的 properties 中，例如 <code>id</code> 就是，兩者的屬性都叫做 <code>id</code>，但有些則不是，例如 value attribute 指定的是 input 中初始的預設值，而 value property 指的卻是目前的值。這觀念一定要釐清！才不會一直鬼打牆喔 XD</p>
+<h3 id="套用-Attribute-Directive"><a href="#套用-Attribute-Directive" class="headerlink" title="套用 Attribute Directive"></a>套用 Attribute Directive</h3><p>在套用之前，先來觀察一下 angular-cli 在幫我們建立 directive 時，做了哪些事情。Angular CLI 很貼心的幫我們在 <code>app.module.ts</code> 的 declarations 加入了剛剛新建的 directive，所以 directive 產生之後，實作的部份搞定，就可以直接在 template 中使用了，揪甘心欸。套用的方式就跟一開始提到的一樣簡單，在 HTML Tag 加上 <code>appHighlight</code> Attribute 就會有作用囉！</p>
+<h3 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h3><p>Angular 的 directive 真的很強大 BJ4 ( 不解釋 )，透過 directive 我們可以將很多東西進行封裝的動作，例如第三方套件的使用，透過 directive 封裝後，只要在 template 加上 Attribute 就會有作用，而且擁有自己的生命週期，它會隨著 DOM 產生而誕生，隨著 DOM 消失而毀滅。一切是那麼的輕鬆愉快 ;-)</p>
+<p>參考資料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://angular.io/docs/ts/latest/guide/attribute-directives.html">Angular.io Guide - Attribute Directive</a></li>
+<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/19246714/html-attributes-vs-properties">StackOverflow - HTML Attributes VS Properties</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/angularDirectiveReaserch">練習範例</a></li>
+</ul>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/04/08/angular-directive-reaserch-part-2/" title="Angular Directive 初探 - Part.2"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Angular Directive 初探 - Part.2</span></a><a class="button is-default" href="/2017/02/23/formGroup-getRawValue/" title="Angular FormGroup 取得所有 formControl 的值"><span class="has-text-weight-semibold">Next: Angular FormGroup 取得所有 formControl 的值</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

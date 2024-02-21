@@ -1,0 +1,157 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>[Cordova Week-2] Cordova Push Notification - Android</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="前言在 Mobile App 的開發中，推播通知已經是不可或缺的 App 功能之一，大部分的商業 APP 都一定有推播通知的功能，因此，這次要介紹如何安裝與使用 Phonegap Plugin Push 並透過 Azure Notification Hub 實現 Android 與 iOS 的即時推播訊息功能。
+什麼是 Phonegap-plugin-push?Phonegap-plugin-push 提供使用單一獨立的 API 來支援接收及處理原生 push notification。但這不是指我們可以發送單一個訊息並在不同作業系統上都能收到。基本上 Android 使用的是 FCM，iOS 則使用 APNS，而且他們的 payload 都很不一樣。即使在 Android 及 iOS 都使用 FCM，也是.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">[Cordova Week-2] Cordova Push Notification - Android</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Phonegap-plugin-push"><span class="toc-text">什麼是 Phonegap-plugin-push?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E9%9C%80%E6%B1%82"><span class="toc-text">安裝需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%AE%89%E8%A3%9D"><span class="toc-text">指令安裝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-Azure-%E9%80%9A%E7%9F%A5%E4%B8%AD%E6%A8%9E"><span class="toc-text">建立 Azure 通知中樞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%A6%E4%BD%9C-Cordova-App-%E6%8E%A5%E6%94%B6%E6%8E%A8%E6%92%AD%E9%80%9A%E7%9F%A5%E5%8A%9F%E8%83%BD"><span class="toc-text">實作 Cordova App 接收推播通知功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E8%A8%AD%E5%AE%9A"><span class="toc-text">初始化設定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%BB%E5%86%8A%E8%A3%9D%E7%BD%AE"><span class="toc-text">註冊裝置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-%E5%B9%B3%E5%8F%B0%E8%A8%AD%E5%AE%9A"><span class="toc-text">Android 平台設定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-FCM-Project"><span class="toc-text">建立 FCM Project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Azure-Notification-Hub-%E6%B8%AC%E8%A9%A6%E6%8E%A8%E6%92%AD"><span class="toc-text">Azure Notification Hub 測試推播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Cordova-Android"><i class="tag post-item-tag">Cordova-Android</i></a><a href="/tags/Cordova-iOS"><i class="tag post-item-tag">Cordova-iOS</i></a><a href="/tags/Phonegap%20plugin"><i class="tag post-item-tag">Phonegap plugin</i></a><a href="/tags/Push%20Notification"><i class="tag post-item-tag">Push Notification</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">[Cordova Week-2] Cordova Push Notification - Android</h1><time class="has-text-grey" datetime="2018-04-16T11:32:34.000Z">2018-04-16</time><article class="mt-2 post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Mobile App 的開發中，推播通知已經是不可或缺的 App 功能之一，大部分的商業 APP 都一定有推播通知的功能，因此，這次要介紹如何安裝與使用 Phonegap Plugin Push 並透過 Azure Notification Hub 實現 Android 與 iOS 的即時推播訊息功能。</p>
+<h2 id="什麼是-Phonegap-plugin-push"><a href="#什麼是-Phonegap-plugin-push" class="headerlink" title="什麼是 Phonegap-plugin-push?"></a>什麼是 Phonegap-plugin-push?</h2><p>Phonegap-plugin-push 提供使用<strong>單一獨立的 API</strong> 來支援接收及處理原生 push notification。但這不是指我們可以發送單一個訊息並在不同作業系統上都能收到。基本上 Android 使用的是 FCM，iOS 則使用 APNS，而且他們的 payload 都很不一樣。即使在 Android 及 iOS 都使用 FCM，也是需要提供不同的 payload 才能使套件正常運作。對 Android 來說，每一次的推播內容都會在 payload 存放 <code>data</code> 的物件，可以參考 <a target="_blank" rel="noopener" href="https://github.com/phonegap/phonegap-plugin-push/blob/master/docs/PAYLOAD.md#notification-vs-data-payloads">Notification vs Data Payload</a> 這篇文章。iOS 的話可以依照 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/cloud-messaging/http-server-ref">FCM documentation</a>。</p>
+<p>筆者主要是透過 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/azure/app-service-mobile/app-service-mobile-cordova-get-started-push">Azure Notification Hub</a> 發送推播訊息， Azure Notification Hub 同時提供了方便管理的介面，讓我們只需要透過一個通知中樞，並根據不同的平台提供不同的 payload 即可輕鬆的實現推播訊息通知的功能！</p>
+<h3 id="安裝需求"><a href="#安裝需求" class="headerlink" title="安裝需求"></a>安裝需求</h3><p>在安裝之前需要檢查一下對應的 Cordova 所支援的版本，若選擇的版本是較舊的 Cordova-Android 6.0.0 與  Cordova-iOS 4.3，則需要留意套件的版本要裝 1.9.0 的。</p>
+<table>
+<thead>
+<tr>
+<th>Plugin version</th>
+<th>Cordova CLI</th>
+<th>Cordova Android</th>
+<th>Cordova iOS</th>
+<th>CocoaPods</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.0.0</td>
+<td>7.0.0</td>
+<td>6.2.1</td>
+<td>4.4.0</td>
+<td>1.1.1</td>
+</tr>
+<tr>
+<td>1.9.0</td>
+<td>6.4.0</td>
+<td>6.0.0</td>
+<td>4.3.0</td>
+<td>1.1.1</td>
+</tr>
+<tr>
+<td>1.8.0</td>
+<td>3.6.3</td>
+<td>4.0.0</td>
+<td>4.1.0</td>
+<td>N&#x2F;A</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+
+<h3 id="指令安裝"><a href="#指令安裝" class="headerlink" title="指令安裝"></a>指令安裝</h3><p>透過指令工具進行安裝：</p>
+<pre><code class="bash">$ cordova plugin add phonegap-plugin-push
+</code></pre>
+<p>安裝完成後可以看到 <code>config.xml</code> 出現如下的內容：</p>
+<pre><code class="xml">&lt;plugin name=&quot;phonegap-plugin-push&quot; spec=&quot;^2.1.2&quot; /&gt;
+</code></pre>
+<h2 id="建立-Azure-通知中樞"><a href="#建立-Azure-通知中樞" class="headerlink" title="建立 Azure 通知中樞"></a>建立 Azure 通知中樞</h2><p>首先點選左上角建立資源，選擇 <code>Web + 行動</code> 的類別，可以看到 <code>Notification Hub</code>：</p>
+<p><img src="/images/cordova-week-2/create-azure-hub-step-1.png"></p>
+<p>輸入 Notification Hub 相關資料，完成後點擊建立按鈕：</p>
+<p><img src="/images/cordova-week-2/create-azure-hub-step-2.png"></p>
+<p>回到儀表板，可以看到剛建立好的通知中樞：</p>
+<p><img src="/images/cordova-week-2/azure-dash-board.png"></p>
+<p>點擊通知中樞可以看到詳細資訊：</p>
+<p><img src="/images/cordova-week-2/create-azure-hub-step-3.png" alt="NOTIFICATION SETTINGS 則是通知中樞所支援的平台"></p>
+<h2 id="實作-Cordova-App-接收推播通知功能"><a href="#實作-Cordova-App-接收推播通知功能" class="headerlink" title="實作 Cordova App 接收推播通知功能"></a>實作 Cordova App 接收推播通知功能</h2><ul>
+<li>Sample Code<ul>
+<li>Initialize PushNotification</li>
+<li>WebAPI Post platform info and device token</li>
+</ul>
+</li>
+</ul>
+<h4 id="初始化設定"><a href="#初始化設定" class="headerlink" title="初始化設定"></a>初始化設定</h4><pre><code class="typescript">  initNotification() &#123;
+    const senderID = environment.senderId;
+    const pushConfig: PhonegapPluginPush.InitOptions = &#123;
+      android: &#123;
+        senderID: senderID
+      &#125;,
+      ios: &#123; alert: true, badge: true, sound: true &#125;
+    &#125;;
+
+    this.pushNotification = PushNotification.init(pushConfig);
+    
+    // 進行註冊
+    this.pushNotification.on(&#39;registration&#39;, data =&gt; &#123;
+      // Get the native platform of the device.
+      const platform = device.platform;
+      // Get the handle returned during registration.
+      const registId = data.registrationId;
+      // Set the device-specific message template.
+      if (platform === &#39;android&#39; || platform === &#39;Android&#39;) &#123;
+        // Register for GCM notifications.
+        this.handleData = &#123; Platform: &#39;gcm&#39;, DeviceToken: registId &#125;;
+      &#125; else if (device.platform === &#39;iOS&#39;) &#123;
+        // Register for notifications.
+        this.handleData = &#123; Platform: &#39;apns&#39;, DeviceToken: registId &#125;;
+      &#125;
+      console.log(`取得 token`, data.registrationId);
+    &#125;);
+    
+    // 收到訊息時
+    this.pushNotification.on(&#39;notification&#39;, data =&gt; &#123;
+      console.log(`got notification!`, data);
+      // data.message,
+      // data.title,
+      // data.count,
+      // data.sound,
+      // data.image,
+      // data.additionalData
+    &#125;);
+    
+    // 發生錯誤時
+    this.pushNotification.on(&#39;error&#39;, e =&gt; &#123;
+      console.log(`Notification Error: $&#123;e.message&#125;`, e);
+    &#125;);
+  &#125;
+</code></pre>
+<h4 id="註冊裝置"><a href="#註冊裝置" class="headerlink" title="註冊裝置"></a>註冊裝置</h4><pre><code class="typescript">registDevice(): Observable&lt;any&gt; &#123;
+    // console.log(`進行推播註冊`, environment.serverUrl);
+    // console.log(`device token`, this.handleData.DeviceToken);
+    // console.log(`platform`, this.handleData.Platform);
+    return this.http
+      .post&lt;any&gt;(
+        environment.apiUrl,
+        this.handleData,
+      )
+      .pipe(
+        catchError(err =&gt; &#123;
+          console.log(`notificationService registDevice error`, err);
+          return Observable.throw(err);
+        &#125;)
+      );
+  &#125;
+</code></pre>
+<h2 id="Android-平台設定"><a href="#Android-平台設定" class="headerlink" title="Android 平台設定"></a>Android 平台設定</h2><h3 id="建立-FCM-Project"><a href="#建立-FCM-Project" class="headerlink" title="建立 FCM Project"></a>建立 FCM Project</h3><p>要推播訊息到 Android 系統，需要先建立 <a target="_blank" rel="noopener" href="https://console.firebase.google.com/">FCM</a> ( Firebase Cloud Message ) 專案，登入 Google 帳號後可以看到以下的畫面，點選新增專案：</p>
+<p><img src="/images/cordova-week-2/create-fcm-project-step-1.png"></p>
+<p>然後輸入專案相關資訊：專案名稱、ID 及國家或地區，並點擊建立專案。</p>
+<p><img src="/images/cordova-week-2/create-fcm-project-step-2.png"></p>
+<p>專案建立完成後，會進到專案的 dash board，點選左上角的齒輪展開選單，點擊<code>專案設定</code>：</p>
+<p><img src="/images/cordova-week-2/create-fcm-project-step-3.png"></p>
+<p>點選後會看到專案的相關資訊，捲軸滾到下方可以看到目前專案中沒有任何應用程式，點擊中間將 Firebase 加入您的 Android 應用程式的選項：</p>
+<p><img src="/images/cordova-week-2/fcm-create-android-app.png"></p>
+<p>點擊後進入新增 Android 應用程式的畫面，輸入 App 相關資訊，輸入完成後點擊註冊應用程式：</p>
+<p><img src="/images/cordova-week-2/fcm-create-android-app-2.png"></p>
+<p>註冊完成之後，點選 下載 google-services.json&#96; 按鈕進行下載，並將檔案存放在 Cordova 專案的根目錄。</p>
+<p><img src="/images/cordova-week-2/fcm-create-android-app-3.png"></p>
+<p>下載完成之後再回到 Cordova 專案的 <code>config.xml</code> 設定檔，在 Android 的 <code>platform</code> 區塊中加上以下的內容：</p>
+<pre><code class="xml"> &lt;platform name=&quot;android&quot;&gt;
+        &lt;allow-intent href=&quot;market:*&quot; /&gt;
+        &lt;resource-file src=&quot;google-services.json&quot; target=&quot;app/google-services.json&quot; /&gt;
+&lt;/platform&gt;
+</code></pre>
+<p>FCM 的部分設定完成後，我們還需要將 API Key 存放至 Azure Notification Hub 的設定中，因此回到專案的主控台，雖然在一般的分頁下可以看到 <code>網路 API 金鑰</code>，但這似乎還是舊版的，筆者在 Azure 輸入設定時會遇到錯誤的情況，因此新版的部分要點選 <code> CLOUD MESSAGING</code> 標籤進入：</p>
+<p><img src="/images/cordova-week-2/create-fcm-project-step-4.png"></p>
+<p>會看到專案憑證的資訊及寄件者 ID，而伺服器金鑰則是建立 Azure Notification Hub 之後要設定的 API Key：</p>
+<p><img src="/images/cordova-week-2/create-fcm-project-step-5.png"></p>
+<p>進入 Googel ( GCM ) 的設定，並將複製的 API Key 貼上：</p>
+<p><img src="/images/cordova-week-2/android-add-api-key.png"></p>
+<h3 id="Azure-Notification-Hub-測試推播"><a href="#Azure-Notification-Hub-測試推播" class="headerlink" title="Azure Notification Hub 測試推播"></a>Azure Notification Hub 測試推播</h3><p>完成設定之後，可以到側欄下方有個<code>支援與疑難排解</code>的類別，底下有個 <code>Test Send</code> 連結，點選後會看到測試發送的畫面，確認 Cordova App 的 Device Token 有順利註冊成功後，選擇 Android 平台即可立即發送測試。</p>
+<p><img src="/images/cordova-week-2/android-send-test.png"></p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>經過以上的介紹我們可以知道要如何安裝 <code>phonegap-plugin-push</code> 並建立 FCM Project 後，將 <code>google-service.json</code> 加入 Cordova 專案中，同時將伺服器金鑰設定至 Azure Notification Hub 中，最後來一發測試訊息，大功告成！</p>
+<p>Apple 的部分，由於需要另外建立推播服務的憑證，下篇文章會再針對 APNS 的部分去做說明，若沒接觸過 Apple Develope 後台，想實作推播功能的話，需要花點時間了解 Apple 的 App Identity 與憑證的建立方式，才能順利實作囉。</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/04/28/cordova-week-3/" title="[Cordova Week-3] Cordova Push Notification - iOS"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: [Cordova Week-3] Cordova Push Notification - iOS</span></a><a class="button is-default" href="/2018/04/08/cordova-week-1/" title="[Cordova Week-1] Hello Cordova!"><span class="has-text-weight-semibold">Next: [Cordova Week-1] Hello Cordova!</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

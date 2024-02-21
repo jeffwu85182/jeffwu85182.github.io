@@ -1,0 +1,81 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Day 14：讀 Quill Editor API 技術文件 - Selection</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="昨天研究並練習關於套用文本的行內與區塊樣式，初步把每個 API 的使用方式都看過一遍，今天輪到編輯器選取功能相關的 API，繼續給他看下去 XD
+getBounds這個方法非常實用，用於獲取指定索引或選取範圍的界限（bounds）。並返回一個包含界限的物件，裡面會有 left，top，width 以及 height 屬性，分別代表指定索引的左上角位置和尺寸。通常用來定位游標或選取的範圍在編輯器容器內的位置。例如可以利用這個方法決定在編輯器內容旁邊或是游標的位置顯示自訂的選單或者工具提示。
+方法：
+getBounds(index: Number, length: Number = 0): 
+    &amp;#123; left: Number, top: Number, height: Number, width:.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Day 14：讀 Quill Editor API 技術文件 - Selection</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#getBounds"><span class="toc-text">getBounds</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getSelection"><span class="toc-text">getSelection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setSelection"><span class="toc-text">setSelection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%9C%E8%A8%98"><span class="toc-text">雜記</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Day 14：讀 Quill Editor API 技術文件 - Selection</h1><time class="has-text-grey" datetime="2023-09-29T06:03:01.000Z">2023-09-29</time><article class="mt-2 post-content"><p>昨天研究並練習關於套用文本的行內與區塊樣式，初步把每個 API 的使用方式都看過一遍，今天輪到編輯器選取功能相關的 API，繼續給他看下去 XD</p>
+<h2 id="getBounds"><a href="#getBounds" class="headerlink" title="getBounds"></a>getBounds</h2><p>這個方法非常實用，用於獲取指定索引或選取範圍的界限（bounds）。並返回一個包含界限的物件，裡面會有 <code>left</code>，<code>top</code>，<code>width</code> 以及 <code>height</code> 屬性，分別代表指定索引的左上角位置和尺寸。通常用來定位游標或選取的範圍在編輯器容器內的位置。例如可以利用這個方法決定在編輯器內容旁邊或是游標的位置顯示自訂的選單或者工具提示。</p>
+<p>方法：</p>
+<pre><code class="typescript">getBounds(index: Number, length: Number = 0): 
+    &#123; left: Number, top: Number, height: Number, width: Number &#125;
+</code></pre>
+<p>範例：<br>先在編輯器的元素下面新增一個 <code>tooltip</code> 標籤：</p>
+<pre><code class="html">&lt;div id=&quot;tooltip&quot; style=&quot;display: none; position: absolute; background-color: lightgray;&quot;&gt; 我是一個小提示 &lt;/div&gt;
+</code></pre>
+<p>實現監聽事件，在文本選取的時候判斷選取的位置來顯示 tooltip：</p>
+<pre><code class="typescript">
+// 監聽文本選擇事件
+quill.on(&#39;selection-change&#39;, function(range) &#123;
+  if (range) &#123;
+    if (range.length &gt; 0) &#123;
+      // 獲取選擇範圍的界限
+      const bounds = quill.getBounds(range.index, range.length);
+      // 定位和顯示小提示
+      const tooltip = document.getElementById(&#39;tooltip&#39;);
+      tooltip.style.left = bounds.left + &#39;px&#39;;
+      tooltip.style.top = (bounds.top + bounds.height) + &#39;px&#39;;
+      tooltip.style.display = &#39;block&#39;;
+    &#125; else &#123;
+      // 隱藏小提示
+      const tooltip = document.getElementById(&#39;tooltip&#39;);
+      tooltip.style.display = &#39;none&#39;;
+    &#125;
+  &#125;
+&#125;);
+</code></pre>
+<p>效果如下：<br><img src="/2023/09/29/quill-day-14/20090749cNFuDeHiXF.png" alt="Tooltip 效果如下"></p>
+<h2 id="getSelection"><a href="#getSelection" class="headerlink" title="getSelection"></a>getSelection</h2><p>獲取編輯器中當前的選取範圍。可帶入 optional 參數 <code>focus</code>，如果為 <code>true</code>，則獲取焦點之後返回選取的範圍 <code>index</code> 與 <code>length</code>，如果為 <code>false</code>，則返回 <code>null</code>。</p>
+<p>方法：</p>
+<pre><code class="typescript">getSelection(focus = false): &#123; index: Number, length: Number &#125;
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">var range = quill.getSelection();
+if (range) &#123;
+  if (range.length == 0) &#123;
+    console.log(&#39;User cursor is at index&#39;, range.index);
+  &#125; else &#123;
+    var text = quill.getText(range.index, range.length);
+    console.log(&#39;User has highlighted: &#39;, text);
+  &#125;
+&#125; else &#123;
+  console.log(&#39;User cursor is not in editor&#39;);
+&#125;
+  
+</code></pre>
+<h2 id="setSelection"><a href="#setSelection" class="headerlink" title="setSelection"></a>setSelection</h2><p>設置編輯器中的選取範圍，這也會使編輯器是在 <code>focus</code> 的狀態。如果傳入的參數為 <code>null</code>，則會離開焦點並觸發 <code>blur</code> 事件。</p>
+<p>方法：</p>
+<pre><code class="typescript">setSelection(index: Number, length: Number = 0, source: String = &#39;api&#39;)
+setSelection(range: &#123; index: Number, length: Number &#125;, source: String = &#39;api&#39;)
+</code></pre>
+<p>範例：</p>
+<pre><code class="typescript">quill.setSelection(0, 5);
+</code></pre>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>稍微整理一下：</p>
+<ul>
+<li><code>getBounds</code>: 獲取指定索引的座標或界限資訊，常用於定位游標或選取範圍在編輯器內的位置。</li>
+<li><code>getSelection</code>: 獲取編輯器中當前的選取範圍，可用於判斷用戶選取的內容或游標位置。</li>
+<li><code>setSelection</code>: 設置編輯器中的選取範圍，使編輯器處於 Focus 狀態。</li>
+</ul>
+<p>今天詳細探討了編輯器的 Selection 功能，Quill 提供了選取範圍相關的控制方法，到目前為止，無論是文本樣式或是內容選取，可以看到大部分的操作都離不開 <code>index</code> 與 <code>length</code>，而 <code>range</code> 是一個滿方便使用的參數，可以知道選取的起點以及選取的長度，以便我們在自訂功能的時候可以做為位置索引的參考。</p>
+<h4 id="雜記"><a href="#雜記" class="headerlink" title="雜記"></a>雜記</h4><p>已經好幾年沒有玩過手機遊戲了，最近上下班通勤時間都會玩一款新的手機遊戲叫 Monster Hunter Now，整體還滿有趣的，是 Niantic 也就是開發 Ingress 以及 Pokemon Go 的開發商，這遊戲也是要走出去戶外實際去看地圖上有哪些資源以及魔物，也能夠與其他玩家來進行遊戲。不過有個小缺點，就是當 HP 不夠的時候需要使用藥水，那個藥水除了每天提供五罐免費的之外，其他時間若喝完的話，就需要等時間回復或者直接打開線上商城買藥水道具，就是要課金的意思，但畢竟是休閒，沒血的話就乖乖的等待回滿再繼續被魔物虐了 XD</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/quill-editor-todo/commit/5a1302ac5145a19ebd6df9db2f9d6f22c4a66141">今日份的練習</a></li>
+<li><a target="_blank" rel="noopener" href="https://quilljs.com/docs/api/#selection">API - Quill Rich Text Editor (quilljs.com)</a></li>
+</ul>
+<p>文章同步發表於<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10330722">2023 iThome 鐵人賽</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/09/30/quill-day-15/" title="Day 15：讀 Quill Editor API 技術文件 - Editor"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Day 15：讀 Quill Editor API 技術文件 - Editor</span></a><a class="button is-default" href="/2023/09/28/quill-day-13/" title="Day 13：讀 Quill Editor API 技術文件 - Formatting"><span class="has-text-weight-semibold">Next: Day 13：讀 Quill Editor API 技術文件 - Formatting</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

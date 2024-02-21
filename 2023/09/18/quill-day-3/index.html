@@ -1,0 +1,127 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Day 3：Quill 與 Angular 起手式</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="上一篇我們看了 Why Quill，今天就來複習環境設置，並嘗試新增一個 Angular 專案，不過如果你是被標題吸引進來的同學，多少都有接觸過 Angular，或者主要就是用 Angular 開發的。這篇的目標是給沒接觸過 Angular 的朋友按照步驟體驗看看用 Angular 開發專案的感受。以前當過一陣子的 Angular 傳教士，雖然後來因為工作的關係換寫 React，但個人私心還是比較喜歡 Angular 的開發體驗 XD
+什麼是 Quill？Quill 是一個簡單易用且可擴展的 WYSIWYG 開源文本編輯器，它提供了豐富的文本編輯功能，包括格式化文字、插入圖片、表格和連結等。Quill 的設計簡單、易於使用，它是以 JavaScript 為基礎，並且提供了豐富的插件和擴充功能，讓使用者可以輕.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Day 3：Quill 與 Angular 起手式</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Quill%EF%BC%9F"><span class="toc-text">什麼是 Quill？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Angular%EF%BC%9F"><span class="toc-text">什麼是 Angular？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E5%92%8C%E9%85%8D%E7%BD%AE-Quill-Editor-%E5%9C%A8-Angular-%E5%B0%88%E6%A1%88%E4%B8%AD"><span class="toc-text">安裝和配置 Quill Editor 在 Angular 專案中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-text">小結</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%9C%E8%A8%98%EF%BC%9A"><span class="toc-text">雜記：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/15th%2030%20Days%20Challenge"><i class="tag post-item-tag">15th 30 Days Challenge</i></a><a href="/tags/Quill"><i class="tag post-item-tag">Quill</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Day 3：Quill 與 Angular 起手式</h1><time class="has-text-grey" datetime="2023-09-18T14:39:28.000Z">2023-09-18</time><article class="mt-2 post-content"><p><img src="/images/quill-day-3/20090749dwlMNWNaj5.png" alt="Quill"><br>上一篇我們看了 Why Quill，今天就來複習環境設置，並嘗試新增一個 Angular 專案，不過如果你是被標題吸引進來的同學，多少都有接觸過 Angular，或者主要就是用 Angular 開發的。這篇的目標是給沒接觸過 Angular 的朋友按照步驟體驗看看用 Angular 開發專案的感受。以前當過一陣子的 Angular 傳教士，雖然後來因為工作的關係換寫 React，但個人私心還是比較喜歡 Angular 的開發體驗 XD</p>
+<h2 id="什麼是-Quill？"><a href="#什麼是-Quill？" class="headerlink" title="什麼是 Quill？"></a>什麼是 Quill？</h2><p>Quill 是一個簡單易用且可擴展的 WYSIWYG 開源文本編輯器，它提供了豐富的文本編輯功能，包括格式化文字、插入圖片、表格和連結等。Quill 的設計簡單、易於使用，它是以 JavaScript 為基礎，並且提供了豐富的插件和擴充功能，讓使用者可以輕鬆地滿足各種文本編輯的需求。</p>
+<blockquote>
+<p>WYSIWYG (What You See Is What You Get) 縮寫。<br>初次看到的時候也一頭霧水，就是所見即所得。</p>
+</blockquote>
+<h2 id="什麼是-Angular？"><a href="#什麼是-Angular？" class="headerlink" title="什麼是 Angular？"></a>什麼是 Angular？</h2><p>Angular 是一個基於 <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/">TypeScript</a> 的開發平台。而身為一個平台，Angular 包含：</p>
+<ul>
+<li>一個元件化的框架，用來建構可延展的 Web 應用程式。</li>
+<li>一整套經深思熟慮而整合出來的函式庫，包含各種不同的功能，包含路由機制、表單管理、Client&#x2F;Server 通訊，以及更多。</li>
+<li>一組完善的開發工具，幫助你開發、建置、測試、更新你的程式碼。</li>
+</ul>
+<h2 id="安裝和配置-Quill-Editor-在-Angular-專案中"><a href="#安裝和配置-Quill-Editor-在-Angular-專案中" class="headerlink" title="安裝和配置 Quill Editor 在 Angular 專案中"></a>安裝和配置 Quill Editor 在 Angular 專案中</h2><p>首先我們需要準備 Node.js 環境，然後安裝 Angular CLI 並使用指令建立新專案，最後到專案目錄下用 NPM 安裝 Quill，步驟如下：</p>
+<ol>
+<li>在 Angular 專案中安裝 Quill 函式庫：使用 npm 或者 yarn 安裝 Quill，確保在專案中引入所需的 dependency：</li>
+</ol>
+<pre><code class="bash"># 安裝 Angular CLI
+npm install @angular/cli
+
+# 建立一個新專案
+ng new quill-editor-todo
+# 建立的過程會有一些提問，按照需求選擇即可，例如:
+# 要不要分享資料給官方作為改善用途: Yes
+# 選擇 Style 的語言: SCSS
+# 是否建立 Routing: No
+
+# Install Quill Editor
+cd quill-editor-todo
+npm install quill@1.3.6 --save
+
+# Install Quill Editor Types
+npm install @types/quill@1 --save-dev
+</code></pre>
+<ol start="2">
+<li>引入 Quill Style</li>
+</ol>
+<pre><code>&#123;
+  // ...
+  &quot;architect&quot;: &#123;
+    &quot;build&quot;: &#123;
+      &quot;options&quot;: &#123;
+        &quot;styles&quot;: [
+          &quot;node_modules/quill/dist/quill.snow.css&quot;,
+          &quot;src/styles.css&quot;
+        ],
+        // ...
+      &#125;,
+      // ...
+    &#125;,
+    // ...
+  &#125;
+&#125;
+</code></pre>
+<ol start="3">
+<li>建立 Quill Editor 元件，來試試看 standalone：</li>
+</ol>
+<pre><code class="bash"># 建立一個 standalone component
+ng generate component quill-editor --standalone
+</code></pre>
+<p>在 Component 的 template 簡單的加上一個帶有 Id 的 <code>div</code> 標籤</p>
+<pre><code class="html">&lt;!-- quill-editor.component.html --&gt; 
+&lt;div id=&quot;quill&quot; #quillContainer&gt;&lt;/div&gt;
+</code></pre>
+<ol start="4">
+<li>在 quill-editor component 初始化 Quill Editor：</li>
+</ol>
+<pre><code class="typescript">// quill-editor.component.ts
+import Quill from &#39;quill&#39;;
+import &#123; AfterViewInit, Component, ElementRef, ViewChild &#125; from &#39;@angular/core&#39;;
+import &#123; CommonModule &#125; from &#39;@angular/common&#39;;
+
+@Component(&#123;
+  selector: &#39;app-quill-editor&#39;,
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: &#39;./quill-editor.component.html&#39;,
+  styleUrls: [&#39;./quill-editor.component.css&#39;],
+&#125;)
+export class QuillEditorComponent implements AfterViewInit &#123;
+  @ViewChild(&#39;quillContainer&#39;) quillContainer!: ElementRef;
+  private quillEditor: any;
+
+  content: string = &#39;&#39;; // 初始化編輯器內容為空字串
+
+  ngAfterViewInit() &#123;
+    this.quillEditor = new Quill(this.quillContainer.nativeElement, &#123;
+      // this.quillEditor = new Quill(&quot;#quill&quot;, &#123; // also works
+      theme: &#39;snow&#39;, // 可以選擇不同的主題，例如 &#39;bubble&#39; 或 &#39;core&#39;
+    &#125;);
+  
+    // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
+    this.quillEditor.on(&#39;text-change&#39;, () =&gt; &#123;
+      this.content = this.quillEditor.root.innerHTML;
+    &#125;);
+  &#125;
+&#125;
+</code></pre>
+<p>雖然透過 <code>AfterViewInit</code> 可以拿到對應的 <code>id</code> selector，但用 <code>@ViewChild</code> 可以更符合 Angular 的操作方式來獲取 DOM，因此我們還是使用 <code>this.quillContainer.nativeElement</code> 來初始化 Quill。</p>
+<p>當執行 <code>ng serve</code> 時，會看到這樣的 warning：</p>
+<pre><code>Warning: D:\Projects\quill-editor-todo\src\app\quill-editor\quill-editor.component.ts depends on &#39;quill&#39;. CommonJS or AMD dependencies can cause optimization bailouts.
+</code></pre>
+<p>這是由於 Quill 是屬於 CommonJS module，進而影響到未來在建置的時候打包優化的問題。目前如果不想看到這個訊息，可以直接在 <code>project.json</code> 或 <code>angular.json</code> 裡面的 <code>build</code> 底下新增：</p>
+<pre><code class="json">&quot;allowedCommonJsDependencies&quot;: [&quot;quill&quot;]
+</code></pre>
+<p>再 <code>ng serve</code> 一次就不會看到 warning 了。</p>
+<p>最後在 app component import <code>QuillEditorComponent</code>，並且在 <code>app.component.html</code> 加上 tag：</p>
+<pre><code class="html">&lt;app-quill-editor&gt;&lt;/app-quill-editor&gt;
+</code></pre>
+<p><code>ng serve</code> 並重新整理，試著在編輯器中輸入文字、調整文字樣式，以及插入連結等功能，來體驗 Quill Editor 的基本編輯功能。</p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們體驗了如何安裝 Angular CLI ，並透過指令建立新專案後加入 Quill，讓我們能夠在這個專案輕鬆擁有一個功能豐富的文字編輯器。明天我們將會依照內建的功能介紹關於 Quill Editor 的應用，之後會提供一些實例和程式碼來幫助讀者更好理解如何操作。</p>
+<blockquote>
+<p>備註：如果你的 VSCode 有安裝 Nx console，這時候 Extension 會跳出來詢問是否直接套用 Nx，這個步驟可用可不用，筆者提供的範例是有透過 Nx 自動初始化，所以會和原本的 Angular 初始專案不太一樣。</p>
+</blockquote>
+<h4 id="雜記："><a href="#雜記：" class="headerlink" title="雜記："></a>雜記：</h4><p>很久沒玩手機遊戲了，最近跟室友開始玩魔物獵人 Now，跟 Pokemon Go 一樣，需要走到戶外才能玩這遊戲，邊散步邊打魔物感覺還滿新鮮的。給自己另一個出去走走的理由 XD</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeffwu85182/quill-editor-todo">練習範例 Repo</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Angular_getting_started">Angular 新手入門 - 學習該如何開發 Web | MDN (mozilla.org)</a></li>
+<li><a target="_blank" rel="noopener" href="https://quilljs.com/docs/quickstart/">Quickstart - Quill Rich Text Editor (quilljs.com)</a></li>
+</ul>
+<p>文章同步發表於<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10321755">2023 iThome 鐵人賽</a></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/09/19/quill-day-4/" title="Day 4：Quill Editor 的基本操作與編輯功能"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: Day 4：Quill Editor 的基本操作與編輯功能</span></a><a class="button is-default" href="/2023/09/17/quill-day-2/" title="Day 2：Why Quill？"><span class="has-text-weight-semibold">Next: Day 2：Why Quill？</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Jeff's Note</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/widget-post-list.css"><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><article class="post-container is-flex is-justify-content-center section container is-max-widescreen pt-4 px-2"><div class="columns is-variable is-1-tablet is-3-desktop-only is-2-widescreen is-full-width"><section class="column"><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><header><a href="/tags/Angular%202"><i class="tag post-item-tag">Angular 2</i></a><a href="/tags/ngModel"><i class="tag post-item-tag">ngModel</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2016/08/03/inside-ng-model/">Angular 2 ngModel 的內幕(?)</a></h2><time class="has-text-grey" datetime="2016-08-02T17:27:56.000Z">2016-08-03</time><p class="is-flex-grow-2 mt-2">關於 NgModel這篇文章主要來深入討論 [(ngModel)]，若你已經有在開發 Angular 2 的專案，或是自己嘗試練習 Angular 的過程中， [(ngModel)] 一定會接觸到的語法，透過[(ngModel)] 實現雙向繫結的功能，但，為什麼要使用中括號和小括號呢？
+其實，繫結語法中的  [( )]  符號是一個很好的提示。</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2016/08/03/inside-ng-model/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/images/angular2-forms-study/angualr-warn-console.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2016/07/30/angular2-forms-study/"><img class="post-cover-img js-img-fadeIn" src="/images/angular2-forms-study/angualr-warn-console.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/Angular%202"><i class="tag post-item-tag">Angular 2</i></a><a href="/tags/Forms"><i class="tag post-item-tag">Forms</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2016/07/30/angular2-forms-study/">Angular 2 Forms 介紹</a></h2><time class="has-text-grey" datetime="2016-07-30T05:30:03.000Z">2016-07-30</time><p class="is-flex-grow-2 mt-2">前言Angular 2 目前已經來到 RC 4 了，相信再過不久就會即將正式的 Release，這次就先針對官網上表單（Forms）文件的部分來做研究與紀錄。之後再寫其他關於 Angular 2 的介紹。現今的 Web 應用 ，不論是登入頁面、會員申請、購物車等各式各樣的應用一定都會使用到表單，透過表單來建立一個有凝聚力且有效、引人注目的資料輸入體驗。Angular 表單整合了使用者資料繫結控制，追蹤變更、驗證輸入的正確性並提供錯誤訊息顯示。
+我們將會從頭開始建立一個範例表單，分成幾個項目並按照逐一實作。實作的項目有：
+
+使用 Component 與 Template 建立一個 Angular 表單
+使用 [(ngModel)] 語法實現雙向資料繫結，提供讀取與寫入控制項的值
+結合一個表單來使用  ngMo..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2016/07/30/angular2-forms-study/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/images/hexo-template-page-button/1-the-next-issue.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2016/07/23/hexo-template-page-button/"><img class="post-cover-img js-img-fadeIn" src="/images/hexo-template-page-button/1-the-next-issue.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/template%20issue"><i class="tag post-item-tag">template issue</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2016/07/23/hexo-template-page-button/">Hexo 預設 template 頁面切換按鈕問題</a></h2><time class="has-text-grey" datetime="2016-07-22T16:07:47.000Z">2016-07-23</time><p class="is-flex-grow-2 mt-2">最近開始在使用 Hexo 來寫部落格文章，這是一個 blog framework，使用起來很方便。只要透過 Markdown 語法就可以做出常用的基本排版了，之後再寫篇介紹的文章囉！
+今天遇到了一個問題，Hexo 的預設佈景主題 landscape 文章列表的頁面切換按鈕顯示異常。看到覺得奇怪，難道這是什麼神奇的格式嗎？
+
+經過抽絲剝繭的調查，原來是預設的佈景主題在頁面切換的按鈕語法似乎寫錯了。下面是 template 中 archive.ejs 的檔案其中一部分的內容，主要就是 page-nav 的部分有誤。
+&amp;lt;% if (page.total &amp;gt; 1)&amp;#123; %&amp;gt;
+  &amp;lt;nav id=&amp;quot;page-nav&amp;quot;&amp;gt;
+    &amp;lt;%- paginator..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2016/07/23/hexo-template-page-button/">Read more</a></section></article><article class="post-item-card"><header class="is-relative is-flex"><div class="post-cover-backdrop is-hidden"><img src="/images/vscode-file-display/1-no-file-hidden.png" alt="loading.."></div><a class="post-cover-link has-text-centered skeleton" href="/2016/07/21/vscode-file-display/"><img class="post-cover-img js-img-fadeIn" src="/images/vscode-file-display/1-no-file-hidden.png" alt="loading.." data-backdrop="true"></a></header><section class="content post-card-content p-4 pb-5"><header><a href="/tags/Visual%20Studio%20Code"><i class="tag post-item-tag">Visual Studio Code</i></a><a href="/tags/VScode%20%E8%A8%AD%E5%AE%9A"><i class="tag post-item-tag">VScode 設定</i></a></header><h2 class="mt-4 mb-0 is-family-serif"><a href="/2016/07/21/vscode-file-display/">VS Code 檔案顯示設定</a></h2><time class="has-text-grey" datetime="2016-07-21T12:24:33.000Z">2016-07-21</time><p class="is-flex-grow-2 mt-2">開始寫 Typescript 之後…編譯後的檔案都會出現在同一個地方，導致每次點選檔案的時候都要留一下自己點到的到底是 ts 還是 js 很不方面。因此開始尋找是否有辦法可以隱藏 Typescript 編譯後的檔案，畢竟我們很少會去看編譯後的檔案，除了一開始學習 typescript 時，會觀察一下編譯前後的變化…但，到後面還是覺得隱藏起來比較方便！
+</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2016/07/21/vscode-file-display/">Read more</a></section></article><article class="post-item-card"><section class="content post-card-content p-4 pb-5"><h2 class="mt-4 mb-0 is-family-serif"><a href="/2014/10/09/http-status-the-status-notes/">Http status 狀態筆記</a></h2><time class="has-text-grey" datetime="2014-10-08T23:28:00.000Z">2014-10-09</time><p class="is-flex-grow-2 mt-2">HTTP Status 狀態代表的意思網頁接收到伺服器的回應後，都會自動去判讀網頁的狀態，其中的 Http Status 代碼的意思如下：
+- 200 伺服器回應Data成功。
+- 206 取得片段資料，Http Request 中有的 Range 屬性，可以指定要取得那一段Bytes數。
+- 301 目標網頁移到新網址(永久轉址)。
+- 302 暫時轉址
+- 304 已讀取過的圖片或網頁，由瀏覽器緩存 (cache) 中讀取。
+- 401 需身分驗證，如 SSL key or htaccess pasword。
+- 403 沒有權限讀取，可能是 IP 被阻檔或是伺服器限制。
+- 404 伺服器未找到目標網址，檔案不存在。
+- 408 Client Request timeout
+- 411 沒有指定 co..</p><a class="button is-default mt-2 has-text-weight-semibold" href="/2014/10/09/http-status-the-status-notes/">Read more</a></section></article><section class="paginator is-flex is-justify-content-flex-end is-flex-wrap-wrap mt-5"><a class="extend prev" rel="prev" href="/page/11/"><i class="iconfont icon-prev has-text-grey"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/"><i class="iconfont icon-next has-text-grey"></i></a></section></section><aside class="column is-hidden-mobile is-4-tablet is-3-widescreen"><style>.search-widget .search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--second-text-color);
+}
+.search-widget .search-content {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 3px);
+    z-index: 2;
+
+    width: 100%;
+    height: 0;
+    max-height: 550px;
+
+    overflow: auto;
+    box-sizing: border-box;
+
+    background: var(--top-bar-bg-color);
+    backdrop-filter: blur(var(--backdropFilter));
+    -webkit-backdrop-filter: blur(var(--backdropFilter));
+
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-widget .search-content a:hover h5 {
+    color: #3273dc!important;
+}
+</style><main class="aside-card-container search-widget is-relative"><label for="searchInput"><div class="is-flex px-4" id="searchButton"><i class="iconfont icon--search1 mr-1"></i><input class="search-input is-flex-grow-1" id="searchInput" placeholder="Search everything.."></div></label><section class="search-content content" id="searchContent"></section></main><script>var searchDatabase = []
+var searchInputEl = document.getElementById('searchInput')
+var searchButtonEl = document.getElementById('searchButton')
+var searchResultEl = document.getElementById('searchContent')
+
+searchInputEl.oninput = function (evt) {
+    var searchValue = evt.srcElement.value
+    var haveSearchValue = Boolean(searchValue.trim())
+    if (!haveSearchValue) {
+        searchResultEl.style.height = 0
+        searchResultEl.innerHTML = null
+        return
+    }
+
+    var searchResults = searching(searchValue)
+
+    if (searchResults.length > 0) {
+        renderSearchResults(searchResults)
+    }
+}
+
+function renderSearchResults(results) {
+    searchResultEl.innerHTML = null
+    var fragment = document.createDocumentFragment()
+
+    results.forEach(function (item) {
+        var link = document.createElement('a')
+        var title = document.createElement('h5')
+        var content = document.createElement('p')
+
+        title.className = 'mb-1'
+        title.innerText = item.title
+        content.innerText = item.content
+
+        link.href = item.link
+        link.appendChild(title)
+        link.appendChild(content)
+        link.className = 'p-4 is-block'
+
+        fragment.appendChild(link)
+    })
+
+    searchResultEl.appendChild(fragment)
+    searchResultEl.style.height = 'auto'
+}
+
+function searching(inputText) {
+    var inputTexts = inputText.split(' ')
+    var searchResults = []
+    inputTexts.forEach(function (searchKey) {
+        var haveSearchValue = Boolean(searchKey.trim())
+        if (!haveSearchValue) return
+
+        var key = searchKey.toLowerCase()
+
+        for (var entry of searchDatabase) {
+            var title = entry.getElementsByTagName('title')[0].textContent
+            var link = entry.getElementsByTagName('link')[0].getAttribute('href')
+            var contentWithTags = entry.getElementsByTagName('content')[0].textContent
+            var rawContent = contentWithTags.trim().replace(/<[^>]+>/g, '').toLowerCase()
+
+            var LENGTH = 80
+            var finalContent = ''
+            var contentLength = rawContent.length
+            var searchResultIdx = rawContent.indexOf(key)
+
+            var startIdx = searchResultIdx - 20,
+                endIdx = startIdx + LENGTH
+
+            if (startIdx < 0) {
+                startIdx = 0
+                endIdx = 100
+            }
+
+            endIdx > contentLength && (endIdx = contentLength)
+
+            finalContent = rawContent.substring(startIdx, endIdx)
+
+            if (title.indexOf(key) > -1 || searchResultIdx > -1) {
+                searchResults.push({
+                    link: link,
+                    title: title,
+                    content: finalContent
+                })
+            }
+        }
+    })
+    return searchResults
+}
+
+searchButtonEl.onclick = function () {
+    if (searchDatabase.length > 0) return;
+
+    fetch(window.location.href + '/search.xml').then(res => res.text()).then(res => {
+        var domparser = new DOMParser
+        var doc = domparser.parseFromString(res, 'application/xml')
+        searchDatabase = doc.getElementsByTagName('search')[0].children
+    })
+}</script><main class="aside-card-container profile-widget"><!-- todo: 使用取色工具动态阴影--><section class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center"><section class="is-flex is-justify-content-center avatar is-clipped skeleton"><!-- debug images "https://api.ixiaowai.cn/gqapi/gqapi.php"--><img class="js-img-fadeIn" src="https://s.gravatar.com/avatar/d08075428662d37b51ef71ac4ddeaea3?s=320" alt="user avatar"></section><h3 class="user-name">Jeff Wu</h3><blockquote class="has-text-centered is-relative"><span style="margin-bottom: 5px;">Don't forget the original intention. Always keen on learning and exploring new things.</span></blockquote><address class="has-text-centered has-text-grey"><i class="iconfont icon-location" style="margin-right: 5px;"></i><span class="has-text-grey">Taipei, Taiwan</span></address></section><section class="sns-container is-flex is-justify-content-center is-align-items-center"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section></main><main class="aside-card-container recent-widget"><h3>Recent</h3><ul><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=An" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2016/08/03/inside-ng-model/">Angular 2 ngModel 的內幕(?)</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2016-08-02T17:27:56.000Z">2016-08-03</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/images/angular2-forms-study/angualr-warn-console.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2016/07/30/angular2-forms-study/">Angular 2 Forms 介紹</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2016-07-30T05:30:03.000Z">2016-07-30</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/images/hexo-template-page-button/1-the-next-issue.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2016/07/23/hexo-template-page-button/">Hexo 預設 template 頁面切換按鈕問題</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2016-07-22T16:07:47.000Z">2016-07-23</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="/images/vscode-file-display/1-no-file-hidden.png" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2016/07/21/vscode-file-display/">VS Code 檔案顯示設定</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2016-07-21T12:24:33.000Z">2016-07-21</time></section></li><li class="is-flex"><!-- change to element replace image placeholder--><img class="js-img-fadeIn" src="https://ui-avatars.com/api/?background=f5f5f5&amp;name=Ht" alt="cover"><!--else--><!--    div.post-img-placeholder--><section class="is-flex-grow-2"><p class="has-text-weight-semibold" style="line-height: 20px; font-size: 14px"><a href="/2014/10/09/http-status-the-status-notes/">Http status 狀態筆記</a></p><time class="has-text-weight-semibold has-text-grey" datetime="2014-10-08T23:28:00.000Z">2014-10-09</time></section></li></ul></main><main class="aside-card-container categories-widget category-page"><h3>Categories</h3><section><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Bootstap/">Bootstap</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Cordova/">Cordova</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTML/">HTML</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Optimization/">Optimization</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SASS/">SASS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a><span class="category-list-count">1</span></li></ul></section></main><main class="aside-card-container archives-widget"><h3>Archives</h3><section><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">4</span></li></ul></section></main><main class="aside-card-container tag-widget"><h3>Tags</h3><section><a href="/tags/Angular%202"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 2</span></a><a href="/tags/Angular-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular-CLI</span></a><a href="/tags/Directive"><span class="tag post-item-tag" style="margin-bottom: 5px;">Directive</span></a><a href="/tags/Attribute%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Attribute Directives</span></a><a href="/tags/Structural%20Directives"><span class="tag post-item-tag" style="margin-bottom: 5px;">Structural Directives</span></a><a href="/tags/Note"><span class="tag post-item-tag" style="margin-bottom: 5px;">Note</span></a><a href="/tags/Angular%2016"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 16</span></a><a href="/tags/SSR"><span class="tag post-item-tag" style="margin-bottom: 5px;">SSR</span></a><a href="/tags/Hydration"><span class="tag post-item-tag" style="margin-bottom: 5px;">Hydration</span></a><a href="/tags/Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Forms</span></a><a href="/tags/Model-Driven"><span class="tag post-item-tag" style="margin-bottom: 5px;">Model-Driven</span></a><a href="/tags/Firebase%20Functions"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Functions</span></a><a href="/tags/Firebase%20Hosting"><span class="tag post-item-tag" style="margin-bottom: 5px;">Firebase Hosting</span></a><a href="/tags/Angular%20Standalone%20Component"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular Standalone Component</span></a><a href="/tags/Template-Driven-Forms"><span class="tag post-item-tag" style="margin-bottom: 5px;">Template-Driven-Forms</span></a><a href="/tags/css"><span class="tag post-item-tag" style="margin-bottom: 5px;">css</span></a><a href="/tags/atomic-css"><span class="tag post-item-tag" style="margin-bottom: 5px;">atomic-css</span></a><a href="/tags/capacitor"><span class="tag post-item-tag" style="margin-bottom: 5px;">capacitor</span></a><a href="/tags/hybrid%20app"><span class="tag post-item-tag" style="margin-bottom: 5px;">hybrid app</span></a><a href="/tags/ionic%204"><span class="tag post-item-tag" style="margin-bottom: 5px;">ionic 4</span></a><a href="/tags/Angular%20with%20cordova"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular with cordova</span></a><a href="/tags/Cordova%20environment%20prepare"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova environment prepare</span></a><a href="/tags/Cordova-CLI"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-CLI</span></a><a href="/tags/Cordova-Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-Android</span></a><a href="/tags/Cordova-iOS"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova-iOS</span></a><a href="/tags/Phonegap%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">Phonegap plugin</span></a><a href="/tags/Push%20Notification"><span class="tag post-item-tag" style="margin-bottom: 5px;">Push Notification</span></a><a href="/tags/Azure%20Notification%20Hub"><span class="tag post-item-tag" style="margin-bottom: 5px;">Azure Notification Hub</span></a><a href="/tags/cordova%20plugin%20file"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin file</span></a><a href="/tags/file"><span class="tag post-item-tag" style="margin-bottom: 5px;">file</span></a><a href="/tags/Cordova%20Android"><span class="tag post-item-tag" style="margin-bottom: 5px;">Cordova Android</span></a><a href="/tags/cordova%20plugin"><span class="tag post-item-tag" style="margin-bottom: 5px;">cordova plugin</span></a><a href="/tags/geolocation"><span class="tag post-item-tag" style="margin-bottom: 5px;">geolocation</span></a><a href="/tags/scrollTop"><span class="tag post-item-tag" style="margin-bottom: 5px;">scrollTop</span></a><a href="/tags/convert"><span class="tag post-item-tag" style="margin-bottom: 5px;">convert</span></a><a href="/tags/template%20issue"><span class="tag post-item-tag" style="margin-bottom: 5px;">template issue</span></a><a href="/tags/Dialog"><span class="tag post-item-tag" style="margin-bottom: 5px;">Dialog</span></a><a href="/tags/ngModel"><span class="tag post-item-tag" style="margin-bottom: 5px;">ngModel</span></a><a href="/tags/Angular%206"><span class="tag post-item-tag" style="margin-bottom: 5px;">Angular 6</span></a><a href="/tags/angular/cli"><span class="tag post-item-tag" style="margin-bottom: 5px;">angular/cli</span></a><a href="/tags/ng%20update"><span class="tag post-item-tag" style="margin-bottom: 5px;">ng update</span></a><a href="/tags/Polyfill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Polyfill</span></a><a href="/tags/FuxkIE"><span class="tag post-item-tag" style="margin-bottom: 5px;">FuxkIE</span></a><a href="/tags/15th%2030%20Days%20Challenge"><span class="tag post-item-tag" style="margin-bottom: 5px;">15th 30 Days Challenge</span></a><a href="/tags/Quill"><span class="tag post-item-tag" style="margin-bottom: 5px;">Quill</span></a><a href="/tags/github"><span class="tag post-item-tag" style="margin-bottom: 5px;">github</span></a><a href="/tags/sass"><span class="tag post-item-tag" style="margin-bottom: 5px;">sass</span></a><a href="/tags/extend"><span class="tag post-item-tag" style="margin-bottom: 5px;">extend</span></a><a href="/tags/Visual%20Studio%20Code"><span class="tag post-item-tag" style="margin-bottom: 5px;">Visual Studio Code</span></a><a href="/tags/VScode%20%E8%A8%AD%E5%AE%9A"><span class="tag post-item-tag" style="margin-bottom: 5px;">VScode 設定</span></a></section></main><main class="aside-card-container friend-widget"><h3>Friends</h3><section><a target="_blank" rel="noopener" href="https://www.google.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">CK's Notepad</span></a><a target="_blank" rel="noopener" href="https://blog.miniasp.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">The Will Will Web</span></a><a target="_blank" rel="noopener" href="https://jiaming0708.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Secret Note</span></a><a target="_blank" rel="noopener" href="https://blog.poychang.net/"><span class="tag post-item-tag" style="margin-bottom: 5px;">I am PC</span></a><a target="_blank" rel="noopener" href="https://dog0416.blogspot.com/"><span class="tag post-item-tag" style="margin-bottom: 5px;">Duran 的技術冶煉廠</span></a><a target="_blank" rel="noopener" href="https://fullstackladder.dev/blog/"><span class="tag post-item-tag" style="margin-bottom: 5px;">全端開發人員天梯</span></a><a target="_blank" rel="noopener" href="https://kyleap.github.io/"><span class="tag post-item-tag" style="margin-bottom: 5px;">凱哥打扣</span></a></section></main></aside></div></article><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script>$claudia.fadeInImage(null, $claudia.blurBackdropImg)
+
+window.addEventListener('resize', $claudia.throttle(function () {
+    var images = document.querySelectorAll('.js-img-fadeIn')
+
+    images.forEach($claudia.blurBackdropImg)
+}, 150))</script></body></html>

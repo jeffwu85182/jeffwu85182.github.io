@@ -1,0 +1,56 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>Bootstap nav-scroller 用法紀錄</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="現在 Bootstrap 非常的流行，只要打好 html 架構後套上 class 就可以呈現出很有質感的效果。
+今天用 Bootstrap 製作 nav 導覽列點擊連結移動到同頁面的目標區塊，使它有動態滾動捲軸的效果，
+於是找到了 scrolling-nav.js !!
+我們來看下方的原始碼
+
+
+
+&amp;lt;script src=&amp;quot;./js/scrolling-nav.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;div id=&amp;quot;nav&amp;quot; class=&amp;quot;navbar navbar-inverse navbar-fixed-top&amp;quot; role=&amp;quot;navigation&amp;quot;&amp;gt;
+      &amp;lt;div class=&amp;quo.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Bootstap nav-scroller 用法紀錄</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Bootstap nav-scroller 用法紀錄</h1><time class="has-text-grey" datetime="2014-09-10T22:48:00.000Z">2014-09-11</time><article class="mt-2 post-content"><p>現在 Bootstrap 非常的流行，只要打好 html 架構後套上 class 就可以呈現出很有質感的效果。</p>
+<p>今天用 Bootstrap 製作 nav 導覽列點擊連結移動到同頁面的目標區塊，使它有動態滾動捲軸的效果，</p>
+<p>於是找到了 <strong>scrolling-nav.js</strong> !!</p>
+<p>我們來看下方的原始碼</p>
+<span id="more"></span>
+
+
+<pre><code class="html">&lt;script src=&quot;./js/scrolling-nav.js&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;nav&quot; class=&quot;navbar navbar-inverse navbar-fixed-top&quot; role=&quot;navigation&quot;&gt;
+      &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;navbar-header&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;navbar-toggle collapsed&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-collapse&quot;&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;
+            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;a class=&quot;navbar-brand&quot; href=&quot;#home&quot;&gt;Project name&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;collapse navbar-collapse&quot;&gt;
+            &lt;!-- 這邊是nav連結的區塊 start --&gt;
+          &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+            &lt;li class=&quot;active&quot;&gt;&lt;a class=&quot;page-scroll&quot; href=&quot;#home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a class=&quot;page-scroll&quot; href=&quot;#about&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a class=&quot;page-scroll&quot; href=&quot;#contact&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;!-- 這邊是nav連結的區塊 end --&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;section id=&quot;home&quot;&gt;....&lt;/section&gt;
+&lt;section id=&quot;about&quot;&gt;....&lt;/section&gt;
+&lt;section id=&quot;contact&quot;&gt;....&lt;/section&gt;
+</code></pre>
+<p>先將 <strong>scrolling-nav.js</strong> 放上去後，在各個連結加上 <strong>page-scroll</strong> 的 class。</p>
+<p>一般靜態的用法就只是將 href 補上區塊的 id，我們透過這個方法就可以很輕鬆的呈現動態滾動的效果。</p>
+<p>另外在練習的過程中，可能會遇到滾動的位置被上方的 nav 蓋到，原因滾動的目標<strong>區塊其定位是在瀏覽器視窗最上方</strong>。</p>
+<p>那我們最上方有固定到 nav 所以才會有這樣的情況，所以各個區塊可以再加上padding-top 即可解決。</p>
+<p><strong><a target="_blank" rel="noopener" href="http://jsbin.com/valawu/4">參考JSbin範例</a></strong></p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2014/09/17/documentbodyscrolltop-ie-and-firefox-not-responding/" title="document.body.scrollTop IE 和 Firefox 沒作用"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: document.body.scrollTop IE 和 Firefox 沒作用</span></a><a class="button is-default" href="/2014/08/13/using-sass-mixin-saves-repeating-the-time-writing-the-same-css-style/" title="Sass筆記「@mixin」介紹：節省重複撰寫CSS樣式的時間"><span class="has-text-weight-semibold">Next: Sass筆記「@mixin」介紹：節省重複撰寫CSS樣式的時間</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

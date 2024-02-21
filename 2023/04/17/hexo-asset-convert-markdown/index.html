@@ -1,0 +1,96 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>寫個 script 把 hexo asset 語法轉換成 markdown</title><meta name="description" content="Working smart!"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-391C0PJRZ6"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-391C0PJRZ6');</script><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="部落格改版好一陣子沒有更新部落格了，之前的工作都主要是內部分享，大部分的筆記也都寫在內部的 wiki 上。最近看了一下 Lighthouse 的分數，發現分數頗低，一開始想直接分析列出的問題逐一解決掉，但感覺沒有什麼效率，雖然可以練習，但懶惰的我還是直接換一個 Theme 吧。
+這次選了一個 hexo-theme-Claudia 的佈景主題，如同目前正在看的畫面，風格還滿簡潔的，有興趣的話可以去看看。
+關於圖片標記問題Hexo 支援了 asset_img 語法來插入圖片，但我個人還是偏好使用 Markdown 的語法。因此，我考慮將 Hexo 內建的圖片插入語法轉換成 Markdown 語法。畢竟在未來若要更換主題時，大多數主題都使用 Markdown 語法來插入圖片。雖然繼續使用 Hexo 內建的語法也能.."><meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Jeff's WebTech Note" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">Jeff Wu's Note</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">寫個 script 把 hexo asset 語法轉換成 markdown</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/about">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E8%90%BD%E6%A0%BC%E6%94%B9%E7%89%88"><span class="toc-text">部落格改版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%9C%E6%96%BC%E5%9C%96%E7%89%87%E6%A8%99%E8%A8%98%E5%95%8F%E9%A1%8C"><span class="toc-text">關於圖片標記問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%89%E6%8F%9B-script"><span class="toc-text">轉換 script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%87%E8%BD%89%E6%8F%9B%E5%BE%8C%E7%9A%84%E6%AA%94%E6%A1%88%E7%A2%BA%E8%AA%8D%E5%8F%8A%E6%95%B4%E7%90%86"><span class="toc-text">將轉換後的檔案確認及整理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%9B%E4%B8%BB%E9%A1%8C%E5%BE%8C%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-text">換主題後的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Note"><i class="tag post-item-tag">Note</i></a><a href="/tags/convert"><i class="tag post-item-tag">convert</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">寫個 script 把 hexo asset 語法轉換成 markdown</h1><time class="has-text-grey" datetime="2023-04-17T13:25:49.000Z">2023-04-17</time><article class="mt-2 post-content"><h2 id="部落格改版"><a href="#部落格改版" class="headerlink" title="部落格改版"></a>部落格改版</h2><p>好一陣子沒有更新部落格了，之前的工作都主要是內部分享，大部分的筆記也都寫在內部的 wiki 上。最近看了一下 Lighthouse 的分數，發現分數頗低，一開始想直接分析列出的問題逐一解決掉，但感覺沒有什麼效率，雖然可以練習，但懶惰的我還是直接換一個 Theme 吧。</p>
+<p>這次選了一個 <a target="_blank" rel="noopener" href="https://github.com/Haojen/hexo-theme-Claudia">hexo-theme-Claudia</a> 的佈景主題，如同目前正在看的畫面，風格還滿簡潔的，有興趣的話可以去看看。</p>
+<h2 id="關於圖片標記問題"><a href="#關於圖片標記問題" class="headerlink" title="關於圖片標記問題"></a>關於圖片標記問題</h2><p>Hexo 支援了 asset_img 語法來插入圖片，但我個人還是偏好使用 Markdown 的語法。因此，我考慮將 Hexo 內建的圖片插入語法轉換成 Markdown 語法。畢竟在未來若要更換主題時，大多數主題都使用 Markdown 語法來插入圖片。雖然繼續使用 Hexo 內建的語法也能正常運作，但隨著文章越來越多的，在管理上可能會變得越來越不方便。</p>
+<p>Hexo 內部支援的標記功能是長這個樣子:</p>
+<pre><code>&#123;% asset_img [title] [path] [width] [height] [link] %&#125;
+</code></pre>
+<p>但大部分的 Theme 都以 Markdown 的方式呈現:</p>
+<pre><code>![title](path)
+</code></pre>
+<p>另外圖片存放的位置預設是在 <code>_posts</code> 底下，會產生跟文章檔案名稱相同的資料夾，我覺得隨著文章越來越多，會越來越難管理，所以我把圖片移動到 <code>source/images</code> 底下，並且把圖片的路徑改成 <code>images/文章檔名/圖片檔名</code>。</p>
+<p>手動逐一改的話就要花很多時間在這上面，所以直接寫個腳本來快速轉換吧。</p>
+<h2 id="轉換-script"><a href="#轉換-script" class="headerlink" title="轉換 script"></a>轉換 script</h2><p>轉換的邏輯主要是透過正規表達式來做，主要的步驟有:</p>
+<ol>
+<li>指定要轉換的資料夾</li>
+<li>找出所有的 Markdown 檔案</li>
+<li>逐一讀取檔案內容</li>
+<li>透過正規表達式來找出 Hexo 內建的標記語法</li>
+<li>如果已經有存在的 Markdown 語法，就只改圖片的路徑</li>
+<li>將找到的內容轉換成 Markdown 的語法</li>
+<li>將轉換後的內容寫回檔案</li>
+</ol>
+<p>基於上面的流程就寫了一個 script 做轉換:</p>
+<pre><code class="js">const fs = require(&#39;fs-extra&#39;);
+const path = require(&#39;path&#39;);
+const fg = require(&#39;fast-glob&#39;);
+
+const postsPath = &#39;source/_posts&#39;; // 要轉換的 md 文件所在的目錄
+
+(async () =&gt; &#123;
+  try &#123;
+    const files = await fg(`$&#123;postsPath&#125;/**/*.md`);
+
+    files.forEach(async (file) =&gt; &#123;
+      try &#123;
+        const fileContent = await fs.readFile(file, &#39;utf8&#39;);
+        const dirname = path.dirname(file);
+        const basename = path.basename(file, &#39;.md&#39;);
+
+        const assetImgRegex = /&#123;%\s*asset_img\s+(.*?)\s+(.*?)\s*%&#125;/g;
+        const mdImgRegex = /!\[(.*?)\]\((.+?)\)/g;
+
+        const convertAssetImg = (match, filename, description) =&gt; &#123;
+          return `![$&#123;description&#125;](images/$&#123;basename&#125;/$&#123;filename&#125;)`;
+        &#125;;
+
+        const convertMdImg = (match, description, filename) =&gt; &#123;
+          if (!filename.startsWith(&#39;images/&#39;)) &#123;
+            return `![$&#123;description&#125;](images/$&#123;basename&#125;/$&#123;filename&#125;)`;
+          &#125; else &#123;
+            return match;
+          &#125;
+        &#125;;
+
+        const newFileContent = fileContent
+          .replace(assetImgRegex, convertAssetImg)
+          .replace(mdImgRegex, convertMdImg);
+
+        await fs.writeFile(file, newFileContent, &#39;utf8&#39;);
+        console.log(`成功轉換：$&#123;file&#125;`);
+      &#125; catch (error) &#123;
+        console.error(`處理文件 $&#123;file&#125; 時出錯：`, error);
+      &#125;
+    &#125;);
+  &#125; catch (error) &#123;
+    console.error(&#39;讀取文件列表失敗：&#39;, error);
+  &#125;
+&#125;)();
+</code></pre>
+<h2 id="將轉換後的檔案確認及整理"><a href="#將轉換後的檔案確認及整理" class="headerlink" title="將轉換後的檔案確認及整理"></a>將轉換後的檔案確認及整理</h2><p>轉換完成之後，我是直接用 Git 來確認被修改的部分，發現了幾個問題:</p>
+<ol>
+<li>圖片如果是外部網址<br>早期文章是直接找圖床然後帶入圖片網址，所以初步轉換之後會變成像這樣:</li>
+</ol>
+<pre><code>![title](images/文章檔名/https://example.com/image.png)
+</code></pre>
+<p>還好這些問題是早期用 logdown 寫的文章，所以沒有太多的圖片需要處理，隨手改一下即可。</p>
+<ol start="2">
+<li>Hexo 的標記語法有多餘的參數<br>內建的標記語法可以指定圖片的寬高，或是圖片的文字描述，但 MD 語法只有單純的 title，所以轉換之後就會變成像這樣:</li>
+</ol>
+<pre><code>![900 &quot;&#39;title&#39;&quot; &quot;&#39;description&#39;&quot;](images/文章檔名/image.png)
+</code></pre>
+<p>不過受影響的圖片也沒有太多，所以也是隨手改一下即可。真的很多的時候就要根據上面的 script 進一步修改了。</p>
+<h2 id="換主題後的效果"><a href="#換主題後的效果" class="headerlink" title="換主題後的效果"></a>換主題後的效果</h2><p>最後改完重新跑一次 LightHouse:<br><img src="/images/hexo-asset-convert-markdown/lighthouse-score.png" alt="更新之後的分數"><br>分數相當的不錯，不過要到滿分的話還有一些細節問題需要調整，這後面有時間再處理了。</p>
+<p>另外太久沒看 CI，發現 TravisCI 沒有免費的服務了，所以又花了一點時間把 CI 轉移到 Github Action 上面，這部分之後再寫<a href="/2023/04/18/travis-ci-to-github-action">另外一篇轉換的過程</a>。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Haojen/hexo-theme-Claudia">Hexo Theme Claudia</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/asset-folders.html">Hexo Asset Folders</a></li>
+</ul>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2023/04/18/travis-ci-to-github-action/" title="從 TravisCI 轉移到 GitHub Action"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 從 TravisCI 轉移到 GitHub Action</span></a><a class="button is-default" href="/2019/05/29/TypeScript%20intro%20and%20migrating/" title="TypeScript intro and migrating"><span class="has-text-weight-semibold">Next: TypeScript intro and migrating</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="jeffwu85182/jeffwu85182.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/F2E_JeffWu"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/jeffwu85182"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><a title="rss" target="_blank" rel="noopener nofollow" href="/atom.xml"><i class="iconfont icon-rss"></i></a><!-- 知乎--><!-- 领英--><a title="linkedin" target="_blank" rel="noopener nofollow" href="//www.linkedin.com/in//jeff-wu-28ba1979"><i class="iconfont icon-linkedin"></i></a><!-- 脸书--><a title="facebook" target="_blank" rel="noopener nofollow" href="//www.facebook.com//CrazyWuJeff"><i class="iconfont icon-tian7_facebook"></i></a></section><p><span>Copyright ©</span><span> Jeff Wu 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>
